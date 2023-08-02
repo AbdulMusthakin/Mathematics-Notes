@@ -1,0 +1,3 @@
+# Mathematics-Notes
+
+This will contain my notes for Calculus I, which is a course commonly taken by students in their first year of university. The course is usually split into two semesters, with the first semester covering limits, derivatives, and applications of derivatives, and the second semester covering integrals and applications of integrals. I will mainly be using Calculus I by Paul Dawkins, found on [Lamar University's website](https://tutorial.math.lamar.edu/Classes/CalcI/CalcI.aspx). There, Dawkins has the notes for quite a few of the courses he teaches, as well as practice problems and useful resources.
