@@ -1,0 +1,164 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\usepackage[style=iso]{datetime2}
+\usepackage{xcolor}
+
+\begin{titlepage}
+\title{Calculus I: Review of Functions}
+\author{The Melon Man}
+\date{\today}
+\end{titlepage}
+
+\renewcommand{\thesection}{\Roman{section}}
+
+\counterwithout{subsection}{section}  % have subsections numbered independently of sections
+\renewcommand{\thesubsection}{\arabic{subsection}.}  % have dot after subsection number
+
+\allowdisplaybreaks
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\begin{document}
+\maketitle
+
+Functions are incredibly important in calculus.
+They will appear in nearly every single section of this course and the later calculus courses.
+Therefore, it is important to have a good understanding of what a function is and how to work with them.
+
+What is a function?
+A function maps elements from one set to another set.
+Specifically, it maps exactly one element from the first set to exactly one element in the second set.
+For instance, we may have the mapping $X \mapsto Y$ where $X$ and $Y$ are two sets.
+Here, $X$ is the domain of the function and $Y$ is the codomain of the function.
+The one-to-one mapping is important to the definition of the function.
+Here are two equations in terms of $x$ and $y$:
+
+\begin{align}
+    y = x^2 + 1 \\
+    y^2 = x + 1 \label{eq:1}
+\end{align}
+
+The first equation is a function because for every value of $x$, there is exactly one value of $y$.
+Thus, you would call $y$ a function of $x$.
+However, the second equation is not a function of $x$ because the exponet is present on $y$.
+This may be better illustrated by taking the square root of both sides of equation~\eqref{eq:1}:
+
+\begin{align*}
+    y = \pm \sqrt{x + 1}
+\end{align*}
+
+We can see that there are two values of $y$ for most values of $x$.
+I say most because of instances such as $x = 0$ where there is only one value of $y$ (namely, $y = 1$).
+All it takes is one instance of multiple values of $y$ for a given value of $x$ for the equation to not be a function of $x$.
+Now, let's look at function notation.
+
+\begin{align}
+    \label{eq:2} y = 2x^2-5x+3
+\end{align}
+
+Instead of writing it as an equation equal to $y$, we may write some letter with our indepent variable in parentheses.
+With this, equation~\eqref{eq:2} becomes $f(x) = 2x^2-5x+3$.
+We can use any letter to denote a function, but $f$ is the most common.
+If it is already used, then we may use $g$, $h$, or any other letter.
+
+Remember that this does not mean some letter multiplied by $x$.
+The parentheses are just a way to denote that the function is a function of $x$.
+We may see the usefulness of this if we wished to find the value of our function at a specific value of $x$.
+For instance, if we wanted to find the value of $f(x)$ when $x = 2$:
+
+\begin{align*}
+    f(2) & = 2(2)^2-5(2)+3 \\
+         & = 2(4)-10+3     \\
+         & = 8-10+3        \\
+         & = 1
+\end{align*}
+
+where we were able to replace the $x$ in the parentheses with $2$, as well as all other instances of $x$ in the equation.
+We can see how function notation let's us compactly represent functions at some value.
+Let's evaluate another function at some points.
+
+Given that $f(x) = -x^2+6x+11$, find the following:
+
+\begin{enumerate}
+    \item $f(0)$
+    \item $f(2)$
+    \item $f(t)$
+    \item $f(x-3)$
+    \item $f(4x-1)$
+\end{enumerate}
+
+The answers are as follows:
+
+\begin{enumerate}
+    \item 11
+    \item 15
+    \item $-t^2+6t+11$
+    \item $-(x-3)^2+6(x-3)+11$ = $-x^2+12x+20$
+    \item $-(4x-1)^2+6(4x-1)+11$ = $-16x^2+32x+17$
+\end{enumerate}
+
+Those were simple enough.
+Quite frequently, we want to find the root of a function.
+For a function $f(x)$, this is the value of $x$ which satisfies the equation $f(x)=0$.
+Functions may have multiple values of $x$ that would satisfy such an equation, so those functions would have multiple roots.
+Let's look at an example:
+
+Determine all of the roots of $f(t) = 9t^3 - 18t^2 + 6t$
+
+We would solve this by first setting the function equal to 0:
+
+$$
+    9t^3 - 18t^2 + 6t = 0
+$$
+
+We would then want to factor the equation as much as possible.
+Here, we can factor $t$ out of the left hand side:
+
+$$
+    t(9t^2 - 18t + 6) = 0
+$$
+
+If either $t$ or $9t^2 + 18t + 6$ is equal to $0$, the whole thing will be $0$.
+Thus, we can solve them seperately to get our roots.
+We can obviously get $t=0$ as a root.
+For the quadratic:
+
+\begin{align*}
+    9t^2 - 18t + 6 & = 0                                                \\
+    \nonumber                                                           \\
+    t              & = \frac{-b\pm\sqrt{b^2-4ac}}{2a}                   \\
+    a              & = 9                                                \\
+    b              & = -18                                              \\
+    c              & = 6                                                \\
+    \nonumber                                                           \\
+    t              & = \frac{18 \pm \sqrt{18^2-4\cdot9\cdot6}}{2\cdot9} \\
+    t              & = \frac{18 \pm \sqrt{108}}{18}                     \\
+    t              & = 1 \pm \frac{6\sqrt{3}}{18}                       \\
+    t              & = 1 \pm \frac{\sqrt{3}}{3}
+\end{align*}
+
+The three roots of our equation are $0$, $1 + \frac{\sqrt{3}}{3}$ and $1 - \frac{\sqrt{3}}{3}$.
+That was a rather simple example but we used quite a few important things, such as our factoring skills and the quadratic formula.
+
+Another important thing to note about functions is the domain and range.
+As stated before, the domain is any $x$ value we can put in the function that will give us a real value.
+The range is any $x$ value that the function can take at all.
+Let's practice by finding the domains and ranges of the following functions:
+
+\begin{enumerate}
+    \item $f(x)$ = $5x-3$
+    \item $g(t)$ = $\sqrt{4-7t}$
+    \item $h(x)$ = $-2x^2+12x+5$
+    \item $f(z)$ = $|z-6|-3$
+    \item $g(x)$ = $8$
+\end{enumerate}
+
+For the first one, we notice that the function can take any real value of $x$ and will correspondingly output a real value.
+Therefore, it has every real number in its domain. Formally, we would write that the domain of $f(x)$ is $(-\inf, \inf)$
+
+\end{document}

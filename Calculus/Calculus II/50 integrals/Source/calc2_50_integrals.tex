@@ -8,6 +8,7 @@
 \usepackage[style=iso]{datetime2}
 \usepackage{xcolor}
 \usepackage{polynom}
+\usepackage{tocloft}
 
 \begin{titlepage}
 \title{Calculus II: 50 Indefinite Integrals}
@@ -20,6 +21,8 @@
 \counterwithout{subsection}{section}  % have subsections numbered independently of sections
 \renewcommand{\thesubsection}{\arabic{subsection}.}  % have dot after subsection number
 
+\addtolength{\cftsecnumwidth}{10pt}
+
 \allowdisplaybreaks
 
 \setlength{\parindent}{0pt}
@@ -27,6 +30,7 @@
 
 \begin{document}
 \maketitle
+\tableofcontents
 
 \section*{Introduction}
 
