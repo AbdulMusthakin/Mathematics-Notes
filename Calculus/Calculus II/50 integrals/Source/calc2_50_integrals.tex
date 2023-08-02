@@ -6,25 +6,2311 @@
 \usepackage{amsfonts}
 \usepackage{hyperref}
 \usepackage[style=iso]{datetime2}
+\usepackage{xcolor}
+\usepackage{polynom}
 
 \begin{titlepage}
-\title{Calculus 2: 50 Indefinite Integrals}
+\title{Calculus II: 50 Indefinite Integrals}
 \author{The Melon Man}
 \date{\today}
 \end{titlepage}
 
+\renewcommand{\thesection}{\Roman{section}}
+
+\counterwithout{subsection}{section}  % have subsections numbered independently of sections
+\renewcommand{\thesubsection}{\arabic{subsection}.}  % have dot after subsection number
+
+\allowdisplaybreaks
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
 
 \begin{document}
 \maketitle
 
-\section{Introduction}
+\section*{Introduction}
 
-We will be solving 50 integrals using techniques from calculus 2.
-The integrals are from the following \href{https://youtu.be/XOUwIdufY9Y}{video} by the Youtube channel blackpenredpen.
+We will be solving 50 integrals using the various integration techniques from Calculus II.
+The integrals are from this \href{https://youtu.be/XOUwIdufY9Y}{\textcolor{blue}{{\underline{video}}}} by the Youtube channel blackpenredpen.
 There is also a pdf file attached containing the 50 integrals as well as some formulas useful for solving them.
 All of these will be indefinite integrals and we will utilise pretty standard notation.
 For some function $f(x)$, we will convey the indefinite integral as equal to the function $F(x)$.
 This will be written as the final answer for each integral to make it clearer to read.
 
+\section{Antiderivatives}
+
+Sometimes, we can solve an integral just by realising that the integrand is the derivative of some other function.
+For instance, we know that the derivative of $x^2$ is $2x$ and thus the integral of $2x$ is $x^2+C$.
+This can work for any integral where we recognise the derivative of a function.
+This is due to the nature of integrals and derivatives, which are opposites of each other.
+In general, it is true that:
+
+$$
+    \int \frac{d}{dx}f(x) dx = f(x) + C
+$$
+
+That is something we know from the fundamental theorem of calculus.
+We can use this for integrals that we may not be able to solve otherwise, such as the integral of $x^{-1}$ where the power rule for integration will not work.
+Being able to use your knowledge of derivatives for integration is also important when using the other methods, such as integration by parts.
+
+%! 1
+\subsection{$\int \sec^2(x) dx$}
+
+We can solve this using this fact:
+
+$$
+    \frac{d}{dx} \tan(x) = \sec^2(x)
+$$
+
+With the knowledge that antiderivatives are the opposite of derivatives, we can get the answer of this integral as:
+
+$$
+    F(x) = \tan(x) + C
+$$
+
+%! 2
+\subsection {$\int \frac{1}{x} dx$}
+
+Well, we could write $f(x)$ as $x^{-1}$. However, we cannot use the power rule as this would lead to a division by $0$ situation as shown below:
+
+$$
+    \int x^{n} dx = \frac{x^{n+1}}{n+1} + C \implies
+    \frac{x^{-1 + 1}}{-1 + 1} + C = \frac{1}{0} + C
+$$
+
+That is why the power rule for integration only works for $n \neq -1$. To solve it, we would instead use the fact that $f(x)$ is the derivative of the natural logarithm in respect to $x$. Our answer for $F(x)$ would not be $\ln(x)$, but rather $\ln(|x|)$ as the natural logarithm function cannot take in negative values of $x$. Therefore:
+
+$$
+    F(x) = \ln(|x|) + C
+$$
+
+%! 3
+\subsection{$\int \frac{1}{\sqrt{1-x^2}} dx$}
+
+For this, it would be helpful to know the derivatives of the inverse trigonometric functions. Here, knowing that the derivative of $\arcsin(x)$ with respect to $x$ equals $f(x)$ would allow us to easily solve this integral. However, if we did not know this, we could try and solve it with a bit of substitutions:
+
+\begin{align}
+    I            & = \int \frac{1}{\sqrt{1-x^2}} dx                                    \\
+    \nonumber                                                                          \\
+    x            & = \sin(\theta)                                                      \\
+    dx           & = \cos(\theta) d\theta                                              \\
+    \nonumber                                                                          \\
+    I            & = \int \frac{1}{\sqrt{1-\sin^2(\theta)}} \cdot \cos(\theta) d\theta \\
+    \nonumber                                                                          \\
+    1            & = \sin^2(\theta) + \cos^2(\theta)                                   \\
+    \cos(\theta) & = \sqrt{1 - \sin^2(\theta)}                                         \\
+    \nonumber                                                                          \\
+    I            & = \int \frac{\cos(\theta)}{\cos(\theta)} d\theta                    \\
+    I            & = \int 1 d\theta                                                    \\
+    I            & = \theta + C                                                        \\
+    \nonumber                                                                          \\
+    \theta       & = \arcsin(x)                                                        \\
+    \nonumber                                                                          \\
+    I            & = \arcsin(x) + C
+\end{align}
+
+While it takes a bit more work, it can be done fairly easily. Both our trigonometric substitutions as well as our knowledge of common derivatives gives us our answer:
+
+$$
+    F(x) = \arcsin(x) + C
+$$
+
+%! 4
+\subsection{$\int \sec(x) \tan(x) dx$}
+
+This looks difficult to do, but the easiest method would be to realise a function whose derivative is $f(x)$, which would then be our answer for $F(x)$.
+We may differentiate $\sec(x)$ to show that it is the function we want:
+
+
+\begin{align}
+    \frac{d}{dx}\sec(x)                                                               \\
+     & = \frac{d}{dx} \frac{1}{cos(x)}                                                \\
+     & = \frac{\frac{d}{dx}1 \cdot \cos(x) - \frac{d}{dx}\cos(x) \cdot 1 }{\cos^2(x)} \\
+     & = \frac{\sin(x)}{\cos^2(x)}                                                    \\
+     & = \frac{1}{\cos(x)} \cdot \frac{\sin(x)}{\cos(x)}                              \\
+     & = \sec(x)\tan(x)
+\end{align}
+
+Knowing the derivative of $\sec(x)$, as well as the other $5$ trigonometric functions off by heart would be helpful as they are used quite often.
+We have a function that gives us our answer:
+
+$$
+    F(x) = \sec(x)
+$$
+
+%! 5
+\subsection{$\int \frac{1}{1+x^2} dx$}
+
+Once again, it would be helpful to know that $f(x)$ here is the derivative of $\text{arctan}(x)$, meaning that would be our $F(x)$.
+If we did not know this, trigonometric substitution would work as well:
+
+
+\begin{align}
+    I              & = \int \frac{1}{1 + x^2} dx                                      \\
+    \nonumber                                                                         \\
+    x              & = \tan(\theta)                                                   \\
+    dx             & = \sec^2(\theta) d\theta                                         \\
+    \nonumber                                                                         \\
+    I              & = \int \frac{1}{1 + \tan^2(\theta)} \cdot \sec^2(\theta) d\theta \\
+    \nonumber                                                                         \\
+    \sec^2(\theta) & = 1 + \tan^2(\theta)                                             \\
+    \nonumber                                                                         \\
+    I              & = \int \frac{\sec^2(\theta)}{\sec^2(\theta)} d\theta             \\
+    I              & = \int 1 d\theta                                                 \\
+    I              & = \theta + C                                                     \\
+    \nonumber                                                                         \\
+    \theta         & = \arctan(x)                                                     \\
+    \nonumber                                                                         \\
+    I              & = \arctan(x) + C
+\end{align}
+
+Then:
+
+$$
+    F(x) = \arctan(x) + C
+$$
+
+%! 6
+\subsection{$\int \cos(x) dx$}
+
+We know that the derivative of $\sin(x)$ is $\cos(x)$. Therefore, this integral gives:
+
+$$
+    F(x) = \sin(x) + C
+$$
+
+%! 7
+\subsection{$\int \sin(x) dx$}
+
+The function $\cos(x)$ differentiated is $-\sin(x)$, which differs from our $f(x)$ by only a negative sign. Homogeneity of degree 1 is a property of integration and differentiation, meaning that scalar multiplication is preserved (i.e. multiplied constants such as $-1$ may be taken outside of the integral). Therefore, we have:
+
+$$
+    F(x) = -\cos(x) + C
+$$
+
+%! 8
+\subsection{$\int e^x dx$}
+
+We know that the exponential function has a rate of change which is equal to itself.
+Since the derivative of $e^x$ is $e^x$, it would follow that the indefinite integral is also the same (with the constant of integration of course):
+
+$$
+    F(x) = e^x + C
+$$
+
+\section{Reverse Power Rule}
+
+The reverse power rule is goten from the fact that integration is the opposite of differentiation.
+It is just the opposite of the regular power rule for differentiation, and states:
+
+$$
+    \int x^n dx = \frac{x^{n+1}}{n+1} + C, n \neq -1
+$$
+
+This let's use easily integrate any polynomial.
+Note that it will not work when the exponent is $-1$ as that would result in a division by $0$ situation.
+We would instead have to use our knowledge of derivatives to evaluate the integral of $x^{-1}$, as done above.
+
+%! 9
+\subsection{$\int \sqrt{x}(x+4) dx$}
+
+We will turn the square roots into fractional exponents and expand the integrand into a form which we could take advantage of the properties of integration that make it a linear operator. We will evaluate the integral below:
+
+
+\begin{align}
+    I & = \int \sqrt{x}(x+4) dx                                                                  \\
+    I & = \int x^{\frac{1}{2}}(x+4) dx                                                           \\
+    I & = \int x^{\frac{3}{2}} + 4x^{\frac{1}{2}} dx                                             \\
+    I & = \int x^{\frac{3}{2}} dx + \int 4x^{\frac{1}{2}} dx                                     \\
+    I & = \frac{x^{\frac{3}{2}+1}}{\frac{3}{2}+1} + \frac{4x^{\frac{1}{2}+1}}{\frac{1}{2}+1} + C \\
+    I & = \frac{x^{\frac{5}{2}}}{\frac{5}{2}} + \frac{4x^{\frac{3}{2}}}{\frac{3}{2}} + C         \\
+    I & = \frac{2}{5}x^{\frac{5}{2}} + \frac{8}{3}x^{\frac{3}{2}} + C                            \\
+    I & = \frac{2}{5}\sqrt{x^5} + \frac{8}{3}\sqrt{x^3} + C
+\end{align}
+
+
+We could present our final answer in quite a few ways. Since the integral initially had it in terms of radicals instead of fractional exponents, we will do the same. Our final answer is thus:
+
+$$
+    F(x) = \frac{2}{5}\sqrt{x^5} + \frac{8}{3}\sqrt{x^3} + C
+$$
+
+%! 10
+\subsection{$\int \frac{1+x^6}{x^2} dx$}
+
+We should get rid of the fraction by dividing all of the terms on the top by $x^2$. Evaluating the integral afterwards is quite simple:
+
+
+\begin{align}
+    I & = \int \frac{1+x^6}{x^2} dx                       \\
+    I & = \int x^{-2} + x^4 dx                            \\
+    I & = \int x^{-2} dx + \int x^4 dx                    \\
+    I & = \frac{x^{-2+1}}{-2+1} + \frac{x^{4+1}}{4+1} + C \\
+    I & = \frac{x^{-1}}{-1} + \frac{x^{5}}{5} + C         \\
+    I & = \frac{1}{5} x^{5} -{x^{-1}} + C
+\end{align}
+
+
+Again, the end result could be written in a different way but it's just a stylistic choice. I think that having powers of $x$ and coefficients in front would be the best. Our final answer is then:
+
+$$
+    F(x) = \frac{1}{5} x^{5} -{x^{-1}} + C
+$$
+
+\section{U-Substitution}
+
+This may be treated as the opposite to the chain rule for differentiation.
+It involves substituting another variable in the integral and replacing the original.
+To be able to fuly replace it, we must be integrating with respect to our new variable, shown by the d term.
+When integration with respect to $x$, that term is $dx$. If we were to integrate with respect to $u$, we would want to replace the $dx$ with $du$.
+To do so, we can treat them as differentials, gotten from differentiation:
+
+
+\begin{align}
+    y             & = x^2        \\
+    \frac{dy}{dx} & = 2x         \\
+    dy            & = 2x dx      \\
+    \int dy       & = \int 2x dx \\
+    y             & = x^2 + C
+\end{align}
+
+
+For some variable $u$, we would get an equation for $du$ by differentiating $u$ and putting the $dx$ term at the end.
+We could rearrange for $dx$ to substitute into our integral.
+To get rid of all of the terms with $x$ after substituting, we must ensure that there is something in the integrand that cancels out the denominator of the fraction with $du$.
+For instance:
+
+$$
+    \int xe^{x^2} dx
+$$
+
+We would set $u$ to be $x^2$.
+$du$ would then be $2x dx$.
+We have an $x$ term but no $2$, but we can add the by multiplying by $2$.
+Then we would have the $2x$ required to replace $dx$ with $du$.
+We would have to divide by $2$ to keep it the same, but we can take that out of the integral as it is a constant.
+After the substitution, we would have:
+
+$$
+    \frac{1}{2} \int e^u du
+$$
+
+which we can easily do.
+Afterwards, we have to substitute $x$ back in to the equation which is rather simple.
+For this example, we would get an answer of:
+
+$$
+    \frac{1}{2} e^{x^2} + C
+$$
+
+U-substituion is used quite commonly when integrating and is one of the easier methods.
+It may be something that you use alongside other methods to solve more complex integrals, which might require multiple substitutions.
+
+%! 11
+\subsection{$\int 4x^3 \sec^2(x^4) dx$}
+
+This integral allows for a pretty obvious substitution that simplifies our trig function and gets rid of the $4x^3$ term.
+
+
+\begin{align}
+    I  & = \int 4x^3 \sec^2(x^4) dx \\
+    \nonumber                       \\
+    u  & = x^4                      \\
+    du & = 4x^3 dx                  \\
+    \nonumber                       \\
+    I  & = \int \sec^2(u) du        \\
+    I  & = \tan(u) + C              \\
+    I  & = \tan(x^4) + C
+\end{align}
+
+
+We are left with our answer:
+
+$$
+    F(x) = \tan(x^4) + C
+$$
+
+%! 12
+\subsection{$\int \frac{x^3}{1+x^4} dx$}
+
+While not as obvious, we may add some terms to our integral to allow for a substitution. Notably, we can multiply by $4$, and then $\frac{1}{4}$ to keep the value the same. Then we can do a subsitution to make the integrand notably simpler.
+
+
+\begin{align}
+    I  & = \int \frac{x^3}{1+x^4} dx              \\
+    I  & = \frac{1}{4} \int \frac{4x^3}{1+x^4} dx \\
+    \nonumber                                     \\
+    u  & = 1+x^4                                  \\
+    du & = 4x^3 dx                                \\
+    \nonumber                                     \\
+    I  & = \frac{1}{4} \int \frac{1}{u} du        \\
+    I  & = \frac{1}{4} \ln(|u|) + C               \\
+    I  & = \frac{1}{4} \ln(|1+x^4|) + C
+\end{align}
+
+
+Our answer is:
+
+$$
+    F(x) = \frac{1}{4} \ln(|1+x^4|) + C
+$$
+
+%! 13
+\subsection{$\int \frac{x}{1+x^4} dx$}
+
+For this integral, we may have to do multiple substitutions.
+
+
+\begin{align}
+    I              & = \int \frac{x}{1+x^4} dx                                                  \\
+    I              & = \frac{1}{2} \int \frac{2x}{1+x^4} dx                                     \\
+    \nonumber                                                                                   \\
+    u              & = x^2                                                                      \\
+    du             & = 2x dx                                                                    \\
+    \nonumber                                                                                   \\
+    I              & = \frac{1}{2} \int \frac{1}{1+u^2} du                                      \\
+    \nonumber                                                                                   \\
+    u              & = \tan(\theta)                                                             \\
+    du             & = \sec^2(\theta) d\theta                                                   \\
+    \nonumber                                                                                   \\
+    I              & = \frac{1}{2} \int \frac{1}{1+\tan^2(\theta)} \cdot \sec^2(\theta) d\theta \\
+    \nonumber                                                                                   \\
+    \sec^2(\theta) & = 1 + \tan^2(\theta)                                                       \\
+    \nonumber                                                                                   \\
+    I              & = \frac{1}{2} \int \frac{\sec^2(\theta)}{\sec^2(\theta)} d\theta           \\
+    I              & = \frac{1}{2} \int 1 d\theta                                               \\
+    I              & = \frac{1}{2} \theta + C                                                   \\
+    \nonumber                                                                                   \\
+    \theta         & = \arctan(u)                                                               \\
+    \nonumber                                                                                   \\
+    I              & = \frac{1}{2} \arctan(u) + C                                               \\
+    I              & = \frac{1}{2} \arctan(x^2) + C
+\end{align}
+
+
+That may have seemed like quite a bit of work, though we could have stopped halfway through by realising that our integral would have evaluated to $\arctan(u) + C$ through our knowledge of derivatives.
+Our final answer is:
+
+$$
+    F(x) = \frac{1}{2} \arctan(x^2) + C
+$$
+
+%! 14
+\subsection{$\int \frac{1}{1+\sqrt{x}} dx$}
+
+The substitution we need to may not be as obvious.
+There doesn't appear to be anything in the numerator for us to replace $dx$ with $du$.
+However, we should note that we can rearrange the formula for $u$ and use it to substitute afterwards.
+Also, we are always able to rewrite $dx$ with $du$ but as a fraction containing $x$ terms in the denominator.
+This is why having those terms in the original integrand is important to get an integrand entirely in terms of $u$.
+It looks like we will require $u$ to be substituted multiple times to get rid of any $x$ terms.
+Knowing this, the solution is as follows:
+
+\begin{align}
+    I        & = \int \frac{1}{1+\sqrt{x}} dx                                       \\
+    \nonumber                                                                       \\
+    u        & = 1+\sqrt{x}                                                         \\
+    du       & = \frac{1}{2\sqrt{x}} dx                                             \\
+    \nonumber                                                                       \\
+    I        & = \int \frac{1}{u} \cdot \frac{du}{\left(\frac{1}{2\sqrt{x}}\right)} \\
+    I        & = \int \frac{2\sqrt{x}}{u} du                                        \\
+    \nonumber                                                                       \\
+    \sqrt{x} & = u - 1                                                              \\
+    \nonumber                                                                       \\
+    I        & = \int \frac{2(u-1)}{u} du                                           \\
+    I        & = 2\int \frac{u-1}{u} du                                             \\
+    I        & = 2\int \frac{u}{u} - \frac{1}{u} du                                 \\
+    I        & = 2\int 1 du - 2\int \frac{1}{u} du                                  \\
+    I        & = 2u - 2\ln(|u|) + C                                                 \\
+    I        & = 2((1+\sqrt{x}) - \ln(|1+\sqrt{x}|)) + C                            \\
+    I        & = 2 + 2\sqrt{x} - 2\ln(|1+\sqrt{x}|) + C
+\end{align}
+
+
+The natural logarithm will not recieve any negative numbers due to the square root.
+Thus we could exclude the absolute value bars and it would be correct.
+We could even absorb the $2$ into the constant of integration, but leaving it as is above is probably the best idea for readability.
+Our answer is:
+
+$$
+    F(x) = 2 + 2\sqrt{x} - 2\ln(|1+\sqrt{x}|) + C
+$$
+
+\section{Common Integrals}
+
+While you could do these integrals with the methods established, they are rather common.
+It would be useful to learn some as they may appear in other, more complex integrals.
+In those cases, knowing them would save quite a bit of time.
+
+%! 15
+\subsection{$\int \tan(x) dx$}
+
+Knowing the first step required makes tackling this integral much easier.
+We may not know what this integral is, but we are aware that the integral of $\tan(x)\sec(x)$ is $sec(x)$.
+Thus, if we could rewrite our integral to include that, we could do a bit of subsitutions to get our answer.
+This is shown below:
+
+
+\begin{align}
+    I  & = \int \tan(x) dx                                               \\
+    I  & = \int \frac{\tan(x)\sec(x)}{\sec(x)} dx                        \\
+    \nonumber                                                            \\
+    u  & = \sec(x)                                                       \\
+    du & = \tan(x)\sec(x) dx                                             \\
+    \nonumber                                                            \\
+    I  & = \int \frac{\tan(x)\sec(x)}{u} \cdot \frac{du}{\tan(x)\sec(x)} \\
+    I  & = \int \frac{1}{u} du                                           \\
+    I  & = \ln(|u|) + C                                                  \\
+    I  & = \ln(|\sec(x)|) + C
+\end{align}
+
+
+Note that we may also arrive at our answer via another way:
+
+
+\begin{align}
+    I  & = \int \tan(x) dx                                  \\
+    I  & = \int \frac{\sin(x)}{\cos(x)} dx                  \\
+    \nonumber                                               \\
+    u  & = \cos(x)                                          \\
+    du & = -\sin(x) dx                                      \\
+    \nonumber                                               \\
+    I  & = \int \frac{\sin(x)}{u} \cdot \frac{du}{-\sin(x)} \\
+    I  & = -\int \frac{1}{u} du                             \\
+    I  & = -\ln(|u|) + C                                    \\
+    I  & = -\ln(|\cos(x)|) + C                              \\
+    I  & = \ln(|\cos(x)^{-1}|) + C                          \\
+    I  & = \ln(|\sec(x)|) + C
+\end{align}
+
+
+Since this is a pretty common function, it would be useful to remember that the integral of $\tan(x)$ is given by:
+
+$$
+    F(x) = \ln(|\sec(x)|) + C
+$$
+
+%! 16
+\subsection{$\int \sec(x) dx$}
+
+Realising the substitution required here is not that easy, so just knowing what this integral evaluates to off by heart is probably helpful. However, we can put this in a form where we have the derivative of some function over the function. Then, we can just substitute as follows:
+
+
+\begin{align}
+    I  & = \int \sec(x) dx                                                                   \\
+    I  & = \int \frac{\sec(x)(\tan(x)+\sec(x))}{\tan(x)+\sec(x)} dx                          \\
+    I  & = \int \frac{\sec^2(x)+\tan(x)\sec(x)}{\tan(x)+\sec(x)} dx                          \\
+    \nonumber                                                                                \\
+    u  & = \tan(x)+\sec(x)                                                                   \\
+    du & = \sec^2(x)+\tan(x)\sec(x) dx                                                       \\
+    \nonumber                                                                                \\
+    I  & = \int \frac{\sec^2(x)+\tan(x)\sec(x)}{u} \cdot \frac{du}{\sec^2(x)+\tan(x)\sec(x)} \\
+    I  & = \int \frac{1}{u} du                                                               \\
+    I  & = \ln(|u|) + C                                                                      \\
+    I  & = \ln(|\tan(x)+\sec(x)|) + C
+\end{align}
+
+
+Getting the integral in the form $\int \frac{f'(x)}{f(x)} dx$ wasn't that difficult at all. Doing a substitution from there gives us a very easy integral to solve, which evaluates to:
+
+$$
+    F(x) = \ln(|\tan(x)+\sec(x)|) + C
+$$
+
+%! 17
+\subsection{$\int \frac{1}{x^3+x} dx$}
+
+This appears to be quite a difficult integral to solve.
+We cannot just do a substitution of $u=x+x^3$ because there is nothing in the numerator for us to change $dx$ to $du$.
+Doing the first few steps is very important to solving the whole integral.
+One way we could start is by noticing we can factor $x$ out of the bottom and get a familiar looking expression in the integrand.
+We will solve it below:
+
+
+\begin{align}
+    I                               & = \int \frac{1}{x^3+x} dx                                                                \\
+    I                               & = \int \frac{1}{x(x^2+1)} dx                                                             \\
+    I                               & = \int \frac{1}{x} \cdot \frac{1}{x^2+1} dx                                              \\
+    I                               & = \int x^{-1} \cdot \frac{1}{x^2+1} dx                                                   \\
+    \nonumber                                                                                                                  \\
+    x                               & = \tan(\theta)                                                                           \\
+    dx                              & = \sec^2(\theta) d\theta                                                                 \\
+    \nonumber                                                                                                                  \\
+    I                               & = \int (\tan(\theta))^{-1} \cdot \frac{1}{\tan^2(\theta)+1} \cdot \sec^2(\theta) d\theta \\
+    \nonumber                                                                                                                  \\
+    (\tan(\theta))^{-1}             & = \cot(\theta)                                                                           \\
+    \sec^2(\theta)                  & = 1 + \tan^2(\theta)                                                                     \\
+    \nonumber                                                                                                                  \\
+    I                               & = \int \cot(\theta) \cdot \frac{\sec^2(\theta)}{\sec^2(\theta)} d\theta                  \\
+    I                               & = \int \cot(\theta) d\theta                                                              \\
+    \nonumber                                                                                                                  \\
+    \frac{d}{dx}\csc(x)             & = -\cot(x)\csc(x)                                                                        \\
+    \nonumber                                                                                                                  \\
+    I                               & = -\int \frac{-\cot(\theta)\csc(\theta)}{\csc(\theta)} d\theta                           \\
+    \nonumber                                                                                                                  \\
+    u                               & = \csc(\theta)                                                                           \\
+    du                              & = -\cot(\theta)\csc(\theta) d\theta                                                      \\
+    \nonumber                                                                                                                  \\
+    I                               & = -\int \frac{1}{u} du                                                                   \\
+    I                               & = -\ln(|u|) + C                                                                          \\
+    I                               & = -\ln(|\csc(\theta)|) + C                                                               \\
+    I                               & = \ln(|\csc(\theta)^{-1}|) + C                                                           \\
+    I                               & = \ln(|\sin(\theta)|) + C                                                                \\
+    \nonumber                                                                                                                  \\
+    \theta                          & = \arctan(x)                                                                             \\
+    \nonumber                                                                                                                  \\
+    I                               & = \ln(|\sin(\arctan(x))|) + C                                                            \\
+    \nonumber                                                                                                                  \\
+    \tan(\theta)                    & = \frac{O}{A}                                                                            \\
+    \arctan\left(\frac{O}{A}\right) & = \theta                                                                                 \\
+    \arctan(x) = \theta             & \implies \tan(\theta) = \frac{x}{1}                                                      \\
+    O                               & = x                                                                                      \\
+    A                               & = 1                                                                                      \\
+    H                               & = \sqrt{x^2+1}                                                                           \\
+    \sin(\theta)                    & = \frac{O}{H}                                                                            \\
+    \sin(\arctan(x))                & = \frac{x}{\sqrt{x^2+1}}                                                                 \\
+    \nonumber                                                                                                                  \\
+    I                               & = \ln\left(\left|\frac{x}{\sqrt{x^2+1}}\right|\right) + C                                \\
+    I                               & = \ln(|x|) - \ln(|\sqrt{x^2+1}|) + C                                                     \\
+    I                               & = \ln(|x|) - \ln(|(x^2+1)^{\frac{1}{2}}|) + C                                            \\
+    I                               & = \ln(|x|) - \frac{1}{2}\ln(|x^2+1|) + C
+\end{align}
+
+
+That was quite a bit of work, requiring multiple substitutions. We could attempt the question in a different way, factoring the integrand slightly differently.
+By doing so, we can directly do a u-substitution and solve the integral as follows:
+
+
+\begin{align}
+    I  & = \int \frac{1}{x^3+x} dx                                                       \\
+    I  & = \int \frac{1}{x^3(1+x^{-2})} dx                                               \\
+    I  & = \int \frac{x^{-3}}{1+x^{-2}} dx                                               \\
+    I  & = -\frac{1}{2} \int \frac{-2x^{-3}}{1+x^{-2}} dx                                \\
+    \nonumber                                                                            \\
+    u  & = 1+x^{-2}                                                                      \\
+    du & = -2x^{-3} dx                                                                   \\
+    \nonumber                                                                            \\
+    I  & = -\frac{1}{2} \int \frac{1}{u} du                                              \\
+    I  & = -\frac{1}{2} \ln(|u|) + C                                                     \\
+    I  & = -\frac{1}{2} \ln(|1+x^{-2}|) + C                                              \\
+    I  & = -\frac{1}{2} \ln\left(\left|1+\frac{1}{x^2}\right|\right) + C                 \\
+    I  & = -\frac{1}{2} \ln\left(\left|\frac{x^2}{x^2}+\frac{1}{x^2}\right|\right) + C   \\
+    I  & = -\frac{1}{2} \ln\left(\left|\frac{x^2+1}{x^2}\right|\right) + C               \\
+    I  & = \frac{1}{2} \ln\left(\left|\frac{x^2}{x^2+1}\right|\right) + C                \\
+    I  & = \ln\left(\left|\left(\frac{x^2}{x^2+1}\right)^{\frac{1}{2}}\right|\right) + C \\
+    I  & = \ln\left(\left|\left(\frac{\sqrt{x^2}}{\sqrt{x^2+1}}\right)\right|\right) + C \\
+    I  & = \ln\left(\left|\frac{1}{\sqrt{x^2+1}}\right|\right) + C
+\end{align}
+
+
+That took quite a few less steps to get to our answer, and most of it was simplifying after the integral had already been evaluated.
+The first method seems more general, utilising trig identities and a common expression found in the integrand.
+The second method required rearranging the integrand so that we had a $\int \frac{f'(x)}{f(x)}$ situation which is easy to integrate.
+Let's try the integral with a third method:
+
+\begin{align}
+    I                  & = \int \frac{1}{x^3+x} dx                                 \\
+    I                  & = \int \frac{1}{x(x^2+1)} dx                              \\
+    \nonumber                                                                      \\
+    \frac{1}{x(x^2+1)} & = \frac{A}{x} + \frac{Bx+C}{x^2+1}                        \\
+    1                  & = x(x^2+1)\left(\frac{A}{x} + \frac{Bx+C}{x^2+1}\right)   \\
+    1                  & = A(x^2+1) + x(Bx+C)                                      \\
+    \nonumber                                                                      \\
+    x                  & = 0:                                                      \\
+    1                  & = A((0)^2+1) + (0)(B(0)+C)                                \\
+    1                  & = A(1)                                                    \\
+    A                  & = 1                                                       \\
+    \nonumber                                                                      \\
+    1                  & = (x^2+1) + x(Bx+C)                                       \\
+    1                  & = x^2+1 + Bx^2 + Cx                                       \\
+    1                  & = x^2(B+1) + x(C) + (1)                                   \\
+    \nonumber                                                                      \\
+    x^2                & : 0=B+1                                                   \\
+    x^1                & : 0=C                                                     \\
+    x^0                & : 1=1                                                     \\
+    \nonumber                                                                      \\
+    B                  & = -1                                                      \\
+    C                  & = 0                                                       \\
+    \nonumber                                                                      \\
+    \frac{1}{x(x^2+1)} & = \frac{1}{x} + \frac{-x+0}{x^2+1}                        \\
+    \frac{1}{x(x^2+1)} & = \frac{1}{x} - \frac{x}{x^2+1}                           \\
+    \nonumber                                                                      \\
+    I                  & = \int \frac{1}{x} - \frac{x}{x^2+1} dx                   \\
+    I                  & = \int \frac{1}{x} dx - \int \frac{x}{x^2+1} dx           \\
+    I                  & = \ln(|x|) - \int \frac{x}{x^2+1} dx                      \\
+    \nonumber                                                                      \\
+    u                  & = x^2+1                                                   \\
+    du                 & = 2x dx                                                   \\
+    \nonumber                                                                      \\
+    I                  & = \ln(|x|) - \frac{1}{2} \int \frac{1}{u} du              \\
+    I                  & = \ln(|x|) - \frac{1}{2} \ln(|u|) + C                     \\
+    I                  & = \ln(|x|) - \frac{1}{2} \ln(|x^2+1|) + C                 \\
+    I                  & = \ln(|x|) - \ln(|\sqrt{x^2+1}|) + C                      \\
+    I                  & = \ln(|x|) - \ln(|\sqrt{x^2+1}|) + C                      \\
+    I                  & = \ln\left(\left|\frac{x}{\sqrt{x^2+1}}\right|\right) + C
+\end{align}
+
+
+Our final answer is:
+
+$$
+    F(x) = \ln\left(\left|\frac{x}{\sqrt{x^2+1}}\right|\right) + C
+$$
+
+\section{Integral Mistakes}
+
+This section has some integrals with the wrong answers.
+These answers may arise from misunderstanding the methods of integration, such as using them in ways they are not meant to be used.
+All integrals here have either been solved prior or will be in later sections.
+
+%! 18
+\subsection{$\int \sin^3(x) dx$}
+
+You may want to use the power rule and integrate it. However, that would not work.
+
+$$
+    \int \sin^3(x) dx \neq \frac{1}{4}\sin^4(x) + C
+$$
+
+The sine function is a function of the variable $x$ which we are integrating in respect to.
+We cannot use the rules for powers of $x$ with the function as it itself is not some variable.
+To solve this integral, we would have to utilise some trigonometric identities.
+We will evaluate this later on.
+
+%! 19
+\subsection{$\int \frac{1}{1+\sqrt{x}} dx$}
+
+Seeing a fraction with 1 on the top inside the integrand may tempt you to use the natural logarithm straight away.
+However, we could get the wrong answer:
+
+$$
+    \int \frac{1}{1+\sqrt{x}} dx \neq \ln(|1+\sqrt{x}|) + C
+$$
+
+The square root in the denominator means that we cannot just put it inside of the natural logarithm.
+Instead, we need to do some substitutions to get an integrand which we can evaluate with the natural logarithm, as we have done above.
+
+%! 20
+\subsection{$\int e^{x^2} dx$}
+
+While it is true that:
+
+$$
+    \int e^{2x} dx = \frac{1}{2}e^{2x} + C
+$$
+
+It does not follow that we would do the same for the integral above.
+
+$$
+    \int e^{x^2} dx \neq \frac{1}{2x}e^{x^2} + C
+$$
+
+If we were to try and substitute $u$ for $x^2$, we do not have a $2x$ to get an integrand in terms of $u$ only with a $du$ term.
+Therefore, we cannot do a basic substitution to evaluate this integral.
+Actually, it turns out that this integral is a non-elementary integral, meaning that we cannot express it in terms of elementary functions.
+These are the functions that you would normally think of, such as polynomial, rational, trig or exponential functions.
+To give an exact solution for these integrals, we would have to user special functions such as the \href{https://en.wikipedia.org/wiki/Error_function}{\textcolor{blue}{{\underline{error function}}}}.
+
+%! 21
+\subsection{$\int \arctan(x) dx$}
+
+What if we write $\frac{1}{1+x^2}+C$ as our answer. This is obviously wrong though.
+
+$$
+    \int \arctan(x) dx \neq \frac{1}{1+x^2}+C
+$$
+
+That is the derivative of the arctangent function, not its integral.
+To solve this integral, we would have to use integration by parts, which may seem suprising.
+We will do this later on.
+
+%! 22
+\subsection{$\int x^2 \sin(x) dx$}
+
+We are easily able to integrate $x^2$ and $\sin(x)$ on their own. We may try to combine the answers to both of them into one answer, though this would be incorrect.
+
+$$
+    \int x^2\sin(x) dx \neq -\frac{1}{3}x^3cos(x) + C
+$$
+
+If the two functions were summed together inside the integrand, then we could give our answer as the sum of each function's indefinite integrals.
+This would be okay due to the additive property of integration and differentiation.
+However, the same isn't true when functions are multiplied together.
+We would instead have to use integration by parts to solve this integral.
+
+\section*{Non-Elementary Integrals}
+
+While all of the integrals we will do can be actually solved, there are many that cannot be.
+To be more precise, tere are many integrals that can't be expressed in terms of elementary functions, the functions that you would normally think of.
+These integrals may not have any solution at all, or they might have solutions in terms of special non-elementary functions.
+In some cases, there are functions that are defined specifically to be the solution to these integrals.
+Or in other cases, we might require infinite series' to give an exact solution.
+If an exact solution cannot be given, we may use numerical methods or computers to give approximations of the actual solutions.
+Knowing some of the famous non-elementary integrals is useful as they do have quite a bit of applications in the real world, and so you don't waste time trying to solve them yourself.
+
+\begin{align}
+     & \int e^{x^2} dx = \frac{\sqrt{\pi} \operatorname{erfi}{\left(x \right)}}{2} + C                                                                                                                                                 \\ \nonumber \\
+     & \int e^{-x^2} dx = \frac{\sqrt{\pi} \operatorname{erf}{\left(x \right)}}{2} + C                                                                                                                                                 \\ \nonumber \\
+     & \int \frac{\sin(x)}{x} dx = \operatorname{Si}{\left(x \right)} + C                                                                                                                                                              \\ \nonumber \\
+     & \int \frac{\cos(x)}{x} dx = \operatorname{Ci}{\left(x \right)} + C                                                                                                                                                              \\ \nonumber \\
+     & \int \frac{e^x}{x} dx = \operatorname{Ei}{\left(x \right)} + C                                                                                                                                                                  \\ \nonumber \\
+     & \int \frac{1}{\ln(x)} dx = \operatorname{li}{\left(x \right)} + C                                                                                                                                                               \\ \nonumber \\
+     & \int \sin(x^2) dx = \frac{3 \sqrt{2} \sqrt{\pi} S\left(\frac{\sqrt{2} x}{\sqrt{\pi}}\right) \Gamma\left(\frac{3}{4}\right)}{8 \Gamma\left(\frac{7}{4}\right)} + C                                                               \\ \nonumber \\
+     & \int \cos(x^2) dx = \frac{\sqrt{2} \sqrt{\pi} C\left(\frac{\sqrt{2} x}{\sqrt{\pi}}\right) \Gamma\left(\frac{1}{4}\right)}{8 \Gamma\left(\frac{5}{4}\right)} + C                                                                 \\ \nonumber \\
+     & \int x^x dx =  \sum_{k = 0}^{+\infty}\sum_{n = 0}^k (-1)^n \frac{x^{k+1} \cdot \ln^{k-n}(x)}{(k+1)^{n+1}\cdot (k-n)!} + C                                                                                                       \\ \nonumber \\
+     & \int \sqrt{1+x^3} dx = \frac{x \Gamma\left(\frac{1}{3}\right) {{}_{2}F_{1}\left(\begin{matrix} - \frac{1}{2}, \frac{1}{3} \\ \frac{4}{3} \end{matrix}\middle| {x^{3} e^{i \pi}} \right)}}{3 \Gamma\left(\frac{4}{3}\right)} + C \\ \nonumber
+\end{align}
+
+\section{Integration by Parts}
+
+Integration by parts is the opposite of the product rule for differentiation.
+In fact, we can use the product rule to derive it:
+
+
+\begin{align}
+    \frac{d}{dx}uv         & = u'v + v'u                 \\
+    \int \frac{d}{dx}uv dx & = \int u'v + v'u dx         \\
+    uv                     & = \int u'v dx + \int v'u dx \\
+    \int v'u dx            & = uv - \int u'v dx
+\end{align}
+
+
+where $u$ and $v$ are two functions of $x$.
+When using this, we will choose one of our functions to be $u$ and the other to be $v'$.
+This is really important as we use integration by parts to get an integral simpler than our original one.
+Before using the method, you should think if the derivative of one of your functions and the integral of the other will make a simpler integral than the one you have.
+Generally, you want $u$ to be the function whose derivative makes it simpler and $v'$ to be a function whose integral doesn't make it too much more complex.
+Ideal choice for $u$ would be logarithmic or polynomial functions, while exponential functions would be best for $v'$.
+You will get better at using this method and picking the correct ones by practicing or looking at solved examples such as the ones below.
+
+%! 23
+\subsection{$\int x\cos(x^2) dx$}
+
+Note that without the $x$ term, the integral would be a non-elementary one.
+The presence of it allows for us to actually solve it.
+In this example, it would be rather simple to do a u-substitution, as we can change the integrand to be entirely in terms of the substituted variable due to the $x$ term.
+We will solve it as follows:
+
+
+\begin{align}
+    I  & = \int x\cos(x^2) dx              \\
+    I  & = \frac{1}{2} \int 2x\cos(x^2) dx \\
+    \nonumber                              \\
+    u  & = x^2                             \\
+    du & = 2x dx                           \\
+    \nonumber                              \\
+    I  & = \frac{1}{2} \int \cos(u) du     \\
+    I  & = \frac{1}{2} \sin(u) + C         \\
+    I  & = \frac{1}{2} \sin(x^2) + C
+\end{align}
+
+
+Our final answer is:
+
+$$
+    F(x) = \frac{1}{2} \sin(x^2) + C
+$$
+
+%! 24
+\subsection{$\int x\cos(x) dx$}
+
+The integrand is quite similar to the previous one, except that the $x^2$ term has been replaced by an $x$ term.
+This means we cannot do a substitution to get rid of the $x$ in front of the cosine, so we will use integration by parts instead:
+
+
+\begin{align}
+    I           & = \int x\cos(x) dx           \\
+    \nonumber                                  \\
+    \int uv' dx & = uv - \int u'v dx           \\
+    u           & = x                          \\
+    u'          & = 1                          \\
+    v           & = \sin(x)                    \\
+    v'          & = \cos(x)                    \\
+    \nonumber                                  \\
+    I           & = x\sin(x) - \int \sin(x) dx \\
+    I           & = x\sin(x) + \cos(x) + C
+\end{align}
+
+
+This time, the integration was rather simple as the functions we had in our integrand had simple derivatives and antiderivatives.
+Our final answer is:
+
+$$
+    F(x) = x\sin(x) + \cos(x) + C
+$$
+
+%! 25
+\subsection{$\int x^3 \ln(x) dx$}
+
+When doing integration by parts, it is important to choose the best values for $u$ and $v'$ so that our integrand of $u'v$ would be simpler than an integrand of $uv'$.
+While polynomial terms like $x^3$ are made simpler by differentiating, the natural logarithm is made more complex by integrating.
+Thus, choosing $\ln(x)$ as $u$ is important to get simpler integrands by using the integration by parts formula.
+We will solve this integral below:
+
+
+\begin{align}
+    I           & = \int x^3 \ln(x) dx                                              \\
+    \nonumber                                                                       \\
+    \int uv' dx & = uv - \int u'v dx                                                \\
+    u           & = \ln(x)                                                          \\
+    u'          & = \frac{1}{x}                                                     \\
+    v           & = \frac{1}{4}x^4                                                  \\
+    v'          & = x^3                                                             \\
+    \nonumber                                                                       \\
+    I           & = \frac{1}{4}x^4\ln(x) - \int \frac{1}{x} \cdot \frac{1}{4}x^4 dx \\
+    I           & = \frac{1}{4}x^4\ln(x) - \frac{1}{4} \int x^3 dx                  \\
+    I           & = \frac{1}{4}x^4\ln(x) - \frac{1}{4} \cdot \frac{1}{4}x^4 + C     \\
+    I           & = \frac{1}{4}x^4\left(\ln(x) - \frac{1}{4}\right) + C
+\end{align}
+
+
+By choosing for the natural logarithm to be differentiated in our new integrand, the problem was made quite a bit simpler with an integral of a polynomial instead of the original.
+Our answer is:
+
+$$
+    F(x) = \frac{1}{4}x^4\left(\ln(x) - \frac{1}{4}\right) + C
+$$
+
+%! 22*
+\subsection*{22*. $\int x^2 \sin(x) dx$}
+
+Let's solve this integral properly now.
+In situations like these, have the polynomial be the one that is differentiated is preferable, while having $sin(x)$ integrated is fine.
+We can thus solve the integral:
+
+
+\begin{align}
+    I           & = \int x^2 \sin(x) dx                                     \\
+    \nonumber                                                               \\
+    \int uv' dx & = uv - \int u'v dx                                        \\
+    u           & = x^2                                                     \\
+    u'          & = 2x                                                      \\
+    v           & = -\cos(x)                                                \\
+    v'          & = \sin(x)                                                 \\
+    \nonumber                                                               \\
+    I           & = -x^2\cos(x) - \int -2x\cos(x) dx                        \\
+    I           & = -x^2\cos(x) + \int 2x\cos(x) dx                         \\
+    \nonumber                                                               \\
+    \int uv' dx & = uv - \int u'v dx                                        \\
+    u           & = 2x                                                      \\
+    u'          & = 2                                                       \\
+    v           & = \sin(x)                                                 \\
+    v'          & = \cos(x)                                                 \\
+    \nonumber                                                               \\
+    I           & = -x^2\cos(x) + \left(2x\sin(x) - \int 2\sin(x) dx\right) \\
+    I           & = -x^2\cos(x) + 2x\sin(x) - 2\int \sin(x) dx              \\
+    I           & = -x^2\cos(x) + 2x\sin(x) + 2\cos(x) + C                  \\
+    I           & = 2x\sin(x) + \cos(x)(2 - x^2) + C
+\end{align}
+
+
+This time, we had perform integration by parts twice to simplify the polynomial term to a constant.
+Our final answer is:
+
+$$
+    F(x) = 2x\sin(x) + \cos(x)(2 - x^2) + C
+$$
+
+%! 26
+\subsection{$\int e^x \sin(2x) dx$}
+
+The $\sin(2x)$ on its own is pretty simple to evaluate, and so is the exponential term.
+We would always want to choose our exponential part of the integrand to be $v'$ as integrating it does not make it any more complicated.
+Thus, we may solve the integral as follows:
+
+
+\begin{align}
+    I           & = \int e^x \sin(2x) dx                                            \\
+    \nonumber                                                                       \\
+    \int uv' dx & = uv - \int u'v dx                                                \\
+    u           & = \sin(2x)                                                        \\
+    u'          & = 2\cos(2x)                                                       \\
+    v           & = e^x                                                             \\
+    v'          & = e^x                                                             \\
+    \nonumber                                                                       \\
+    I           & = e^x\sin(2x) - \int 2e^x\cos(2x) dx                              \\
+    I           & = e^x\sin(2x) - 2\int e^x\cos(2x) dx                              \\
+    \int uv' dx & = uv - \int u'v dx                                                \\
+    u           & = \cos(2x)                                                        \\
+    u'          & = -2\sin(2x)                                                      \\
+    v           & = e^x                                                             \\
+    v'          & = e^x                                                             \\
+    \nonumber                                                                       \\
+    I           & = e^x\sin(2x) - 2\left(e^x\cos(2x) - \int -2e^x\sin(2x) dx\right) \\
+    I           & = e^x\sin(2x) - 2\left(e^x\cos(2x) + 2\int e^x\sin(2x) dx\right)  \\
+    I           & = e^x\sin(2x) - 2e^x\cos(2x) - 4\int e^x\sin(2x) dx               \\
+    I           & = e^x\sin(2x) - 2e^x\cos(2x) - 4I                                 \\
+    5I          & = e^x\sin(2x) - 2e^x\cos(2x) + C                                  \\
+    I           & = \frac{1}{5}(e^x\sin(2x) - 2e^x\cos(2x)) + C                     \\
+    I           & = \frac{1}{5}e^x(\sin(2x) - 2\cos(2x)) + C
+\end{align}
+
+
+Doing integration by parts twice gave us an expression containing our original integral.
+We could then move this to one side and get our answer, which is:
+
+$$
+    F(x) = \frac{1}{5}e^x(\sin(2x) - 2\cos(2x)) + C
+$$
+
+%! 21*
+\subsection*{21*. $\int \arctan(x) dx$}
+
+It might not make sense to use integration by parts in this situation since there is only one function inside the integrand.
+However, the integral would obviously be the same if we multiplied by $1$.
+We could then use that to utilise integration by parts and solve the integral:
+
+
+\begin{align}
+    I           & = \int \arctan(x) dx                                 \\
+    I           & = \int 1 \cdot \arctan(x) dx                         \\
+    \nonumber                                                          \\
+    \int uv' dx & = uv - \int u'v dx                                   \\
+    u           & = \arctan(x)                                         \\
+    u'          & = \frac{1}{1+x^2}                                    \\
+    v           & = x                                                  \\
+    v'          & = 1                                                  \\
+    \nonumber                                                          \\
+    I           & = x\arctan(x) - \int x \cdot \frac{1}{1+x^2} dx      \\
+    I           & = x\arctan(x) - \frac{1}{2} \int \frac{2x}{1+x^2} dx \\
+    \nonumber                                                          \\
+    u           & = x^2 + 1                                            \\
+    du          & = 2x dx                                              \\
+    \nonumber                                                          \\
+    I           & = x\arctan(x) - \frac{1}{2} \int \frac{1}{u} du      \\
+    I           & = x\arctan(x) - \frac{1}{2} \ln(|u|) + C             \\
+    I           & = x\arctan(x) - \frac{1}{2} \ln(|x^2 + 1|) + C
+\end{align}
+
+
+Multiplying by $1$ allowed for us to use integration by parts and solve the integral pretty easily.
+Our final answer is:
+
+$$
+    F(x) = x\arctan(x) - \frac{1}{2} \ln(|x^2 + 1|) + C
+$$
+
+%! 27
+\subsection{$\int \frac{\ln(x)}{\sqrt{x}} dx$}
+
+Integration by parts is really just a rearranged version of the product rule for differentiation.
+However, we may also use it for the quotient of two functions by turning the integrand into a product.
+Here, we would have to turn the square root into a fractional exponent and use negative exponents.
+The solution is as follows:
+
+
+\begin{align}
+    I           & = \int \frac{\ln(x)}{\sqrt{x}} dx                                \\
+    I           & = \int \frac{\ln(x)}{x^{\frac{1}{2}}} dx                         \\
+    I           & = \int x^{-\frac{1}{2}} \ln(x) dx                                \\
+    \nonumber                                                                      \\
+    \int uv' dx & = uv - \int u'v dx                                               \\
+    u           & = \ln(x)                                                         \\
+    u'          & = x^{-1}                                                         \\
+    v           & = 2x^{\frac{1}{2}}                                               \\
+    v'          & = x^{-\frac{1}{2}}                                               \\
+    \nonumber                                                                      \\
+    I           & = 2x^{\frac{1}{2}}\ln(x) - \int x^{-1} \cdot 2x^{\frac{1}{2}} dx \\
+    I           & = 2x^{\frac{1}{2}}\ln(x) - 2\int x^{-\frac{1}{2}} dx             \\
+    I           & = 2x^{\frac{1}{2}}\ln(x) - 4x^{\frac{1}{2}} + C                  \\
+    I           & = 2x^{\frac{1}{2}}(\ln(x) - 2) + C                               \\
+    I           & = 2\sqrt{x}(\ln(x) - 2) + C
+\end{align}
+
+
+Since the original integral was expressed with radicals instead of fractional exponents, I will do the same with my answer, which is:
+
+$$
+    F(x) = 2\sqrt{x}(\ln(x) - 2) + C
+$$
+
+%! 28
+\subsection{$\int x^2 e^{3x} dx$}
+
+This is a rather easy integral to do via integration by parts.
+The exponential function is obviously the best to integrate and we can reduce the polynomial to a constant via multiple iterations of the method, done below:
+
+
+\begin{align}
+    I           & = \int x^2 e^{3x} dx                                                                \\
+    \nonumber                                                                                         \\
+    \int uv' dx & = uv - \int u'v dx                                                                  \\
+    u           & = x^2                                                                               \\
+    u'          & = 2x                                                                                \\
+    v           & = \frac{1}{3}e^{3x}                                                                 \\
+    v'          & = e^{3x}                                                                            \\
+    \nonumber                                                                                         \\
+    I           & = \frac{1}{3}x^2e^{3x} - \int 2x \cdot \frac{1}{3}e^{3x}                            \\
+    I           & = \frac{1}{3}x^2e^{3x} - \frac{2}{3} \int xe^{3x}                                   \\
+    \nonumber                                                                                         \\
+    \int uv' dx & = uv - \int u'v dx                                                                  \\
+    u           & = x                                                                                 \\
+    u'          & = 1                                                                                 \\
+    v           & = \frac{1}{3}e^{3x}                                                                 \\
+    v'          & = e^{3x}                                                                            \\
+    \nonumber                                                                                         \\
+    I           & = x^2e^x - \frac{2}{3} \left(\frac{1}{3}xe^{3x} - \int \frac{1}{3}e^{3x} dx\right)  \\
+    I           & = x^2e^x - \frac{2}{3} \left(\frac{1}{3}xe^{3x} - \frac{1}{3} \int e^{3x} dx\right) \\
+    I           & = x^2e^x - \frac{2}{3} \left(\frac{1}{3}xe^{3x} - \frac{1}{9}e^{3x} \right) + C     \\
+    I           & = x^2e^x - \frac{2}{9}xe^{3x} + \frac{2}{27}e^{3x} + C
+\end{align}
+
+
+With just two iterations, we solve the integral and get a pretty neat looking answer:
+
+$$
+    F(x) = x^2e^x - \frac{2}{9}xe^{3x} + \frac{2}{27}e^{3x} + C
+$$
+
+%! 29
+\subsection{$\int x \sec(x)\tan(x) dx$}
+
+We can notice how the integral of $\sec(x)\tan(x)$ is just $\sec(x)$, making this a pretty simple integral to do via integration by parts.
+We will solve it as follows:
+
+
+\begin{align}
+    I           & = \int x \sec(x)\tan(x) dx                                         \\
+    \nonumber                                                                        \\
+    \int uv' dx & = uv - \int u'v dx                                                 \\
+    u           & = x                                                                \\
+    u'          & = 1                                                                \\
+    v           & = \sec(x)                                                          \\
+    v'          & = \sec(x)\tan(x)                                                   \\
+    \nonumber                                                                        \\
+    I           & = x\sec(x) - \int \sec(x)                                          \\
+    I           & = x\sec(x) - \int \frac{\sec(x)(\sec(x)+\tan(x))}{\sec(x)+\tan(x)} \\
+    I           & = x\sec(x) - \int \frac{\sec^2(x)+\tan(x)\sec(x)}{\sec(x)+\tan(x)} \\
+    \nonumber                                                                        \\
+    u           & = \sec(x)+\tan(x)                                                  \\
+    du          & = \tan(x)\sec(x)+\sec^2(x) dx                                      \\
+    \nonumber                                                                        \\
+    I           & = x\sec(x) - \int \frac{1}{u} du                                   \\
+    I           & = x\sec(x) - \ln(|u|) + C                                          \\
+    I           & = x\sec(x) - \ln(|\sec(x)+\tan(x)|) + C
+\end{align}
+
+
+Simple.
+The answer is:
+
+$$
+    F(x) = x\sec(x) - \ln(|\sec(x)+\tan(x)|) + C
+$$
+
+\section{Trigonometric Integrals}
+
+Integrals containing trig functions are quite common.
+While some may be solveable using the standard integration methods, you would have to use identities for many.
+These are well-known facts that can be used to simplify expressions and turn integrands into a form that can be solved using other methods.
+The pdf file linked contains many of these identities, though they are also present on the internet and can be easily found.
+
+%! 30
+\subsection{$\int \sin^2(x)\cos(x) dx$}
+
+This integral is quite easy to do with a simple u-substitution:
+
+
+\begin{align}
+    I  & = \int \sin^2(x)\cos(x) dx \\
+    \nonumber                       \\
+    u  & = \sin(x)                  \\
+    du & = \cos(x) dx               \\
+    \nonumber                       \\
+    I  & = \int u^2 du              \\
+    I  & = \frac{1}{3}u^3 + C       \\
+    I  & = \frac{1}{3}\sin^3(x) + C
+\end{align}
+
+
+That was a rather simple integral to do, with just one substitution giving us an answer of:
+
+$$
+    F(x) = \frac{1}{3}\sin^3(x) + C
+$$
+
+%! 31
+\subsection{$\int \sin^2(x) dx$}
+
+For this one, we will have to use a trig identity that allows us to decompose the integrand via reducing the power of the sine function.
+We can do this as follows:
+
+
+\begin{align}
+    I              & = \int \sin^2(x) dx                                    \\
+    \nonumber                                                               \\
+    \sin^2(\theta) & = \frac{1}{2}(1-\cos(2\theta))                         \\
+    \nonumber                                                               \\
+    I              & = \int \frac{1}{2}(1-\cos(2x)) dx                      \\
+    I              & = \int \frac{1}{2} - \frac{1}{2}\cos(2x)) dx           \\
+    I              & = \int \frac{1}{2} dx - \int \frac{1}{2}\cos(2x) dx    \\
+    I              & = \frac{1}{2}\left(x - \frac{1}{2}\sin(2x) \right) + C \\
+    \nonumber                                                               \\
+    \sin(2\theta)  & = 2\sin(\theta)\cos(\theta)                            \\
+    \nonumber                                                               \\
+    I              & = \frac{1}{2}\left(x - \sin(x)\cos(x) \right) + C
+\end{align}
+
+
+We could have left our answer in a few different forms, but I think that it would be best to express it as:
+
+$$
+    F(x) = \frac{1}{2}\left(x - \sin(x)\cos(x) \right) + C
+$$
+
+%! 18*
+\subsection*{18*. $\int \sin^3(x) dx$}
+
+We will use a bit of identities to solve as follows:
+
+
+\begin{align}
+    I              & = \int \sin^3(x) dx                                                                                                       \\
+    I              & = \int \sin(x)\sin^2(x) dx                                                                                                \\
+    \nonumber                                                                                                                                  \\
+    1              & = \sin^2(\theta) + \cos^2(\theta)                                                                                         \\
+    \sin^2(\theta) & = 1 - \cos^2(\theta)                                                                                                      \\
+    \sin^2(\theta) & = \frac{1}{2}(1-\cos(2\theta))                                                                                            \\
+    \cos^2(\theta) & = \frac{1}{2}(1+\cos(2\theta))                                                                                            \\
+    \nonumber                                                                                                                                  \\
+    I              & = \int \sin(x)(1-\cos^2(x)) dx                                                                                            \\
+    I              & = \int \sin(x) - \sin(x)\cos^2(x) dx                                                                                      \\
+    I              & = \int \sin(x) - \sin(x)\cdot\frac{1}{2}(1+\cos(2x)) dx                                                                   \\
+    I              & = \int \sin(x) dx - \int \frac{1}{2}\sin(x)(1+\cos(2x)) dx                                                                \\
+    I              & = -\cos(x) - \frac{1}{2} \int \sin(x) + \sin(x)\cos(2x) dx                                                                \\
+    I              & = -\cos(x) - \frac{1}{2} \int \sin(x) dx - \frac{1}{2}  \int \sin(x)\cos(2x) dx                                           \\
+    I              & = -\cos(x) + \frac{1}{2} \cos(x) - \frac{1}{2}  \int \sin(x)\cos(2x) dx                                                   \\
+    \nonumber                                                                                                                                  \\
+    I_b            & = \int \sin(x)\cos(2x) dx                                                                                                 \\
+    \nonumber                                                                                                                                  \\
+    I              & = -\cos(x) + \frac{1}{2} \cos(x) - \frac{1}{2}  I_b                                                                       \\
+    \nonumber                                                                                                                                  \\
+    \int uv' dx    & = uv - \int u'v dx                                                                                                        \\
+    u              & = \cos(2x)                                                                                                                \\
+    u'             & = -2\sin(2x)                                                                                                              \\
+    v              & = -\cos(x)                                                                                                                \\
+    v'             & = \sin(x)                                                                                                                 \\
+    \nonumber                                                                                                                                  \\
+    I_b            & = -\cos(x)\cos(2x) - \int -2\sin(2x) \cdot -\cos(x) dx                                                                    \\
+    I_b            & = -\cos(x)\cos(2x) - 2\int \sin(2x)\cos(x) dx                                                                             \\
+    \nonumber                                                                                                                                  \\
+    \int uv' dx    & = uv - \int u'v dx                                                                                                        \\
+    u              & = \sin(2x)                                                                                                                \\
+    u'             & = 2\cos(2x)                                                                                                               \\
+    v              & = \sin(x)                                                                                                                 \\
+    v'             & = \cos(x)                                                                                                                 \\
+    \nonumber                                                                                                                                  \\
+    I_b            & = -\cos(x)\cos(2x) - 2\left( \sin(x)\sin(2x) - 2\int \sin(x)\cos(2x) dx \right)                                           \\
+    I_b            & = -\cos(x)\cos(2x) - 2( \sin(x)\sin(2x) - 2I_b)                                                                           \\
+    I_b            & = -\cos(x)\cos(2x) - 2\sin(x)\sin(2x) + 4I_b                                                                              \\
+    -3I_b          & = -\cos(x)\cos(2x) - 2\sin(x)\sin(2x)                                                                                     \\
+    3I_b           & = \cos(x)\cos(2x) + 2\sin(x)\sin(2x)                                                                                      \\
+    I_b            & = \frac{1}{3}\left(\cos(x)\cos(2x) + 2\sin(x)\sin(2x)\right)                                                              \\
+    \nonumber                                                                                                                                  \\
+    I              & = -\cos(x) + \frac{1}{2} \cos(x) - \frac{1}{2}  \left( \frac{1}{3}\left(\cos(x)\cos(2x) + 2\sin(x)\sin(2x)\right) \right) \\
+    I              & = -\frac{1}{2}\cos(x) - \frac{1}{6}\left(\cos(x)\cos(2x) + 2\sin(x)\sin(2x)\right)                                        \\
+    I              & = -\frac{1}{2}\cos(x) - \frac{1}{6}\cos(x)\cos(2x) - \frac{1}{3}\sin(x)\sin(2x)                                           \\
+    I              & = -\cos(x)(\frac{1}{2} + \frac{1}{6}\cos(2x)) - \frac{1}{3}\sin(x)\sin(2x)                                                \\
+    \nonumber                                                                                                                                  \\
+    \sin(2\theta)  & = 2\sin(\theta)\cos(\theta)                                                                                               \\
+    \cos(2\theta)  & = \cos^2(\theta) - \sin^2(\theta)                                                                                         \\
+    \nonumber                                                                                                                                  \\
+    I              & = -\cos(x)(\frac{1}{2} + \frac{1}{6}(\cos^2(x) - \sin^2(x))) - \frac{2}{3}\sin^2(x)\cos(x)                                \\
+    I              & = -\frac{1}{2}\cos(x) -\frac{1}{6}\cos(x)(\cos^2(x) - \sin^2(x)) - \frac{2}{3}\sin^2(x)\cos(x)                            \\
+    I              & = -\frac{1}{2}\cos(x) -\frac{1}{6}\cos^3(x) + \frac{1}{6}\cos(x)\sin^2(x) - \frac{4}{6}\sin^2(x)\cos(x)                   \\
+    I              & = -\frac{1}{2}\cos(x) -\frac{1}{6}\cos^3(x) - \frac{1}{2}\cos(x)\sin^2(x)                                                 \\
+    I              & = -\frac{1}{2}\cos(x) -\frac{1}{6}\cos^3(x) - \frac{1}{2}\cos(x)(1-\cos^2(x))                                             \\
+    I              & = -\frac{1}{2}\cos(x) -\frac{1}{6}\cos^3(x) - \frac{1}{2}\cos(x) + \frac{1}{2} \cos^3(x)                                  \\
+    I              & = -\cos(x) - \frac{1}{6}\cos^3(x) + \frac{3}{6} \cos^3(x)                                                                 \\
+    I              & = -\cos(x) + \frac{2}{6}\cos^3(x)                                                                                         \\
+    I              & = \frac{1}{3}\cos^3(x) - \cos(x)
+\end{align}
+
+
+That was quite a lot of work for a simple looking integral. Our final answer is:
+
+$$
+    F(x) = \frac{1}{3}\cos^3(x) - \cos(x)
+$$
+
+%! 32
+\subsection{$\int \sec^4(x) dx$}
+
+We will try to utilise some trig identities to solve this integral:
+
+
+\begin{align}
+    I              & = \int \sec^4(x) dx                                 \\
+    I              & = \int \sec^2(x)\sec^2(x) dx                        \\
+    \nonumber                                                            \\
+    \int uv' dx    & = uv - \int u'v dx                                  \\
+    u              & = \sec^2(x)                                         \\
+    u'             & = 2\tan\sec^2(x)                                    \\
+    v              & = \tan(x)                                           \\
+    v'             & = \sec^2(x)                                         \\
+    \nonumber                                                            \\
+    I              & = \tan(x)\sec^2(x) - \int 2\tan^2(x)\sec^2(x) dx    \\
+    I              & = \tan(x)\sec^2(x) - 2\int \tan^2(x)\sec^2(x) dx    \\
+    \nonumber                                                            \\
+    u              & = \tan(x)                                           \\
+    du             & = \sec^2(x) dx                                      \\
+    \nonumber                                                            \\
+    I              & = \tan(x)\sec^2(x) - 2\int u^2 du                   \\
+    I              & = \tan(x)\sec^2(x) - \frac{2}{3}u^3 + C             \\
+    I              & = \tan(x)\sec^2(x) - \frac{2}{3}\tan^3(x) + C       \\
+    \nonumber                                                            \\
+    \sec^2(\theta) & = 1 + \tan^2(\theta)                                \\
+    \nonumber                                                            \\
+    I              & = \tan(x)(1 + \tan^2(x)) - \frac{2}{3}\tan^3(x) + C \\
+    I              & = \tan(x) + \tan^3(x) - \frac{2}{3}\tan^3(x) + C    \\
+    I              & = \frac{1}{3}\tan^3(x) + \tan(x) + C
+\end{align}
+
+
+It turns out that we did not have to use any identities to actually solve the integral, but we did use one to simplify our answer, which is given by:
+
+$$
+    F(x) = \frac{1}{3}\tan^3(x) + \tan(x) + C
+$$
+
+%! 33
+\subsection{$\int \sec^4(x)\tan(x) dx$}
+
+We will solve as follows:
+
+
+\begin{align}
+    I  & = \int \sec^4(x)\tan(x) dx        \\
+    I  & = \int \sec^3(x)\sec(x)\tan(x) dx \\
+    \nonumber                              \\
+    u  & = \sec(x)                         \\
+    du & = \sec(x)\tan(x) dx               \\
+    \nonumber                              \\
+    I  & = \int u^3 du                     \\
+    I  & = \frac{1}{4} u^4 + C             \\
+    I  & = \frac{1}{4} \sec^4(x) + C
+\end{align}
+
+
+That was incredibly simple, requiring one substitution and no identities, giving us the answer:
+
+$$
+    F(x) = \frac{1}{4} \sec^4(x) + C
+$$
+
+%! 34
+\subsection{$\int \tan^3(x) dx$}
+
+We will solve as follows:
+
+
+\begin{align}
+    I              & = \int \tan^3(x) dx                               \\
+    I              & = \int \tan^2(x)\tan(x) dx                        \\
+    I              & = \int \frac{\tan^2(x)\tan(x)\sec(x)}{\sec(x)} dx \\
+    \nonumber                                                          \\
+    u              & = \sec(x)                                         \\
+    du             & = \tan(x)\sec(x) dx                               \\
+    \nonumber                                                          \\
+    I              & = \int \frac{\tan^2(x)}{u} du                     \\
+    \nonumber                                                          \\
+    \sec^2(\theta) & = \tan^2(\theta) + 1                              \\
+    \tan^2(\theta) & = \sec^2(\theta) - 1                              \\
+    \nonumber                                                          \\
+    I              & = \int \frac{\sec^2(x) - 1}{u} du                 \\
+    I              & = \int \frac{u^2 - 1}{u} du                       \\
+    I              & = \int \frac{u^2}{u} - \frac{1}{u} du             \\
+    I              & = \int u - u^{-1} du                              \\
+    I              & = \int u du - \int u^{-1} du                      \\
+    I              & = \frac{1}{2}u^2 - \ln(|u|) + C                   \\
+    I              & = \frac{1}{2}\sec^2(x) - \ln(|\sec(x)|) + C
+\end{align}
+
+
+There, we got our answer using one trig identity as well as u-sub. Our final answer is:
+
+$$
+    F(x) = \frac{1}{2}\sec^2(x) - \ln(|\sec(x)|) + C
+$$
+
+%! 35
+\subsection{$\int \sec^3(x) dx$}
+
+We will solve this as follows:
+
+
+\begin{align}
+    I              & = \int \sec^3(x) dx                                                         \\
+    I              & = \int \sec^2(x)\sec(x) dx                                                  \\
+    \nonumber                                                                                    \\
+    \int uv' dx    & = uv - \int u'v dx                                                          \\
+    u              & = \sec(x)                                                                   \\
+    u'             & = \tan(x)\sec(x)                                                            \\
+    v              & = \tan(x)                                                                   \\
+    v'             & = \sec^2(x)                                                                 \\
+    \nonumber                                                                                    \\
+    I              & = \tan(x)\sec(x) - \int \tan^2(x)\sec(x) dx                                 \\
+    \nonumber                                                                                    \\
+    \sec^2(\theta) & = \tan^2(\theta) + 1                                                        \\
+    \tan^2(\theta) & = \sec^2(\theta) - 1                                                        \\
+    \nonumber                                                                                    \\
+    I              & = \tan(x)\sec(x) - \int \sec(x)(\sec^2(x) - 1) dx                           \\
+    I              & = \tan(x)\sec(x) - \int \sec^3(x) - \sec(x) dx                              \\
+    I              & = \tan(x)\sec(x) - \int \sec^3(x) dx + \int \sec(x) dx                      \\
+    I              & = \tan(x)\sec(x) - I + \int \sec(x) dx                                      \\
+    2I             & = \tan(x)\sec(x) + \int \sec(x) dx                                          \\
+    2I             & = \tan(x)\sec(x) + \int \frac{\sec(x)(\sec(x)+\tan(x))}{\sec(x)+\tan(x)} dx \\
+    2I             & = \tan(x)\sec(x) + \int \frac{\sec^2(x)+\sec(x)\tan(x)}{\sec(x)+\tan(x)} dx \\
+    \nonumber                                                                                    \\
+    u              & = \sec(x) + \tan(x)                                                         \\
+    du             & = \sec^2(x) + \sec(x)\tan(x)                                                \\
+    \nonumber                                                                                    \\
+    2I             & = \tan(x)\sec(x) + \int \frac{1}{u} du                                      \\
+    2I             & = \tan(x)\sec(x) + \ln(|u|) + C                                             \\
+    2I             & = \tan(x)\sec(x) + \ln(|\sec(x) + \tan(x)|) + C                             \\
+    I              & = \frac{1}{2}(\tan(x)\sec(x) + \ln(|\sec(x) + \tan(x)|)) + C                \\
+    I              & = \frac{1}{2}\tan(x)\sec(x) + \frac{1}{2}\ln(|\sec(x) + \tan(x)|) + C
+\end{align}
+
+
+With a bit of work, we are given our answer:
+
+$$
+    F(x) = \frac{1}{2}\tan(x)\sec(x) + \frac{1}{2}\ln(|\sec(x) + \tan(x)|) + C
+$$
+
+\section{Trigonometric Substitution}
+
+We may find ourselves in a situation where normal substitution or other integration methods will not work.
+Some special cases have special substitutions that may be done.
+Here are the three that you would use trig functions to sub in:
+
+$$
+    a^2 - b^2x^2 \implies x = \frac{a}{b}\sin(\theta)
+$$
+$$
+    b^2x^2 + a^2 \implies x = \frac{a}{b}\tan(\theta)
+$$
+$$
+    b^2x^2 - a^2 \implies x = \frac{a}{b}\sec(\theta)
+$$
+
+The reason we use these is because there are well-known identities that allow us to simplify the integrand after substitution.
+We may end up with a regular integral which may be easily solved, but usually we would have a trig integral.
+Therefore, it is important to be aware of the important trig identities needed to solve many trig integrals.
+After evaluating the integral in terms of $\theta$, we would have to convert back to $x$.
+You can do this rahter easily by using the inverse version of the trig function you used to sub.
+To simplify, you would use some facts about the definitions of the trig functions to get rid of the inverse ones in your solution if possible.
+Drawing a triangle to do this on paper might be useful as it usually involves figuring out the sides of a right-angled triangle whose angle is represented by the inverse trig function.
+
+This method is quite simple if you know your trig identities and are able to do algebraic manipulations to get the forms needed, if they are not already present.
+Sometimes, you might have a quadratic that is not in the desired form.
+In such cases, it might be useful to complete the square to get something that resembles one of hte three forms above.
+The hardest part about trig sub might be solving the trig integral after substitutions and simplifications have taken place.
+
+%! 36
+\subsection{$\int \sqrt{x^2 - 6x + 9} dx$}
+
+We can see that the integrand has a radical, whose radicand may be factored pretty nicely.
+We could then get rid of the radical and have an easy integral to solve.
+We will solve as follows:
+
+
+\begin{align}
+    I & = \int \sqrt{x^2 - 6x + 9} dx \\
+    I & = \int \sqrt{(x-3)^2} dx      \\
+    I & = \int x - 3 dx               \\
+    I & = \frac{1}{2}x^2 - 3x + C
+\end{align}
+
+
+That was a rather simple integral to solve. The answer is:
+
+$$
+    F(x) = \frac{1}{2}x^2 - 3x + C
+$$
+
+%! 37
+\subsection{$\int \sqrt{x^2 + 9} dx$}
+
+The integrand cannot be factored or simplified normally.
+We notice though that there is a $x^2 + a^2$ expression present so we can do a trig-sub as follows:
+
+
+\begin{align}
+    I                                                & = \int \sqrt{x^2 + 9} dx                                                                                                                          \\
+    \nonumber                                                                                                                                                                                            \\
+    x                                                & = 3\tan(\theta)                                                                                                                                   \\
+    dx                                               & = 3\sec^2(\theta) d\theta                                                                                                                         \\
+    \nonumber                                                                                                                                                                                            \\
+    I                                                & = \int \sqrt{9\tan^2(x) + 9} \cdot 3\sec^2(\theta) d\theta                                                                                        \\
+    I                                                & = \int 3\sec^2(\theta)\sqrt{9(\tan^2(\theta) + 1)} d\theta                                                                                        \\
+    I                                                & = \int 9\sec^2(\theta)\sqrt{\tan^2(\theta) + 1} d\theta                                                                                           \\
+    \nonumber                                                                                                                                                                                            \\
+    \sec^2(\theta)                                   & = \tan^2(\theta) + 1                                                                                                                              \\
+    \nonumber                                                                                                                                                                                            \\
+    I                                                & = \int 9\sec^2(\theta)\sqrt{\sec^2(\theta)} d\theta                                                                                               \\
+    I                                                & = \int 9\sec^2(\theta)|\sec(\theta)| d\theta                                                                                                      \\
+    I                                                & = \int 9\sec^2(\theta)\sec(\theta) d\theta                                                                                                        \\
+    I                                                & = 9\int \sec^3(\theta) d\theta                                                                                                                    \\
+    \nonumber                                                                                                                                                                                            \\
+    I_b                                              & = \int \sec^3(\theta) d\theta                                                                                                                     \\
+    \nonumber                                                                                                                                                                                            \\
+    I                                                & = 9I_b                                                                                                                                            \\
+    \nonumber                                                                                                                                                                                            \\
+    \int uv' dx                                      & = uv - \int u'v dx                                                                                                                                \\
+    u                                                & = \sec(\theta)                                                                                                                                    \\
+    u'                                               & = \tan(\theta)\sec(\theta)                                                                                                                        \\
+    v                                                & = \tan(\theta)                                                                                                                                    \\
+    v'                                               & = \sec^2(\theta)                                                                                                                                  \\
+    \nonumber                                                                                                                                                                                            \\
+    I_b                                              & = \tan(\theta)\sec(\theta) - \int \tan^2(\theta)\sec(\theta) d\theta                                                                              \\
+    \nonumber                                                                                                                                                                                            \\
+    \tan^2(\theta)                                   & = \sec^2(\theta) - 1                                                                                                                              \\
+    \nonumber                                                                                                                                                                                            \\
+    I_b                                              & = \tan(\theta)\sec(\theta) - \int \sec(\theta)(\sec^2(\theta) - 1) d\theta                                                                        \\
+    I_b                                              & = \tan(\theta)\sec(\theta) - \int \sec^3(\theta) - \sec(\theta) d\theta                                                                           \\
+    I_b                                              & = \tan(\theta)\sec(\theta) - \int \sec^3(\theta) d\theta + \int \sec(\theta) d\theta                                                              \\
+    I_b                                              & = \left( \tan(\theta)\sec(\theta) - I + \ln(|\tan(\theta)+\sec(\theta)|) \right)                                                                  \\
+    2I_b                                             & = \tan(\theta)\sec(\theta) + \ln(|\tan(\theta)+\sec(\theta)|) + C                                                                                 \\
+    I_b                                              & = \frac{1}{2}(\tan(\theta)\sec(\theta) + \ln(|\tan(\theta)+\sec(\theta)|)) + C                                                                    \\
+    I_b                                              & = \frac{1}{2}\tan(\theta)\sec(\theta) + \frac{1}{2}\ln(|\tan(\theta)+\sec(\theta)|) + C                                                           \\
+    \nonumber                                                                                                                                                                                            \\
+    I                                                & = 9\left(\frac{1}{2}\tan(\theta)\sec(\theta) + \frac{1}{2}\ln(|\tan(\theta)+\sec(\theta)|)\right) + C                                             \\
+    I                                                & = \frac{9}{2}\tan(\theta)\sec(\theta) + \frac{9}{2}\ln(|\tan(\theta)+\sec(\theta)|) + C                                                           \\
+    \nonumber                                                                                                                                                                                            \\
+    \theta                                           & = \arctan\left(\frac{x}{3}\right)                                                                                                                 \\
+    \nonumber                                                                                                                                                                                            \\
+    \begin{split}
+        I &= \frac{9}{2}\tan\left(\arctan\left(\frac{x}{3}\right)\right)\sec\left(\arctan\left(\frac{x}{3}\right)\right) \\
+        &\qquad + \frac{9}{2}\ln\left(\left|\tan\left(\arctan\left(\frac{x}{3}\right)\right)+\sec\left(\arctan\left(\frac{x}{3}\right)\right)\right|\right) \\
+        &\qquad + C
+    \end{split}                                                                                       \\
+    \begin{split}
+        I                                                & = \frac{9}{2}\cdot\frac{x}{3}\sec\left(\arctan\left(\frac{x}{3}\right)\right) \\
+        &\qquad + \frac{9}{2}\ln\left(\left|\frac{x}{3}+\sec\left(\arctan\left(\frac{x}{3}\right)\right)\right|\right) + C
+    \end{split}                                                                      \\
+    \begin{split}
+        I                                                & = \frac{3}{2}x\sec\left(\arctan\left(\frac{x}{3}\right)\right) \\
+        &\qquad + \frac{9}{2}\ln\left(\left|\frac{x}{3}+\sec\left(\arctan\left(\frac{x}{3}\right)\right)\right|\right) + C
+    \end{split}                                                                                     \\
+    \nonumber                                                                                                                                                                                            \\
+    \tan(\theta)                                     & = \frac{O}{A}                                                                                                                                     \\
+    \arctan(\frac{O}{A})                             & = \theta                                                                                                                                          \\
+    \arctan\left(\frac{x}{3}\right) = \theta         & \implies \tan(\theta) = \frac{x}{3}                                                                                                               \\
+    O                                                & = x                                                                                                                                               \\
+    A                                                & = 3                                                                                                                                               \\
+    H                                                & = \sqrt{x^2+9}                                                                                                                                    \\
+    \sec(\theta)                                     & = \frac{H}{A}                                                                                                                                     \\
+    \sec\left(\arctan\left(\frac{x}{3}\right)\right) & = \frac{\sqrt{x^2+9}}{3}                                                                                                                          \\
+    \nonumber                                                                                                                                                                                            \\
+    I                                                & = \frac{3}{2}x\cdot\frac{\sqrt{x^2+9}}{3} + \frac{9}{2}\ln\left(\left|\frac{x}{3}+\frac{\sqrt{x^2+9}}{3}\right|\right) + C                        \\
+    I                                                & = \frac{1}{2}x\sqrt{x^2+9} + \frac{9}{2}\ln\left(\left|\frac{x}{3}+\frac{\sqrt{x^2+9}}{3}\right|\right) + C                                       \\
+    I                                                & = \frac{1}{2}x\sqrt{x^2+9} + \frac{9}{2}\ln\left(\left|\frac{x+\sqrt{x^2+9}}{3}\right|\right) + C                                                 \\
+    I                                                & = \frac{1}{2}x\sqrt{x^2+9} + \frac{9}{2}\ln\left(\left|x+\sqrt{x^2+9}\right|\right) - \underbrace{\frac{9}{2} \ln(|3|) + C}_{\text{new constant}} \\
+    I                                                & = \frac{1}{2}x\sqrt{x^2+9} + \frac{9}{2}\ln\left(\left|x+\sqrt{x^2+9}\right|\right) + C                                                           \\
+    I                                                & = \frac{1}{2}\left(x\sqrt{x^2+9} + 9\ln\left(\left|x+\sqrt{x^2+9}\right|\right)\right) + C
+\end{align}
+
+
+After quite a bit of simplifications, we get a final answer of:
+
+$$
+    F(x) = \frac{1}{2}\left(x\sqrt{x^2+9} + 9\ln\left(\left|x+\sqrt{x^2+9}\right|\right)\right) + C \\
+$$
+
+%! 38
+\subsection{$\int \frac{1}{x\sqrt{x^2 - 4}} dx$}
+
+We will solve this as follows:
+
+
+\begin{align}
+    I              & = \int \frac{1}{x\sqrt{x^2 - 4}} dx                                                              \\
+    \nonumber                                                                                                         \\
+    x              & = 2\sec(\theta)                                                                                  \\
+    dx             & = 2\tan(\theta)\sec(\theta) d\theta                                                              \\
+    \nonumber                                                                                                         \\
+    I              & = \int \frac{1}{2\sec(\theta)\sqrt{4\sec^2(\theta) - 4}} \cdot 2\tan(\theta)\sec(\theta) d\theta \\
+    I              & = \int \frac{1}{\sqrt{4\sec^2(\theta) - 4}} \cdot \tan(\theta) d\theta                           \\
+    I              & = \int \frac{1}{\sqrt{4(\sec^2(\theta) - 1)}} \cdot \tan(\theta) d\theta                         \\
+    I              & = \int \frac{\tan(\theta)}{2\sqrt{\sec^2(\theta) - 1}} d\theta                                   \\
+    \nonumber                                                                                                         \\
+    \sec^2(\theta) & = \tan^2(\theta) + 1                                                                             \\
+    \tan^2(\theta) & = \sec^2(\theta) - 1                                                                             \\
+    \nonumber                                                                                                         \\
+    I              & = \int \frac{\tan(\theta)}{2\sqrt{\tan^2(\theta)}} d\theta                                       \\
+    I              & = \frac{1}{2}\int \frac{\tan(\theta)}{|\tan(\theta)|} d\theta                                    \\
+    I              & = \frac{1}{2}\int \frac{\tan(\theta)}{\tan(\theta)} d\theta                                      \\
+    I              & = \frac{1}{2}\int 1 d\theta                                                                      \\
+    I              & = \frac{1}{2}\theta + C                                                                          \\
+    \nonumber                                                                                                         \\
+    \theta         & = \text{arcsec}\left(\frac{x}{2}\right)                                                          \\
+    \nonumber                                                                                                         \\
+    I              & = \frac{1}{2}\text{arcsec}\left(\frac{x}{2}\right) + C
+\end{align}
+
+
+We are done with this integral.
+If we wanted, we could write the final answer in terms of another inverse trig function that's more common but I think arcsecant is fine.
+Our answer is:
+
+$$
+    F(x) = \frac{1}{2}\text{arcsec}\left(\frac{x}{2}\right) + C
+$$
+
+%! 39
+\subsection{$\int \sqrt{1-x^2} dx$}
+
+This is a rather simple integral for us to solve with trig-sub, shown below:
+
+
+\begin{align}
+    I                               & = \int \sqrt{1-x^2} dx                                                             \\
+    \nonumber                                                                                                            \\
+    x                               & = \sin(\theta)                                                                     \\
+    dx                              & = \cos(\theta) d\theta                                                             \\
+    \nonumber                                                                                                            \\
+    I                               & = \int \sqrt{1-\sin^2(\theta)} \cdot \cos(\theta) d\theta                          \\
+    I                               & = \int \cos(\theta)\sqrt{1-\sin^2(\theta)} d\theta                                 \\
+    \nonumber                                                                                                            \\
+    1                               & = \sin^2(\theta) + \cos^2(\theta)                                                  \\
+    \cos^2(\theta)                  & = 1 - \sin^2(\theta)                                                               \\
+    \nonumber                                                                                                            \\
+    I                               & = \int \cos(\theta)\sqrt{\cos^2(\theta)} d\theta                                   \\
+    I                               & = \int \cos(\theta)|\cos(\theta)| d\theta                                          \\
+    I                               & = \int \cos(\theta)\cos(\theta) d\theta                                            \\
+    I                               & = \int \cos^2(\theta) d\theta                                                      \\
+    \nonumber                                                                                                            \\
+    \cos^2(\theta)                  & = \frac{1}{2}(1+\cos(2\theta))                                                     \\
+    \nonumber                                                                                                            \\
+    I                               & = \frac{1}{2} \int 1+\cos(2\theta) d\theta                                         \\
+    I                               & = \frac{1}{2} \int 1 d\theta + \frac{1}{2} \cos(2\theta) d\theta                   \\
+    I                               & = \frac{1}{2} \theta + \frac{1}{4} \sin(2\theta) + C                               \\
+    \nonumber                                                                                                            \\
+    \theta                          & = \arcsin(x)                                                                       \\
+    \nonumber                                                                                                            \\
+    I                               & = \frac{1}{2} \arcsin(x) + \frac{1}{4} \sin(2\arcsin(x)) + C                       \\
+    \nonumber                                                                                                            \\
+    \sin(2\theta)                   & = 2\sin(\theta)\cos(\theta)                                                        \\
+    \nonumber                                                                                                            \\
+    I                               & = \frac{1}{2} \arcsin(x) + \frac{1}{4} \cdot 2\sin(\arcsin(x))\cos(\arcsin(x)) + C \\
+    I                               & = \frac{1}{2} \arcsin(x) + \frac{1}{2} x\cos(\arcsin(x)) + C                       \\
+    \nonumber                                                                                                            \\
+    \sin(\theta)                    & = \frac{O}{H}                                                                      \\
+    \arcsin\left(\frac{O}{H}\right) & = \theta                                                                           \\
+    \arcsin(x) = \theta             & \implies \sin(\theta) = \frac{x}{1}                                                \\
+    O                               & = x                                                                                \\
+    H                               & = 1                                                                                \\
+    A                               & = \sqrt{1-x^2}                                                                     \\
+    \cos(\theta)                    & = \frac{A}{H}                                                                      \\
+    \cos(\theta)                    & = \frac{\sqrt{1-x^2}}{1}                                                           \\
+    \cos(\theta)                    & = \sqrt{1-x^2}                                                                     \\
+    \nonumber                                                                                                            \\
+    I                               & = \frac{1}{2} \arcsin(x) + \frac{1}{2} x\sqrt{1-x^2} + C                           \\
+    I                               & = \frac{1}{2} \left(\arcsin(x) + x\sqrt{1-x^2}\right) + C
+\end{align}
+
+
+Our final answer is:
+
+$$
+    F(x) = \frac{1}{2} \left(\arcsin(x) + x\sqrt{1-x^2}\right) + C
+$$
+
+%! 40
+\subsection{$\int \frac{1}{(25+x^2)^{\frac{3}{2}}} dx$}
+
+We will solve as follows:
+
+
+\begin{align}
+    I                                                & = \int \frac{1}{(25+x^2)^{\frac{3}{2}}} dx                                               \\
+    I                                                & = \int \frac{1}{\left(\sqrt{25+x^2}\right)^3} dx                                         \\
+    \nonumber                                                                                                                                   \\
+    x                                                & = 5\tan(\theta)                                                                          \\
+    dx                                               & = 5\sec^2(\theta) d\theta                                                                \\
+    \nonumber                                                                                                                                   \\
+    I                                                & = \int \frac{1}{\left(\sqrt{25+25\tan^2(\theta)}\right)^3} \cdot 5\sec^2(\theta) d\theta \\
+    I                                                & = \int \frac{5\sec^2(\theta)}{\left(\sqrt{25(1+\tan^2(\theta))}\right)^3} d\theta        \\
+    \nonumber                                                                                                                                   \\
+    \sec^2(\theta)                                   & = \tan^2(\theta) + 1                                                                     \\
+    \nonumber                                                                                                                                   \\
+    I                                                & = \int \frac{5\sec^2(\theta)}{\left(\sqrt{25\sec^2(\theta)}\right)^3} d\theta            \\
+    I                                                & = \int \frac{5\sec^2(\theta)}{(5|\sec(\theta)|)^3} d\theta                               \\
+    I                                                & = \int \frac{5\sec^2(\theta)}{(5\sec(\theta))^3} d\theta                                 \\
+    I                                                & = \int \frac{5\sec^2(\theta)}{125\sec^3(\theta)} d\theta                                 \\
+    I                                                & = \int \frac{1}{25\sec(\theta)} d\theta                                                  \\
+    I                                                & = \frac{1}{25} \int \cos(\theta) d\theta                                                 \\
+    I                                                & = \frac{1}{25} \sin(\theta) + C                                                          \\
+    \nonumber                                                                                                                                   \\
+    \theta                                           & = \arctan\left(\frac{x}{5}\right)                                                        \\
+    \nonumber                                                                                                                                   \\
+    I                                                & = \frac{1}{25} \sin\left(\arctan\left(\frac{x}{5}\right)\right) + C                      \\
+    \nonumber                                                                                                                                   \\
+    \tan(\theta)                                     & = \frac{O}{A}                                                                            \\
+    \arctan\left(\frac{O}{A}\right)                  & = \theta                                                                                 \\
+    \arctan\left(\frac{x}{5}\right) = \theta         & \implies \tan(\theta) = \frac{x}{5}                                                      \\
+    O                                                & = x                                                                                      \\
+    A                                                & = 5                                                                                      \\
+    H                                                & = \sqrt{x^2+25}                                                                          \\
+    \sin(\theta)                                     & = \frac{O}{H}                                                                            \\
+    \sin\left(\arctan\left(\frac{x}{5}\right)\right) & = \frac{x}{\sqrt{x^2+25}}                                                                \\
+    \nonumber                                                                                                                                   \\
+    I                                                & = \frac{1}{25} \cdot \frac{x}{\sqrt{x^2+25}} + C                                         \\
+    I                                                & = \frac{x}{25\sqrt{x^2+25}} + C
+\end{align}
+
+
+After you notice these patterns in integrands, trig-sub becomes quite simple and useful.
+Our final answer is:
+
+$$
+    F(x) = \frac{x}{25\sqrt{x^2+25}} + C
+$$
+
+%! 41
+\subsection{$\int \frac{x}{(25+x^2)^{\frac{3}{2}}} dx$}
+
+Due to the $x$ term in the numerator of the integrand, this is a rather simple problem to solve with an easy substitution shown below:
+
+
+\begin{align}
+    I  & = \int \frac{x}{(25+x^2)^{\frac{3}{2}}} dx              \\
+    I  & = \frac{1}{2} \int \frac{2x}{(25+x^2)^{\frac{3}{2}}} dx \\
+    \nonumber                                                    \\
+    u  & = 25 + x^2                                              \\
+    du & = 2x dx                                                 \\
+    \nonumber                                                    \\
+    I  & = \frac{1}{2} \int \frac{1}{u^{\frac{3}{2}}} du         \\
+    I  & = \frac{1}{2} \int u^{-\frac{3}{2}} du                  \\
+    I  & = \frac{1}{2} \cdot -2u^{-\frac{1}{2}} + C              \\
+    I  & = -\frac{1}{\sqrt{u}} + C                               \\
+    I  & = -\frac{1}{\sqrt{25+x^2}} + C
+\end{align}
+
+
+Thus, our final answer is:
+
+$$
+    F(x) = -\frac{1}{\sqrt{25+x^2}} + C
+$$
+
+%! 42
+\subsection{$\int \frac{1}{x^2+a^2} dx$}
+
+This is a generalised case where we may utilise trig-sub.
+Here, $a$ is some constant and we will solve the integral as shown below:
+
+
+\begin{align}
+    I              & = \int \frac{1}{x^2+a^2} dx                                          \\
+    \nonumber                                                                             \\
+    x              & = a\tan(\theta)                                                      \\
+    dx             & = a\sec^2(\theta) d\theta                                            \\
+    \nonumber                                                                             \\
+    I              & = \int \frac{1}{a^2\tan^2(\theta)+a^2} \cdot a\sec^2(\theta) d\theta \\
+    I              & = \int \frac{a\sec^2(\theta)}{a^2(\tan^2(\theta)+1)} d\theta         \\
+    I              & = \int \frac{\sec^2(\theta)}{a(\tan^2(\theta)+1)} d\theta            \\
+    \nonumber                                                                             \\
+    \sec^2(\theta) & = \tan^2(\theta) + 1                                                 \\
+    \nonumber                                                                             \\
+    I              & = \int \frac{\sec^2(\theta)}{a\sec^2(\theta)} d\theta                \\
+    I              & = \int \frac{1}{a} d\theta                                           \\
+    I              & = \frac{1}{a}\theta + C                                              \\
+    \nonumber                                                                             \\
+    \theta         & = \arctan\left(\frac{x}{a}\right)                                    \\
+    \nonumber                                                                             \\
+    I              & = \frac{1}{a}\arctan\left(\frac{x}{a}\right) + C
+\end{align}
+
+
+Our answer to these types of integrals with an integrand featuring a denominator with an $x^2$ term plus some constant $a^2$ is thus:
+
+$$
+    F(x) = \frac{1}{a}\arctan\left(\frac{x}{a}\right) + C \\
+$$
+
+\section{Integration by Partial Fractions}
+
+The last integration method we will use is integration by partial fractions.
+A partial fraction is a part of a larger fraction, which is often simpler to work with.
+We might have a difficult looking integral that can be made quite a bit simpler by decomposing the fraction.
+Afterwards, we may use a bit of substitutions and natural logarithms to solve the integral.
+You will have to be able to do partial fraction decomposition and polynomial long division for this section.
+While we will not cover explicity how to decompose a rational expression, I will give some useful formulae.
+An example with linear factors:
+
+$$
+    \frac{3x+4}{(x+3)(x-2)} = \frac{A}{x+3} + \frac{B}{x-2}
+$$
+
+An example of linear factors as well a irreducible quadratic factor (quadratic that cannot be factored without complex numbers):
+
+$$
+    \frac{2x^2+4x+61}{(x-3)(x^2+4x+13)} = \frac{A}{x-3} + \frac{Bx+C}{x^2+4x+13}
+$$
+
+An example with repeated linear and quadratic factors:
+
+$$
+    \frac{1}{(x+7)^3(x^2+13)^2} = \frac{A_1}{x+7} + \frac{A_2}{(x+7)^2} + \frac{A_3}{(x+7)^3} + \frac{B_1x+C_1}{x^2+13} + \frac{B_2x+C_2}{(x^2+13)^2}
+$$
+
+You should be aware of how you can get the unknown numerators of the partial fractions, whether it may be substituting roots or solving system of linear equations.
+Note that you can only do this when the degree of the top is smaller than the degree of the bottom.
+Otherwise, you would have to use polynomial long division first to get a proper rational expression.
+If you are aware of how to decompose frations, then the integration afterwards is rather simple.
+Sometimes, it may just be a matter of one u-sub or skipping that by knowing the general ruling for a fraction with a linear denominator.
+Here is one useful formula you can use with some partial fractions:
+
+$$
+    \int \frac{1}{ax+b} dx = \frac{1}{a}\ln(|ax+b|) + C
+$$
+
+%! 43
+\subsection{$\int \frac{x^3}{x^2+9} dx$}
+
+We will solve it as follows:
+
+
+\begin{align}
+    I                                                & = \int \frac{x^3}{x^2+9} dx                                                                                                                          \\
+    \nonumber                                                                                                                                                                                               \\
+    x                                                & = 3\tan(\theta)                                                                                                                                      \\
+    dx                                               & = 3\sec^2(\theta) d\theta                                                                                                                            \\
+    \nonumber                                                                                                                                                                                               \\
+    I                                                & = \int \frac{27\tan^3(\theta)}{9\tan^2(\theta)+9} \cdot 3\sec^2(\theta) d\theta                                                                      \\
+    I                                                & = \int \frac{81\tan^3(\theta)\sec^2(\theta)}{9(\tan^2(\theta)+1)} d\theta                                                                            \\
+    I                                                & = \int \frac{9\tan^3(\theta)\sec^2(\theta)}{\tan^2(\theta)+1} d\theta                                                                                \\
+    \nonumber                                                                                                                                                                                               \\
+    \sec^2(\theta)                                   & = \tan^2(\theta) + 1                                                                                                                                 \\
+    \nonumber                                                                                                                                                                                               \\
+    I                                                & = \int \frac{9\tan^3(\theta)\sec^2(\theta)}{\sec^2(\theta)} d\theta                                                                                  \\
+    I                                                & = \int 9\tan^3(\theta) d\theta                                                                                                                       \\
+    I                                                & = 9\int \tan^3(\theta) d\theta                                                                                                                       \\
+    I                                                & = 9\int \frac{\tan^2(\theta)\tan(\theta)\sec(\theta)}{\sec(\theta)} d\theta                                                                          \\
+    \nonumber                                                                                                                                                                                               \\
+    u                                                & = \sec(\theta)                                                                                                                                       \\
+    du                                               & = \tan(\theta)\sec(\theta) d\theta                                                                                                                   \\
+    \nonumber                                                                                                                                                                                               \\
+    I                                                & = 9\int \frac{\tan^2(\theta)}{u} du                                                                                                                  \\
+    \nonumber                                                                                                                                                                                               \\
+    \tan^2(\theta)                                   & = \sec^2(\theta) - 1                                                                                                                                 \\
+    \nonumber                                                                                                                                                                                               \\
+    I                                                & = 9\int \frac{\sec^2(\theta) - 1}{u} du                                                                                                              \\
+    I                                                & = 9\int \frac{u^2 - 1}{u} du                                                                                                                         \\
+    I                                                & = 9\int u - u^{-1} du                                                                                                                                \\
+    I                                                & = 9 \left( \frac{1}{2}u^2 - \ln(|u|) \right) + C                                                                                                     \\
+    I                                                & = \frac{9}{2}u^2 - 9\ln(|u|) + C                                                                                                                     \\
+    I                                                & = \frac{9}{2}\sec^2(\theta) - 9\ln(|\sec(\theta)|) + C                                                                                               \\
+    \nonumber                                                                                                                                                                                               \\
+    \theta                                           & = \arctan\left(\frac{x}{3}\right)                                                                                                                    \\
+    \nonumber                                                                                                                                                                                               \\
+    I                                                & = \frac{9}{2}\sec^2\left(\arctan\left(\frac{x}{3}\right)\right) - 9\ln\left(\left|\sec\left(\arctan\left(\frac{x}{3}\right)\right)\right|\right) + C \\
+    \nonumber                                                                                                                                                                                               \\
+    \tan(\theta)                                     & = \frac{O}{A}                                                                                                                                        \\
+    \arctan\left(\frac{O}{A}\right)                  & = \theta                                                                                                                                             \\
+    \arctan\left(\frac{x}{3}\right) = \theta         & \implies \tan(\theta) = \frac{x}{3}                                                                                                                  \\
+    O                                                & = x                                                                                                                                                  \\
+    A                                                & = 3                                                                                                                                                  \\
+    H                                                & = \sqrt{x^2+9}                                                                                                                                       \\
+    \sec(\theta)                                     & = \frac{H}{A}                                                                                                                                        \\
+    \sec\left(\arctan\left(\frac{x}{3}\right)\right) & = \frac{\sqrt{x^2+9}}{3}                                                                                                                             \\
+    \nonumber                                                                                                                                                                                               \\
+    I                                                & = \frac{9}{2}\cdot\left(\frac{\sqrt{x^2+9}}{3}\right)^2 - 9\ln\left(\left|\frac{\sqrt{x^2+9}}{3}\right|\right) + C                                   \\
+    I                                                & = \frac{9}{2}\cdot\frac{x^2+9}{9} - 9\ln\left(\frac{\sqrt{x^2+9}}{3}\right) + C                                                                      \\
+    I                                                & = \frac{1}{2}(x^2+9) - 9\ln\left(\frac{\sqrt{x^2+9}}{3}\right) + C                                                                                   \\
+    I                                                & = \frac{1}{2}(x^2+9) - 9\ln\left(\frac{\sqrt{x^2+9}}{\sqrt{9}}\right) + C                                                                            \\
+    I                                                & = \frac{1}{2}(x^2+9) - 9\ln\left(\sqrt{\frac{x^2+9}{9}}\right) + C                                                                                   \\
+    I                                                & = \frac{1}{2}(x^2+9) - \frac{9}{2}\ln\left(\frac{x^2+9}{9}\right) + C                                                                                \\
+    I                                                & = \frac{1}{2}(x^2+9) - \frac{9}{2}\ln(x^2+9) - \underbrace{\frac{27}{2} \ln(9) + C}_\text{new constant}                                              \\
+    I                                                & = \frac{1}{2}(x^2+9) - \frac{9}{2}\ln(x^2+9) + C                                                                                                     \\
+    I                                                & = \frac{1}{2}x^2 - \frac{9}{2}\ln(x^2+9) + \underbrace{\frac{9}{2} + C}_\text{new constant}                                                          \\
+    I                                                & = \frac{1}{2}x^2 - \frac{9}{2}\ln(x^2+9) + C                                                                                                         \\
+    I                                                & = \frac{1}{2}(x^2 - 9\ln(x^2+9)) + C
+\end{align}
+
+
+Using polynomial long division, we may get the answer much quicker. This is shown below:
+
+
+\begin{align}
+    I  & = \int \frac{x^3}{x^2+9} dx                        \\
+    \nonumber                                               \\
+       & {\polylongdiv{x^3}{x^2+9}}                         \\
+    \nonumber                                               \\
+    I  & = \int x - \frac{9x}{x^2+9} dx                     \\
+    I  & = \int x dx - \int \frac{9x}{x^2+9} dx             \\
+    I  & = \frac{1}{2}x^2 - 9\int \frac{x}{x^2+9} dx        \\
+    \nonumber                                               \\
+    u  & = x^2+9                                            \\
+    du & = 2x dx                                            \\
+    \nonumber                                               \\
+    I  & = \frac{1}{2}x^2 - \frac{9}{2} \int \frac{1}{u} du \\
+    I  & = \frac{1}{2}x^2 - \frac{9}{2} \ln(|u|) + C        \\
+    I  & = \frac{1}{2}x^2 - \frac{9}{2} \ln(|x^2+9|) + C    \\
+    I  & = \frac{1}{2}x^2 - \frac{9}{2} \ln(x^2+9) + C      \\
+    I  & = \frac{1}{2}(x^2 - 9\ln(x^2+9)) + C
+\end{align}
+
+
+That was much simpler. Splitting the fraction into simpler fractions allowed for us to use the linearity of integration to do much less work. Both methods give us the answer:
+
+$$
+    F(x) = \frac{1}{2}(x^2 - 9\ln(x^2+9)) + C
+$$
+
+%! 44
+\subsection{$\int \frac{8x-17}{x^2-5x+4} dx$}
+
+We can solve this integral by first decomposing the integrand into a sum of partial fractions which are much easier to integrate.
+We will do this as follows:
+
+
+\begin{align}
+    I                        & = \int \frac{8x-17}{x^2-5x+4} dx                       \\
+    I                        & = \int \frac{8x-17}{(x-1)(x-4)} dx                     \\
+    \nonumber                                                                         \\
+    \frac{8x-17}{(x-1)(x-4)} & = \frac{A}{x-1} + \frac{B}{x-4}                        \\
+    8x-17                    & = (x-1)(x-4)\left(\frac{A}{x-1} + \frac{B}{x-4}\right) \\
+    8x-17                    & = A(x-4) + B(x-1)                                      \\
+    \nonumber                                                                         \\
+    x                        & =4:                                                    \\
+    8(4)-17                  & = A(4-4) + B(4-1)                                      \\
+    15                       & = 3B                                                   \\
+    B                        & = 5                                                    \\
+    \nonumber                                                                         \\
+    x                        & =1:                                                    \\
+    8(1)-17                  & = A(1-4) + B(1-1)                                      \\
+    -9                       & = -3A                                                  \\
+    A                        & = 3                                                    \\
+    \nonumber                                                                         \\
+    \frac{8x-17}{(x-1)(x-4)} & = \frac{3}{x-1} + \frac{5}{x-4}                        \\
+    \nonumber                                                                         \\
+    I                        & = \int \frac{3}{x-1} + \frac{5}{x-4} dx                \\
+    I                        & = \int \frac{3}{x-1} dx + \int \frac{5}{x-4} dx        \\
+    I                        & = 3\ln(|x-1|) + 5\ln(|x-4|) + C
+\end{align}
+
+
+After decomposing the integrand, it was quite easy to get our answer:
+
+$$
+    F(x) = 3\ln(|x-1|) + 5\ln(|x-4|) + C
+$$
+
+%! 45
+\subsection{$\int \frac{4x^2-9x+2}{(x+3)(x^2+4)} dx$}
+
+We will solve as follows:
+
+
+\begin{align}
+    I                              & = \int \frac{4x^2-9x+2}{(x+3)(x^2+4)} dx                                                  \\
+    \nonumber                                                                                                                  \\
+    \frac{4x^2-9x+2}{(x+3)(x^2+4)} & = \frac{A}{x+3} + \frac{Bx + C}{x^2+4}                                                    \\
+    4x^2-9x+2                      & = (x+3)(x^2+4)\left(\frac{A}{x+3} + \frac{Bx + C}{x^2+4}\right)                           \\
+    4x^2-9x+2                      & = A(x^2+4) + (Bx + C)(x+3)                                                                \\
+    \nonumber                                                                                                                  \\
+    x                              & =-3:                                                                                      \\
+    4(-3)^2-9(-3)+2                & = A((-3)^2+4) + (Bx + C)(-3+3)                                                            \\
+    65                             & = 13A                                                                                     \\
+    A                              & = 5                                                                                       \\
+    \nonumber                                                                                                                  \\
+    4x^2-9x+2                      & = 5(x^2+4) + (Bx + C)(x+3)                                                                \\
+    4x^2-9x+2                      & = 5x^2 + 20 + Bx^2 + 3Bx + Cx + 3C                                                        \\
+    4x^2-9x+2                      & = x^2(B + 5) + x(3B + C) + (3C + 20)                                                      \\
+    \nonumber                                                                                                                  \\
+    x^2                            & : 4 = B + 5                                                                               \\
+    x^1                            & : -9 = 3B + C                                                                             \\
+    x^0                            & : 2 = 3C + 20                                                                             \\
+    \nonumber                                                                                                                  \\
+    B                              & = -1                                                                                      \\
+    C                              & = -6                                                                                      \\
+    \nonumber                                                                                                                  \\
+    \frac{4x^2-9x+2}{(x+3)(x^2+4)} & = \frac{5}{x+3} + \frac{-x - 6}{x^2+4}                                                    \\
+    \frac{4x^2-9x+2}{(x+3)(x^2+4)} & = \frac{5}{x+3} - \frac{x + 6}{x^2+4}                                                     \\
+    \nonumber                                                                                                                  \\
+    I                              & = \int \frac{5}{x+3} - \frac{x + 6}{x^2+4} dx                                             \\
+    I                              & = \int \frac{5}{x+3} dx - \int \frac{x + 6}{x^2+4} dx                                     \\
+    I                              & = 5\ln(|x+3|) - \int \frac{x + 6}{x^2+4} dx                                               \\
+    I                              & = 5\ln(|x+3|) - \int \frac{x}{x^2+4} dx - \int \frac{6}{x^2+4} dx                         \\
+    I                              & = 5\ln(|x+3|) - \int \frac{x}{x^2+4} dx - 6\int \frac{1}{x^2+4} dx                        \\
+    \nonumber                                                                                                                  \\
+    u                              & = x^2+4                                                                                   \\
+    du                             & = 2x dx                                                                                   \\
+    \nonumber                                                                                                                  \\
+    I                              & = 5\ln(|x+3|) - \int \frac{x}{u} \cdot \frac{du}{2x} - 6\int \frac{1}{x^2+4} dx           \\
+    I                              & = 5\ln(|x+3|) - \frac{1}{2} \int \frac{1}{u} du - 6\int \frac{1}{x^2+4} dx                \\
+    I                              & = 5\ln(|x+3|) - \frac{1}{2} \ln(|u|) - 6\int \frac{1}{x^2+4} dx                           \\
+    I                              & = 5\ln(|x+3|) - \frac{1}{2} \ln(|x^2+4|) - 6\int \frac{1}{x^2+4} dx                       \\
+    \nonumber                                                                                                                  \\
+    \int \frac{1}{x^2+a^2} dx      & = \frac{1}{a}\arctan\left(\frac{x}{a}\right) + C                                          \\
+    \nonumber                                                                                                                  \\
+    I                              & = 5\ln(|x+3|) - \frac{1}{2} \ln(|x^2+4|) - \frac{6}{2}\arctan\left(\frac{x}{2}\right) + C \\
+    I                              & = 5\ln(|x+3|) - \frac{1}{2} \ln(|x^2+4|) - 3\arctan\left(\frac{x}{2}\right) + C
+\end{align}
+
+
+Decomposing the integrand makes the problem much simpler.
+Afterwards, we only need to do a bit of substitutions and apply some formulae we derived prior to get our answer:
+
+$$
+    F(x) =5\ln(|x+3|) - \frac{1}{2} \ln(|x^2+4|) - 3\arctan\left(\frac{x}{2}\right) + C
+$$
+
+%! 46
+\subsection{$\int \frac{1}{x^2+6x+13} dx$}
+
+We may notice that the denominator of the integrand is an irreducible quadratic, i.e. we cannot factor it without using complex numbers. We thus are not able to utilise partial fraction decomposition for this problem and must look for some other method. Let's try completing the square for the quadratic and doing some substitutions. We will solve as follows:
+
+
+\begin{align}
+    I              & = \int \frac{1}{x^2+6x+13} dx                                             \\
+    \nonumber                                                                                  \\
+    x^2 + 6x + 13  & = x^2 + 6x + 13 + \left(\frac{b}{2}\right)^2 - \left(\frac{b}{2}\right)^2 \\
+                   & = x^2 + 6x + 13 + \left(\frac{6}{2}\right)^2 - \left(\frac{6}{2}\right)^2 \\
+                   & = x^2 + 6x + 13 + 9 - 9                                                   \\
+                   & = (x^2 + 6x + 3^2) + 13 - 9                                               \\
+                   & = (x+3)^2 + 4                                                             \\
+    \nonumber                                                                                  \\
+    I              & = \int \frac{1}{(x+3)^2 + 4} dx                                           \\
+    \nonumber                                                                                  \\
+    x + 3          & = 2\tan(\theta)                                                           \\
+    x              & = 2\tan(\theta) d\theta - 3                                               \\
+    dx             & = \sec^2(\theta) d\theta                                                  \\
+    \nonumber                                                                                  \\
+    I              & = \int \frac{1}{4\tan^2(\theta) + 4} \cdot 2\sec^2(\theta) d\theta        \\
+    I              & = \int \frac{2\sec^2(\theta)}{4(\tan^2(\theta) + 1)} d\theta              \\
+    \nonumber                                                                                  \\
+    \sec^2(\theta) & = \tan^2(\theta) + 1                                                      \\
+    \nonumber                                                                                  \\
+    I              & = \int \frac{2\sec^2(\theta)}{4\sec^2(\theta)} d\theta                    \\
+    I              & = \int \frac{1}{2} d\theta                                                \\
+    I              & = \frac{1}{4} \theta + C                                                  \\
+    \nonumber                                                                                  \\
+    \theta         & = \arctan\left(\frac{x+3}{2}\right)                                       \\
+    \nonumber                                                                                  \\
+    I              & = \frac{1}{2} \arctan\left(\frac{x+3}{2}\right) + C
+\end{align}
+
+
+After getting the integrand to resemble a trig-sub situation, it wasn't difficult to get or answer:
+
+$$
+    F(x) = \frac{1}{2} \arctan\left(\frac{x+3}{2}\right) + C
+$$
+
+%! 47
+\subsection{$\int \frac{2x-5}{x^3+x^2} dx$}
+
+Notice that we may factor the denominator of the integrand into a linear factor and a repeated linear factor.
+Then we may solve as follows:
+
+
+\begin{align}
+    I                     & = \int \frac{2x-5}{x^3+x^2} dx                                        \\
+    I                     & = \int \frac{2x-5}{x^2(x+1)} dx                                       \\
+    \nonumber                                                                                     \\
+    \frac{2x-5}{x^2(x+1)} & = \frac{A}{x+1} + \frac{B}{x} + \frac{C}{x^2}                         \\
+    2x-5                  & = x^2(x+1)\left(\frac{A}{x+1} + \frac{B}{x} + \frac{C}{x^2}\right)    \\
+    2x-5                  & = Ax^2 + Bx(x+1) + C(x+1)                                             \\
+    \nonumber                                                                                     \\
+    x                     & =-1:                                                                  \\
+    2(-1) - 5             & = A(-1)^2 + B(-1)(-1+1) + C(-1+1)                                     \\
+    -7                    & = 1 \cdot A                                                           \\
+    A                     & = -7                                                                  \\
+    \nonumber                                                                                     \\
+    2x-5                  & = -7x^2 + Bx(x+1) + C(x+1)                                            \\
+    2x-5                  & = -7x^2 + Bx^2+Bx + Cx+C                                              \\
+    2x-5                  & = x^2(B-7) + x(B+C) + (C)                                             \\
+    \nonumber                                                                                     \\
+    x^2                   & : 0 = B - 7                                                           \\
+    x^1                   & : 2 = B + C                                                           \\
+    x^0                   & : -5 = C                                                              \\
+    \nonumber                                                                                     \\
+    B                     & = 7                                                                   \\
+    C                     & = -5                                                                  \\
+    \nonumber                                                                                     \\
+    \frac{2x-5}{x^2(x+1)} & = \frac{-7}{x+1} + \frac{7}{x} + \frac{-5}{x^2}                       \\
+    \frac{2x-5}{x^2(x+1)} & = \frac{7}{x} - \frac{7}{x+1} - \frac{5}{x^2}                         \\
+    \nonumber                                                                                     \\
+    I                     & = \int \frac{7}{x} - \frac{7}{x+1} - \frac{5}{x^2} dx                 \\
+    I                     & = \int \frac{7}{x} dx - \int \frac{7}{x+1} dx - \int \frac{5}{x^2} dx \\
+    I                     & = 7\ln(|x|) - 7\ln(|x+1|) + 5x^{-1} + C
+\end{align}
+
+Our answer is:
+
+$$
+    F(x) = 7\ln(|x|) - 7\ln(|x+1|) + 5x^{-1} + C \\
+$$
+
+%! 48
+\subsection{$\int \frac{2x^2+8x+5}{x^2+4x+13} dx$}
+
+Notice that the integrand is an improper rational expression.
+Thus we must do polynomial long division to get a proper expression which we can then decompose and evaluate the integrate as follows:
+
+
+\begin{align}
+    I              & = \int \frac{2x^2+8x+5}{x^2+4x+13} dx                                  \\
+    \nonumber                                                                               \\
+                   & {\polylongdiv{2x^2+8x+5}{x^2+4x+13}}                                   \\
+    \nonumber                                                                               \\
+    I              & = \int 2 - \frac{21}{x^2+4x+13} dx                                     \\
+    I              & = \int 2 dx - \int \frac{21}{x^2+4x+13} dx                             \\
+    I              & = 2x - 21\int \underbrace{\frac{1}{x^2+4x+13}}_\text{irreducible} dx   \\
+    \nonumber                                                                               \\
+    I_b            & = \int \frac{1}{x^2+4x+13} dx                                          \\
+    \nonumber                                                                               \\
+    I              & = 2x - 21I_b                                                           \\
+    \nonumber                                                                               \\
+    x^2+4x+13      & = x^2+4x+13 + \left(\frac{b}{2}\right)^2 - \left(\frac{b}{2}\right)^2  \\
+                   & = x^2+4x+13 + \left(\frac{4}{2}\right)^2 - \left(\frac{4}{2}\right)^2  \\
+                   & = x^2+4x+13 + 4 - 4                                                    \\
+                   & = (x^2 + 4x + 2^2) + 13 - 4                                            \\
+                   & = (x + 2)^2 + 9                                                        \\
+    \nonumber                                                                               \\
+    I_b            & = \int \frac{1}{(x + 2)^2 + 9} dx                                      \\
+    \nonumber                                                                               \\
+    x+2            & = 3\tan(\theta)                                                        \\
+    x              & = 3\tan(\theta) - 2                                                    \\
+    dx             & = 3\sec^2(\theta) d\theta                                              \\
+    \nonumber                                                                               \\
+    I_b            & = \int \frac{1}{9\tan^2(\theta) + 9} \cdot 3\sec^2(\theta) d\theta     \\
+    I_b            & = \int \frac{3\sec^2(\theta)}{9(\tan^2(\theta) + 1)} d\theta           \\
+    I_b            & = \frac{1}{3}\int \frac{\sec^2(\theta)}{\tan^2(\theta) + 1} d\theta    \\
+    \nonumber                                                                               \\
+    \sec^2(\theta) & = \tan^2(\theta) + 1                                                   \\
+    \nonumber                                                                               \\
+    I_b            & = \frac{1}{3}\int \frac{\sec^2(\theta)}{\sec^2(\theta)} d\theta        \\
+    I_b            & = \frac{1}{3}\int 1 d\theta                                            \\
+    I_b            & = \frac{1}{3} \theta                                                   \\
+    \nonumber                                                                               \\
+    \theta         & = \arctan\left(\frac{x+2}{3}\right)                                    \\
+    \nonumber                                                                               \\
+    I_b            & = \frac{1}{3} \arctan\left(\frac{x+2}{3}\right) + C                    \\
+    \nonumber                                                                               \\
+    I              & = 2x - 21\left(\frac{1}{3}\arctan\left(\frac{x+2}{3}\right)\right) + C \\
+    I              & = 2x - 7\arctan\left(\frac{x+2}{3}\right) + C
+\end{align}
+
+
+It turned out that we could not use PFD as the denominator of our proper rational expression was an irreducible quadratic so we had to complete the square and utilise trig-sub to get the answer:
+
+$$
+    F(x) = 2x - 7\arctan\left(\frac{x+2}{3}\right) + C
+$$
+
+%! 49
+\subsection{$\int \frac{6x^2+31x+45}{x^3+6x^2+9x} dx$}
+
+This time, the integrand is a proper rational expression so we can use partial fraction decomposition to solve the integral as follows:
+
+
+\begin{align}
+    I                            & = \int \frac{6x^2+31x+45}{x^3+6x^2+9x} dx                                 \\
+    I                            & = \int \frac{6x^2+31x+45}{x(x^2+6x+9)} dx                                 \\
+    I                            & = \int \frac{6x^2+31x+45}{x(x+3)^2} dx                                    \\
+    \nonumber                                                                                                \\
+    \frac{6x^2+31x+45}{x(x+3)^2} & = \frac{A}{x} + \frac{B}{x+3} + \frac{C}{(x+3)^2}                         \\
+    6x^2+31x+45                  & = x(x+3)^2\left(\frac{A}{x} + \frac{B}{x+3} + \frac{C}{(x+3)^2}\right)    \\
+    6x^2+31x+45                  & = A(x+3)^2 + Bx(x+3) + Cx                                                 \\
+    \nonumber                                                                                                \\
+    x                            & =-3:                                                                      \\
+    6(-3)^2+31(-3)+45            & = A(-3+3)^2 + B(-3)(-3+3) + C(-3)                                         \\
+    6                            & = -3C                                                                     \\
+    C                            & = -2                                                                      \\
+    \nonumber                                                                                                \\
+    6x^2+31x+45                  & = A(x+3)^2 + Bx(x+3) - 2x                                                 \\
+    6x^2+31x+45                  & = A(x^2+6x+9) + Bx^2 + 3Bx - 2x                                           \\
+    6x^2+31x+45                  & = Ax^2 + 6Ax + 9A + Bx^2 + 3Bx - 2x                                       \\
+    6x^2+31x+45                  & = x^2(A + B) + x(6A + 3B - 2) + (9A)                                      \\
+    \nonumber                                                                                                \\
+    x^2                          & : 6 = A + B                                                               \\
+    x^1                          & : 31 = 6A + 3B - 2                                                        \\
+    x^0                          & : 45 = 9A                                                                 \\
+    \nonumber                                                                                                \\
+    A                            & = 5                                                                       \\
+    B                            & = 1                                                                       \\
+    \nonumber                                                                                                \\
+    \frac{6x^2+31x+45}{x(x+3)^2} & = \frac{5}{x} + \frac{1}{x+3} + \frac{-2}{(x+3)^2}                        \\
+    \frac{6x^2+31x+45}{x(x+3)^2} & = \frac{5}{x} + \frac{1}{x+3} - \frac{2}{(x+3)^2}                         \\
+    \nonumber                                                                                                \\
+    I                            & = \int \frac{5}{x} + \frac{1}{x+3} - \frac{2}{(x+3)^2} dx                 \\
+    I                            & = \int \frac{5}{x} dx + \int \frac{1}{x+3} dx - \int \frac{2}{(x+3)^2} dx \\
+    I                            & = 5\ln(|x|) + \ln(|x+3|) - 2\int \frac{1}{(x+3)^2} dx                     \\
+    \nonumber                                                                                                \\
+    u                            & = x + 3                                                                   \\
+    du                           & = 1 dx                                                                    \\
+    \nonumber                                                                                                \\
+    I                            & = 5\ln(|x|) + \ln(|x+3|) - 2\int \frac{1}{u^2} du                         \\
+    I                            & = 5\ln(|x|) + \ln(|x+3|) - 2(-u^{-1}) + C                                 \\
+    I                            & = 5\ln(|x|) + \ln(|x+3|) + 2(x+3)^{-1} + C
+\end{align}
+
+
+PFD may be difficult because making small mistakes somewhere along the way is quite easy and it can waste a lot of your time before you realise.
+Nevertheless, our answer is:
+
+$$
+    F(x) = 5\ln(|x|) + \ln(|x+3|) + 2(x+3)^{-1} + C
+$$
+
+%! 50
+\subsection{$\int \frac{1}{x^2-a^2} dx$}
+
+This is a general problem with some constant $a$.
+We will integrate as follows:
+
+
+\begin{align}
+    I                                                      & = \int \frac{1}{x^2-a^2} dx                                                                                                                                   \\
+    \nonumber                                                                                                                                                                                                              \\
+    x                                                      & = a\sec(\theta)                                                                                                                                               \\
+    dx                                                     & = a\tan(\theta)\sec(\theta) d\theta                                                                                                                           \\
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = \int \frac{1}{a^2\sec^2(\theta)-a^2} \cdot a\tan(\theta)\sec(\theta) d\theta                                                                                \\
+    I                                                      & = \int \frac{a\tan(\theta)\sec(\theta)}{a^2(\sec^2(\theta)-1)}  d\theta                                                                                       \\
+    I                                                      & = \frac{1}{a} \int \frac{\tan(\theta)\sec(\theta)}{\sec^2(\theta)-1}  d\theta                                                                                 \\
+    \nonumber                                                                                                                                                                                                              \\
+    \sec^2(\theta)                                         & = \tan^2(\theta) + 1                                                                                                                                          \\
+    \tan^2(\theta)                                         & = \sec^2(\theta) - 1                                                                                                                                          \\
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = \frac{1}{a} \int \frac{\tan(\theta)\sec(\theta)}{\tan^2(\theta)}  d\theta                                                                                   \\
+    I                                                      & = \frac{1}{a} \int \frac{\sec(\theta)}{\tan(\theta)}  d\theta                                                                                                 \\
+    \nonumber                                                                                                                                                                                                              \\
+    \sec(\theta)                                           & = \frac{H}{A}                                                                                                                                                 \\
+    \tan(\theta)                                           & = \frac{O}{A}                                                                                                                                                 \\
+    \frac{\sec(\theta)}{\tan(\theta)}                      & = \frac{\left(\frac{H}{A}\right)}{\left(\frac{O}{A}\right)}                                                                                                   \\
+                                                           & = \frac{AH}{AO}                                                                                                                                               \\
+                                                           & = \frac{H}{O}                                                                                                                                                 \\
+                                                           & = \csc(\theta)                                                                                                                                                \\
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = \frac{1}{a} \int \csc(\theta) d\theta                                                                                                                       \\
+    I                                                      & = \frac{1}{a} \int \frac{\csc(\theta)\cot(\theta)}{\cot(\theta)} d\theta                                                                                      \\
+    \nonumber                                                                                                                                                                                                              \\
+    u                                                      & = \csc(\theta)                                                                                                                                                \\
+    du                                                     & = -\csc(\theta)\cot(\theta) d\theta                                                                                                                           \\
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = -\frac{1}{a} \int \frac{1}{\cot(\theta)} du                                                                                                                 \\
+    \nonumber                                                                                                                                                                                                              \\
+    \csc^2(\theta)                                         & = \cot^2(\theta) + 1                                                                                                                                          \\
+    \cot(\theta)                                           & = \sqrt{\csc^2(\theta)-1}                                                                                                                                     \\
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = -\frac{1}{a} \int \frac{1}{\sqrt{\csc^2(\theta)-1}} du                                                                                                      \\
+    I                                                      & = -\frac{1}{a} \int \frac{1}{\sqrt{u^2-1}} du                                                                                                                 \\
+    \nonumber                                                                                                                                                                                                              \\
+    u                                                      & = \sec(\phi)                                                                                                                                                  \\
+    du                                                     & = \tan(\phi)\sec(\phi) d\phi                                                                                                                                  \\
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = -\frac{1}{a} \int \frac{1}{\sqrt{\sec^2(\phi)-1}} \cdot \tan(\phi)\sec(\phi) d\phi                                                                          \\
+    I                                                      & = -\frac{1}{a} \int \frac{\tan(\phi)\sec(\phi)}{\sqrt{\tan^2(\phi)}} d\phi                                                                                    \\
+    I                                                      & = -\frac{1}{a} \int \frac{\tan(\phi)\sec(\phi)}{|\tan(\phi)|} d\phi                                                                                           \\
+    I                                                      & = -\frac{1}{a} \int \frac{\tan(\phi)\sec(\phi)}{\tan(\phi)} d\phi                                                                                             \\
+    I                                                      & = -\frac{1}{a} \int \sec(\phi) d\phi                                                                                                                          \\
+    I                                                      & = -\frac{1}{a} \int \frac{\sec(\phi)(\sec(\phi)+\tan(\phi))}{\sec(\phi)+\tan(\phi)} d\phi                                                                     \\
+    I                                                      & = -\frac{1}{a} \int \frac{\sec^2(\phi) + \sec(\phi)\tan(\phi)}{\sec(\phi)+\tan(\phi)} d\phi                                                                   \\
+    \nonumber                                                                                                                                                                                                              \\
+    w                                                      & = \tan(\phi)+\sec(\phi)                                                                                                                                       \\
+    dw                                                     & = \sec^2(\phi) + \sec(\phi)\tan(\phi) d\phi                                                                                                                   \\
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = -\frac{1}{a} \int \frac{1}{w} dw                                                                                                                            \\
+    I                                                      & = -\frac{1}{a} \ln(|w|) + C                                                                                                                                   \\
+    I                                                      & = -\frac{1}{a} \ln(|\tan(\phi)+\sec(\phi)|) + C                                                                                                               \\
+    \nonumber                                                                                                                                                                                                              \\
+    \phi                                                   & = \text{arcsec}(u)                                                                                                                                            \\
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = -\frac{1}{a} \ln(|\tan(\text{arcsec}(u))+\sec(\text{arcsec}(u))|) + C                                                                                       \\
+    I                                                      & = -\frac{1}{a} \ln(|\tan(\text{arcsec}(u))+u|) + C                                                                                                            \\
+    \nonumber                                                                                                                                                                                                              \\
+    \sec(\theta)                                           & = \frac{H}{A}                                                                                                                                                 \\
+    \text{arcsec}\left(\frac{H}{A}\right)                  & = \theta                                                                                                                                                      \\
+    \text{arcsec}(u) = \theta                              & \implies \sec(\theta) = \frac{u}{1}                                                                                                                           \\
+    H                                                      & = u                                                                                                                                                           \\
+    A                                                      & = 1                                                                                                                                                           \\
+    O                                                      & = \sqrt{u^2-1}                                                                                                                                                \\
+    \tan(\theta)                                           & = \frac{O}{A}                                                                                                                                                 \\
+    \tan(\text{arcsec}(u))                                 & = \frac{\sqrt{u^2-1}}{1}                                                                                                                                      \\
+    \tan(\text{arcsec}(u))                                 & = \sqrt{u^2-1}                                                                                                                                                \\
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = -\frac{1}{a} \ln(|\sqrt{u^2-1}+u|) + C                                                                                                                      \\
+    I                                                      & = -\frac{1}{a} \ln(|\sqrt{\csc^2(\theta)-1}+\csc(\theta)|) + C                                                                                                \\
+    I                                                      & = -\frac{1}{a} \ln(|\cot(\theta)+\csc(\theta)|) + C                                                                                                           \\
+    \nonumber                                                                                                                                                                                                              \\
+    \theta                                                 & = \text{arcsec}\left(\frac{x}{a}\right)
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = -\frac{1}{a} \ln\left(\left|\cot\left(\text{arcsec}\left(\frac{x}{a}\right)\right)+\csc\left(\text{arcsec}\left(\frac{x}{a}\right)\right)\right|\right) + C \\
+    \nonumber                                                                                                                                                                                                              \\
+    \sec(\theta)                                           & = \frac{H}{A}                                                                                                                                                 \\
+    \text{arcsec}\left(\frac{H}{A}\right)                  & = \theta                                                                                                                                                      \\
+    \text{arcsec}\left(\frac{x}{a}\right) = \theta         & \implies \sec(\theta) = \frac{x}{a}                                                                                                                           \\
+    H                                                      & = x                                                                                                                                                           \\
+    A                                                      & = a                                                                                                                                                           \\
+    O                                                      & = \sqrt{x^2-a^2}                                                                                                                                              \\
+    \cot(\theta)                                           & = \frac{A}{O}                                                                                                                                                 \\
+    \cot\left(\text{arcsec}\left(\frac{x}{a}\right)\right) & = \frac{a}{\sqrt{x^2-a^2}}                                                                                                                                    \\
+    \csc(\theta)                                           & = \frac{H}{O}                                                                                                                                                 \\
+    \csc\left(\text{arcsec}\left(\frac{x}{a}\right)\right) & = \frac{x}{\sqrt{x^2-a^2}}                                                                                                                                    \\
+    \nonumber                                                                                                                                                                                                              \\
+    I                                                      & = -\frac{1}{a} \ln\left(\left|\frac{a}{\sqrt{x^2-a^2}}+\frac{x}{\sqrt{x^2-a^2}}\right|\right) + C                                                             \\
+    I                                                      & = -\frac{1}{a} \ln\left(\left|\frac{x+a}{\sqrt{x^2-a^2}}\right|\right) + C                                                                                    \\
+    I                                                      & = \frac{1}{a} \ln\left(\left|\frac{\sqrt{x^2-a^2}}{x+a}\right|\right) + C                                                                                     \\
+    I                                                      & = \frac{1}{a} \ln\left(\left|\frac{\sqrt{(x+a)(x-a)}}{x+a}\right|\right) + C                                                                                  \\
+    I                                                      & = \frac{1}{a} \ln\left(\left|\frac{\sqrt{(x+a)(x-a)}}{\sqrt{(x+a)^2}}\right|\right) + C                                                                       \\
+    I                                                      & = \frac{1}{a} \ln\left(\left|\sqrt{\frac{(x+a)(x-a)}{(x+a)^2}}\right|\right) + C                                                                              \\
+    I                                                      & = \frac{1}{a} \ln\left(\left|\sqrt{\frac{x-a}{x+a}}\right|\right) + C                                                                                         \\
+    I                                                      & = \frac{1}{a} \ln\left(\left|\left(\frac{x-a}{x+a}\right)^{\frac{1}{2}}\right|\right) + C                                                                     \\
+    I                                                      & = \frac{1}{2a} \ln\left(\left|\frac{x-a}{x+a}\right|\right) + C
+\end{align}
+
+
+After quite a bit of substituions, we get our answer for this type of integral with some constant $a$.
+Let's do it with partial fractions:
+
+
+\begin{align}
+    I                    & = \int \frac{1}{x^2-a^2} dx                                                      \\
+    I                    & = \int \frac{1}{(x+a)(x-a)} dx                                                   \\
+    \nonumber                                                                                               \\
+    \frac{1}{(x+a)(x-a)} & = \frac{A}{x+a} + \frac{B}{x-a}                                                  \\
+    1                    & = (x+a)(x-a)\left(\frac{A}{x+a} + \frac{B}{x-a}\right)                           \\
+    1                    & = A(x-a) + B(x+a)                                                                \\
+    \nonumber                                                                                               \\
+    x                    & =a:                                                                              \\
+    1                    & = 2aB                                                                            \\
+    B                    & = \frac{1}{2a}                                                                   \\
+    \nonumber                                                                                               \\
+    x                    & =-a:                                                                             \\
+    1                    & = -2aA                                                                           \\
+    A                    & = -\frac{1}{2a}                                                                  \\
+    \nonumber                                                                                               \\
+    \frac{1}{(x+a)(x-a)} & = \frac{-\left(\frac{1}{2a}\right)}{x+a} + \frac{\left(\frac{1}{2a}\right)}{x-a} \\
+    \frac{1}{(x+a)(x-a)} & = -\frac{1}{2a(x+a)} + \frac{1}{2a(x-a)}                                         \\
+    \frac{1}{(x+a)(x-a)} & = \frac{1}{2ax-2a^2} - \frac{1}{2ax+2a^2}                                        \\
+    \nonumber                                                                                               \\
+    I                    & = \int \frac{1}{2ax-2a^2} - \frac{1}{2ax+2a^2} dx                                \\
+    I                    & = \int \frac{1}{2ax-2a^2} dx - \int \frac{1}{2ax+2a^2} dx                        \\
+    \nonumber                                                                                               \\
+    u                    & = 2ax-2a^2                                                                       \\
+    du                   & = 2a dx                                                                          \\
+    w                    & = 2ax+2a^2                                                                       \\
+    dw                   & = 2a dx                                                                          \\
+    \nonumber                                                                                               \\
+    I                    & = \frac{1}{2a} \int \frac{1}{u} du - \frac{1}{2a} \int \frac{1}{w} dw            \\
+    I                    & = \frac{1}{2a} \ln(|u|) - \frac{1}{2a} \ln(|w|) + C                              \\
+    I                    & = \frac{1}{2a} \ln(|2ax-2a^2|) - \frac{1}{2a} \ln(|2ax+2a^2|) + C                \\
+    I                    & = \frac{1}{2a} \ln\left(\left|\frac{2ax-2a^2}{2ax+2a^2}\right|\right) + C        \\
+    I                    & = \frac{1}{2a} \ln\left(\left|\frac{x-a}{x+a}\right|\right) + C
+\end{align}
+
+
+We have solved this integral in two different ways. One took a lot of substitutions while the other only required us to decompose the fraction in the integrand, showing the power of integration by partial fractions. Our final answer is:
+
+$$
+    F(x) = \frac{1}{2a} \ln\left(\left|\frac{x-a}{x+a}\right|\right) + C
+$$
 
 \end{document}
