@@ -3,9 +3,8 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
-\usepackage{hyperref}
 \usepackage[style=iso]{datetime2}
-\usepackage{xcolor}
+\usepackage[explicit]{titlesec}
 
 \begin{titlepage}
 \title{Calculus I: Review of Functions}
@@ -16,7 +15,8 @@
 \renewcommand{\thesection}{\Roman{section}}
 
 \counterwithout{subsection}{section}  % have subsections numbered independently of sections
-\renewcommand{\thesubsection}{\arabic{subsection}.}  % have dot after subsection number
+\titleformat{\subsection}{\normalfont\large\bfseries}{}{0em}{#1\ \thesubsection}
+
 
 \allowdisplaybreaks
 
@@ -26,6 +26,7 @@
 \begin{document}
 \maketitle
 
+\section{Introduction}
 Functions are incredibly important in calculus.
 They will appear in nearly every single section of this course and the later calculus courses.
 Therefore, it is important to have a good understanding of what a function is and how to work with them.
@@ -36,6 +37,8 @@ Specifically, it maps exactly one element from the first set to exactly one elem
 For instance, we may have the mapping $X \mapsto Y$ where $X$ and $Y$ are two sets.
 Here, $X$ is the domain of the function and $Y$ is the codomain of the function.
 The one-to-one mapping is important to the definition of the function.
+
+\subsection{Example}
 Here are two equations in terms of $x$ and $y$:
 
 \begin{align}
@@ -68,6 +71,8 @@ If it is already used, then we may use $g$, $h$, or any other letter.
 
 Remember that this does not mean some letter multiplied by $x$.
 The parentheses are just a way to denote that the function is a function of $x$.
+
+\section{Function Evaluation}
 We may see the usefulness of this if we wished to find the value of our function at a specific value of $x$.
 For instance, if we wanted to find the value of $f(x)$ when $x = 2$:
 
@@ -82,7 +87,9 @@ where we were able to replace the $x$ in the parentheses with $2$, as well as al
 We can see how function notation let's us compactly represent functions at some value.
 Let's evaluate another function at some points.
 
-Given that $f(x) = -x^2+6x+11$, find the following:
+
+\subsection{Example}
+Given that $f(x) = -x^2+6x-11$, find the following:
 
 \begin{enumerate}
     \item $f(0)$
@@ -95,40 +102,43 @@ Given that $f(x) = -x^2+6x+11$, find the following:
 The answers are as follows:
 
 \begin{enumerate}
-    \item 11
-    \item 15
-    \item $-t^2+6t+11$
-    \item $-(x-3)^2+6(x-3)+11$ = $-x^2+12x+20$
-    \item $-(4x-1)^2+6(4x-1)+11$ = $-16x^2+32x+17$
+    \item $-(0)^2+6(0)-11 = -11$
+    \item $-(2)^2+6(2)-11 = 3$
+    \item $-(t)^2+6(t)-11 = -t^2+6t-11$
+    \item $-(x-3)^2+6(x-3)-11$ = $-x^2+12x-38$
+    \item $-(4x-1)^2+6(4x-1)+11$ = $-16x^2+32x-18$
 \end{enumerate}
 
+\section{Roots}
 Those were simple enough.
 Quite frequently, we want to find the root of a function.
 For a function $f(x)$, this is the value of $x$ which satisfies the equation $f(x)=0$.
 Functions may have multiple values of $x$ that would satisfy such an equation, so those functions would have multiple roots.
 Let's look at an example:
 
+\subsection{Example}
 Determine all of the roots of $f(t) = 9t^3 - 18t^2 + 6t$
 
 We would solve this by first setting the function equal to 0:
 
-$$
+\begin{equation}
     9t^3 - 18t^2 + 6t = 0
-$$
+\end{equation}
+
 
 We would then want to factor the equation as much as possible.
 Here, we can factor $t$ out of the left hand side:
 
-$$
+\begin{equation}
     t(9t^2 - 18t + 6) = 0
-$$
+\end{equation}
 
 If either $t$ or $9t^2 + 18t + 6$ is equal to $0$, the whole thing will be $0$.
 Thus, we can solve them seperately to get our roots.
 We can obviously get $t=0$ as a root.
 For the quadratic:
 
-\begin{align*}
+\begin{align}
     9t^2 - 18t + 6 & = 0                                                \\
     \nonumber                                                           \\
     t              & = \frac{-b\pm\sqrt{b^2-4ac}}{2a}                   \\
@@ -140,14 +150,17 @@ For the quadratic:
     t              & = \frac{18 \pm \sqrt{108}}{18}                     \\
     t              & = 1 \pm \frac{6\sqrt{3}}{18}                       \\
     t              & = 1 \pm \frac{\sqrt{3}}{3}
-\end{align*}
+\end{align}
 
 The three roots of our equation are $0$, $1 + \frac{\sqrt{3}}{3}$ and $1 - \frac{\sqrt{3}}{3}$.
 That was a rather simple example but we used quite a few important things, such as our factoring skills and the quadratic formula.
 
+\section{Domains \& Ranges}
 Another important thing to note about functions is the domain and range.
 As stated before, the domain is any $x$ value we can put in the function that will give us a real value.
-The range is any $x$ value that the function can take at all.
+The range is any $x$ value that the function will output.
+
+\subsection{Example}
 Let's practice by finding the domains and ranges of the following functions:
 
 \begin{enumerate}
@@ -159,6 +172,227 @@ Let's practice by finding the domains and ranges of the following functions:
 \end{enumerate}
 
 For the first one, we notice that the function can take any real value of $x$ and will correspondingly output a real value.
-Therefore, it has every real number in its domain. Formally, we would write that the domain of $f(x)$ is $(-\inf, \inf)$
+Therefore, it has every real number in its domain. Formally, we would write that the domain of $f(x)$ is $(-\infty , \infty)$.
+We also know that the function may output any number, so its range is $(-\infty , \infty)$ as well.
+
+For the second function, $g(t)$, we know that the principal square root only outputs non-negative numbers.
+Our range for $g(t)$ is thus $[0, \infty)$.
+                The domain is a bit more difficult here.
+                We must only only allow values of $t$ that satisfy the equation $4-7t\geq0$ so that the square root does not take in any negative numbers.
+                We can rearrange this inequality:
+
+                \begin{align}
+                    4-7t        & \geq 0  \\
+                    4           & \geq 7t \\
+                    \frac{4}{7} & \geq t  \\
+                    t \leq \frac{4}{7}
+                \end{align}
+
+                So, $t$ may be any number less than or equal to $\frac{4}{7}$.
+                Our domain is thus $\left(-\infty, \frac{4}{7}\right]$.
+
+The third function $h(x)$ is a quadratic polynomial.
+We know that the domain is $(-\infty, \infty)$.
+It will actually be the range that is more difficult to get.
+We know that the parabola graphed from this quadratic polynomial will curve downwards as the coefficient of the $x^2$ term is negative.
+We thus know that there will be a maximum $y$-value, which will be one of the limits of the range.
+The vertex of the quadratic's parabola is given by $-\frac{b}{2a}$ which equals $3$ in this case.
+Plugging that $x$ value into the original equation gives us a $y$-value of $23$, which is our maximum $y$-value.
+Our range is then $(\infty, 23]$.
+
+For the fourth function $f(z)$, the domain is $(-\infty , \infty)$ which is rather simple.
+Once again, the range will take a bit more work.
+We know that as $z$ becomes arbitrarily large, so will the value of $f(z)$.
+However, the same will happen as $z$ becomes arbitrarily small due to the absolute value signs.
+The smallest the value of the absolute value term is 0 due to its nature, which would be at $z=6$.
+The value of $f(z)$ at that point is -3, so the range is $[-3, \infty)$.
+
+The fifth function $g(x)$ is rather simple.
+It can take in any value of $x$ and will return $8$ no matter what.
+The domain is thus $(-\infty , \infty)$ and the range is $8$.
+
+Generally, finding the range of a function can be quite difficult.
+We have thus far restricted ourselves to rather simple functions while finding the ranges.
+Finding the domains of functions is usually quite simpler.
+Let's look at some functions with more complex domains, ignoring ranges for simplicity.
+
+\subsection{Example}
+Find the domains of the following functions:
+
+\begin{enumerate}
+    \item $f(x) = \displaystyle \frac{{x - 4}}{{{x^2} - 2x - 15}}$
+    \item $g(t) = \sqrt {6 + t - {t^2}}$
+    \item $h(x) = \displaystyle \frac{x}{{\sqrt {{x^2} - 9} }}$
+\end{enumerate}
+
+For $f(x)$, it may be helful to put it in a factored form:
+
+$$
+    f(x) = \frac{x - 4}{(x-5)(x+3)}
+$$
+
+At $x=5$ and $x=-3$, the denominator would be $0$ and we would have a division by $0$ problem.
+The function will accept any other values of $x$ though.
+Therefore, our domain for $f(x)$ is $(-\infty, \infty)$ for any real number $x$ except $-3$ and $5$.
+This may also be written as $\mathbb{R} \setminus \left\{ -3, 5 \right\}$.
+
+
+Let's do the second function $g(x)$.
+We need to have a domain that alway satisfies the inequality $6 + t - t^2 \geq 0$.
+We may solve for $t$ as follows:
+
+\begin{align}
+    6 + t - t^2 & \geq 0 \\
+    t^2 - t - 6 & \leq 0 \\
+    (t-3)(t+2)  & \leq 0
+\end{align}
+
+This means that the quadratic may change sign at $t=3$ and $t=-2$.
+To find out, we will have to test the three regions created by them.
+At $t=-3$, we get $6$, which does not satisfy the modified inequality.
+The value at $t=0$ is $-6$ which does satisfy it.
+Lastly, the value at $t=4$ is $6$ does not satisfy it.
+We can thus see how the interval $[-2, 3]$ satisfies the modified inequality and will also satisfy the original inequality.
+Therefore, our domain is $[-2, 3]$.
+
+For the thrid function $h(x)$, we must make sure that $x^2-9$ is always positive for the function to exist.
+This is to avoid the radicand being negative as well as a division by $0$ situation.
+However, due to the exponent, we may realise that it will be at its lowest value at $x=0$.
+The radicand would thus be positive for any value of $x$ that is greater than $3$ or smaller than $-3$ as either would be squared to get a number greater than $9$.
+The domain is thus $(-\infty, -3)$ \& $(3, \infty)$.
+
+\section{Function Composition}
+
+This is plugging a function inside another. The compsition of the two functions $f(x)$ and $g(x)$ is:
+
+
+\begin{equation}
+    f(x) \circ g(x) = f(g(x))
+\end{equation}
+
+Note that the order matters as composition is not associative.
+Generally, it would be true that some function $g(x)$ inside a function $f(x)$ would be different from $f(x)$ being inside $g(x)$.
+Let's answer some problems with function composition involved.
+
+\subsection{Example}
+Given that $f(x) = 3x^2 - x + 10$ and $g(x) = 1 - 20x$, answer the following:
+
+\begin{enumerate}
+    \item $(f \circ g)(5)$
+    \item $(f \circ g)(x)$
+    \item $(g \circ f)(x)$
+    \item $(g \circ g)(x)$
+    \item $(f \circ f)(x)$
+\end{enumerate}
+
+Let's do the first problem. We can do it with $g(x)$ instead of $g(5)$ and plug in $x=5$ at the end.
+We want to replace $x$ in $f(x)$ with $g(x)$, giving us:
+
+\begin{align}
+    (f \circ g)(x) & = 3(g(x))^2 - (g(x)) + 10           \\
+                   & = 3(1 - 20x)^2 - (1 - 20x) + 10     \\
+                   & = 3 - 120x + 1200x^2 - 1 + 20x + 10 \\
+                   & = 1200x^2 - 100x + 12
+\end{align}
+
+At $x=5$:
+
+\begin{equation}
+    (f \circ g)(5) = 1200(5)^2 - 100(5) + 12 = 29512
+\end{equation}
+
+Note that we could also have evaluated $g(x)$ at $x=5$ and put that as the $x$ value into $f(x)$.
+Either way, we get the same answer.
+For the second problem, we already have our answer:
+
+\begin{equation}
+    (f \circ g)(x) = 1200x^2 - 100x + 12
+\end{equation}
+
+For the third question, we can use the same method used to get the answer to second one.
+
+\begin{align}
+    (g \circ f)(x) & = 1 - 20(f(x))          \\
+                   & = 1 - 20(3x^2 - x + 10) \\
+                   & = 1 - 60x^2 + 20x - 200 \\
+                   & = -60x^2 + 20x - 199
+\end{align}
+
+Then our answer is:
+
+\begin{equation}
+    (g \circ f)(x) = -60x^2 + 20x - 199
+\end{equation}
+
+From that we can see that the order of the composition matters and can change the final result by quite a bit.
+The fourth problem involves putting $g(x)$ inside itself.
+We can do so as follows:
+
+\begin{align}
+    (g \circ g)(x) & = 1 - 20(g(x))    \\
+                   & = 1 - 20(1 - 20x) \\
+                   & = 1 - 20 + 400x   \\
+                   & = 400x - 19
+\end{align}
+
+We know that this composition is:
+
+\begin{equation}
+    (g \circ g)(x) = 400x - 19
+\end{equation}
+
+For the last one, we do the same thing but with $f(x)$ instead.
+
+\begin{align}
+    (f \circ f)(x) & = 3(f(x))^2 - f(x) + 10                                   \\
+                   & = 3(3x^2 - x + 10)^2 - (3x^2 - x + 10) + 10               \\
+                   & = 27x^4 - 18x^3 + 180x^2 - 60x + 300 - 3x^2 + x - 10 + 10 \\
+                   & = 27x^4 - 18x^3 + 180x^2 - 59x + 300
+\end{align}
+
+Our answer is:
+
+\begin{equation}
+    (f \circ f)(x) = 27x^4 - 18x^3 + 180x^2 - 59x + 300
+\end{equation}
+
+Let's do one more problem.
+This will be a special case showing us a certain relation between two functions, which we will cover in a later section.
+
+\subsection{Example}
+Given that $f(x) = 3x - 2$ and $g(x) = \frac{1}{3}x + \frac{2}{3}$, find the following:
+
+\begin{enumerate}
+    \item $(f \circ g)(x)$
+    \item $(g \circ f)(x)$
+\end{enumerate}
+
+The first question is solved as follows:
+
+\begin{align}
+    (f \circ g)(x) & = 3(g(x)) - 2                                  \\
+                   & = 3\left(\frac{1}{3}x + \frac{2}{3}\right) - 2 \\
+                   & = x + 2 - 2                                    \\
+                   & = x
+\end{align}
+
+The second may done as follows:
+
+\begin{align}
+    (g \circ f)(x) & = \frac{1}{3}(f(x)) + \frac{2}{3}   \\
+                   & = \frac{1}{3}(3x - 2) + \frac{2}{3} \\
+                   & = x - \frac{2}{3} + \frac{2}{3}     \\
+                   & = x
+\end{align}
+
+Then, we can see that the following statement holds true:
+
+\begin{equation}
+    (f \circ g)(x) = (g \circ f)(x) = x
+\end{equation}
+
+Note that will not hold true for any two functions, but rather will likely be false.
+When the two compositions are the same and equal to $x$, it shows us that there is a nice relation between the two functions.
+We will look at this relationship in a later section.
 
 \end{document}
