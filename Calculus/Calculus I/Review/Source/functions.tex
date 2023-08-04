@@ -5,6 +5,11 @@
 \usepackage{amsfonts}
 \usepackage[style=iso]{datetime2}
 \usepackage[explicit]{titlesec}
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+
 
 \begin{titlepage}
 \title{Calculus I: Review of Functions}
@@ -15,8 +20,6 @@
 \renewcommand{\thesection}{\Roman{section}}
 
 \counterwithout{subsection}{section}  % have subsections numbered independently of sections
-\titleformat{\subsection}{\normalfont\large\bfseries}{}{0em}{#1\ \thesubsection}
-
 
 \allowdisplaybreaks
 
@@ -38,13 +41,16 @@ For instance, we may have the mapping $X \mapsto Y$ where $X$ and $Y$ are two se
 Here, $X$ is the domain of the function and $Y$ is the codomain of the function.
 The one-to-one mapping is important to the definition of the function.
 
-\subsection{Example}
+\begin{problem}
 Here are two equations in terms of $x$ and $y$:
 
 \begin{align}
     y = x^2 + 1 \\
     y^2 = x + 1 \label{eq:1}
 \end{align}
+
+Evaluate whether the equations are functions.
+\end{problem}
 
 The first equation is a function because for every value of $x$, there is exactly one value of $y$.
 Thus, you would call $y$ a function of $x$.
@@ -88,7 +94,7 @@ We can see how function notation let's us compactly represent functions at some 
 Let's evaluate another function at some points.
 
 
-\subsection{Example}
+\begin{problem}
 Given that $f(x) = -x^2+6x-11$, find the following:
 
 \begin{enumerate}
@@ -98,6 +104,7 @@ Given that $f(x) = -x^2+6x-11$, find the following:
     \item $f(x-3)$
     \item $f(4x-1)$
 \end{enumerate}
+\end{problem}
 
 The answers are as follows:
 
@@ -116,8 +123,9 @@ For a function $f(x)$, this is the value of $x$ which satisfies the equation $f(
 Functions may have multiple values of $x$ that would satisfy such an equation, so those functions would have multiple roots.
 Let's look at an example:
 
-\subsection{Example}
+\begin{problem}
 Determine all of the roots of $f(t) = 9t^3 - 18t^2 + 6t$
+\end{problem}
 
 We would solve this by first setting the function equal to 0:
 
@@ -160,7 +168,7 @@ Another important thing to note about functions is the domain and range.
 As stated before, the domain is any $x$ value we can put in the function that will give us a real value.
 The range is any $x$ value that the function will output.
 
-\subsection{Example}
+\begin{problem}
 Let's practice by finding the domains and ranges of the following functions:
 
 \begin{enumerate}
@@ -170,6 +178,7 @@ Let's practice by finding the domains and ranges of the following functions:
     \item $f(z)$ = $|z-6|-3$
     \item $g(x)$ = $8$
 \end{enumerate}
+\end{problem}
 
 For the first one, we notice that the function can take any real value of $x$ and will correspondingly output a real value.
 Therefore, it has every real number in its domain. Formally, we would write that the domain of $f(x)$ is $(-\infty , \infty)$.
@@ -216,7 +225,7 @@ We have thus far restricted ourselves to rather simple functions while finding t
 Finding the domains of functions is usually quite simpler.
 Let's look at some functions with more complex domains, ignoring ranges for simplicity.
 
-\subsection{Example}
+\begin{problem}
 Find the domains of the following functions:
 
 \begin{enumerate}
@@ -224,6 +233,7 @@ Find the domains of the following functions:
     \item $g(t) = \sqrt {6 + t - {t^2}}$
     \item $h(x) = \displaystyle \frac{x}{{\sqrt {{x^2} - 9} }}$
 \end{enumerate}
+\end{problem}
 
 For $f(x)$, it may be helful to put it in a factored form:
 
@@ -274,7 +284,7 @@ Note that the order matters as composition is not associative.
 Generally, it would be true that some function $g(x)$ inside a function $f(x)$ would be different from $f(x)$ being inside $g(x)$.
 Let's answer some problems with function composition involved.
 
-\subsection{Example}
+\begin{problem}
 Given that $f(x) = 3x^2 - x + 10$ and $g(x) = 1 - 20x$, answer the following:
 
 \begin{enumerate}
@@ -284,6 +294,8 @@ Given that $f(x) = 3x^2 - x + 10$ and $g(x) = 1 - 20x$, answer the following:
     \item $(g \circ g)(x)$
     \item $(f \circ f)(x)$
 \end{enumerate}
+\end{problem}
+
 
 Let's do the first problem. We can do it with $g(x)$ instead of $g(5)$ and plug in $x=5$ at the end.
 We want to replace $x$ in $f(x)$ with $g(x)$, giving us:
@@ -359,13 +371,15 @@ Our answer is:
 Let's do one more problem.
 This will be a special case showing us a certain relation between two functions, which we will cover in a later section.
 
-\subsection{Example}
+\begin{problem}
 Given that $f(x) = 3x - 2$ and $g(x) = \frac{1}{3}x + \frac{2}{3}$, find the following:
 
 \begin{enumerate}
     \item $(f \circ g)(x)$
     \item $(g \circ f)(x)$
 \end{enumerate}
+\end{problem}
+
 
 The first question is solved as follows:
 

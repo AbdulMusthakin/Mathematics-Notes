@@ -12,7 +12,6 @@ Review -> Limits -> Derivatives -> Applications of Derivatives -> Integrals -> A
 -   [Inverse Functions](/Calculus/Calculus%20I/Review/inverse_functions.pdf)
 -   [Trigonometric Functions](/Calculus/Calculus%20I/Review/trigonometric_functions.pdf)
 -   [Solving Trigonometric Equations](/Calculus/Calculus%20I/Review/solving_trigonometric_equations.pdf)
--   [Solving Trigonometric Equations with Calculators](#solving-trigonometric-equations-with-calculators)
 -   [Exponential Functions](#exponential-functions)
 -   [Logarithmic Functions](#logarithmic-functions)
 -   [Solving Exponential and Logarithmic Equations](#solving-exponential-and-logarithmic-equations)

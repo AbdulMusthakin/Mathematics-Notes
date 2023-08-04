@@ -5,6 +5,11 @@
 \usepackage{amsfonts}
 \usepackage[style=iso]{datetime2}
 \usepackage{graphicx}
+\usepackage[explicit]{titlesec}
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
 
 \graphicspath{ {./Images/} }
 
@@ -23,5 +28,230 @@
 
 \begin{document}
 \maketitle
+
+Let's solve the following trig equation:
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    {2\cos(t) = \sqrt{3}} \label{eq:1}
+\end{equation*}
+\end{problem}
+
+We can solve this by first dividing both sides by $2$:
+
+\begin{equation}
+    \cos(t) = \frac{\sqrt{3}}{2}
+\end{equation}
+
+We have to think of some angle $t$ which the cosine of gives us $\frac{\sqrt{3}}{2}$.
+We can use the first quadrant of the unit circle to get the angle $\frac{\pi}{6}$.
+The symmetrical nature of the unit circle gives us the angle $\frac{11\pi}{6}$ as another solution.
+Note that due to the periodic nature of the cosine function, there will be an infinite amount of solutions to our equation, spaced evenly by the period of the function ($2\pi$).
+Our solution to Equation~\eqref{eq:1} is:
+
+\begin{equation}
+    t = \frac{\pi}{6} + 2\pi k , \frac{11\pi}{6} + 2\pi k, k \in \mathbb{Z}
+\end{equation}
+
+where $\mathbb{Z}$ is the set of integers.
+
+Now, most trig equations that will be solved in a calculus course will be slightly different from this.
+We would usually work in intervals of the angle, and find solutions in that interval.
+For instance, we may solve the following trig equation:
+
+
+\begin{problem}
+Solve on $\displaystyle [-2\pi, 2\pi]$:
+\begin{equation*}
+    {2\cos(t) = \sqrt{3}} \label{eq:2}
+\end{equation*}
+\end{problem}
+
+We already have the general solution for this equation.
+To solve on the interval, we just have to plug in values of $k$ into the solution for values that fall in the interval.
+With $k=0$, we get $t=\frac{\pi}{6}$ and $t=\frac{11\pi}{6}$.
+If we were to add $2\pi$ ($k=1$) to either of those the value of $t$ would be outside of the interval, so we should now look at values of $k$ smaller than $0$.
+With $k=-1$, we would get $t=-\frac{11\pi}{6}$ and $t=-\frac{\pi}{6}$.
+Once again, we cannot use a smaller value of $k$ as we would go outside of our interval.
+Then, the solution $S$ set for Equation~\eqref{eq:2} may be expressed as follows:
+
+\begin{equation}
+    S = \left\{ \frac{\pi}{6}, \frac{11\pi}{6}, -\frac{\pi}{6}, -\frac{11\pi}{6} \right\}
+\end{equation}
+
+We may apply our skills on another trig equation.
+
+\begin{problem}
+Solve on $\displaystyle [-\pi, 2\pi]$:
+\begin{equation*}
+    2\sin(5x) = -\sqrt{3} \label{eq:3}
+\end{equation*}
+\end{problem}
+
+We will solve as follows:
+
+\begin{align}
+    2\sin(5x) & = -\sqrt{3}                          \\
+    \sin(5x)  & = -\frac{\sqrt{3}}{2}                \\
+    \nonumber                                        \\
+    5x        & = \frac{4\pi}{3} + 2\pi k            \\
+              & \&                                   \\
+    5x        & = \frac{5\pi}{3} + 2\pi k            \\
+    \nonumber                                        \\
+    x         & = \frac{4\pi}{15} + \frac{2\pi k}{5} \\
+              & \&                                   \\
+    x         & = \frac{\pi}{3} + \frac{2\pi k}{5}   \\
+    \nonumber                                        \\
+    k         & \in \mathbb{Z}
+\end{align}
+
+Now we will plug in values of $k$ to get all of our solutions in the given interval.
+
+At $k=0$:
+\begin{align}
+    x & =\frac{4\pi}{15} + \frac{2(0)\pi}{5} = \frac{4\pi}{15} < 2\pi \\
+      & \&                                                            \\
+    x & =\frac{\pi}{3} + \frac{2(0)\pi}{5} = \frac{\pi}{3} < 2\pi
+\end{align}
+
+At $k=1$:
+\begin{align}
+    x & =\frac{4\pi}{15} + \frac{2(1)\pi}{5} = \frac{2\pi}{3} < 2\pi \\
+      & \&                                                           \\
+    x & =\frac{\pi}{3} + \frac{2(1)\pi}{5} = \frac{11\pi}{15} < 2\pi
+\end{align}
+
+At $k=2$:
+\begin{align}
+    x & =\frac{4\pi}{15} + \frac{2(2)\pi}{5} = \frac{16\pi}{15} < 2\pi \\
+      & \&                                                             \\
+    x & =\frac{\pi}{3} + \frac{2(2)\pi}{5} = \frac{17\pi}{15} < 2\pi
+\end{align}
+
+At $k=3$:
+\begin{align}
+    x & =\frac{4\pi}{15} + \frac{2(3)\pi}{5} = \frac{22\pi}{15} < 2\pi \\
+      & \&                                                             \\
+    x & =\frac{\pi}{3} + \frac{2(3)\pi}{5} = \frac{23\pi}{15} < 2\pi
+\end{align}
+
+At $k=4$:
+\begin{align}
+    x & =\frac{4\pi}{15} + \frac{2(4)\pi}{5} = \frac{28\pi}{15} < 2\pi \\
+      & \&                                                             \\
+    x & =\frac{\pi}{3} + \frac{2(4)\pi}{5} = \frac{29\pi}{15} < 2\pi
+\end{align}
+
+At $k=5$:
+\begin{align}
+    x & =\frac{4\pi}{15} + \frac{2(5)\pi}{5} = \frac{34\pi}{15} > 2\pi \\
+      & \&                                                             \\
+    x & =\frac{\pi}{3} + \frac{2(5)\pi}{5} = \frac{7\pi}{3} > 2\pi
+\end{align}
+
+So far, we have found $10$ solutions for the equation.
+Now let's look at negative values for $k$.
+
+At $k=-1$:
+\begin{align}
+    x & =\frac{4\pi}{15} + \frac{2(-1)\pi}{5} = -\frac{2\pi}{15} > -\pi \\
+      & \&                                                              \\
+    x & =\frac{\pi}{3} + \frac{2(-1)\pi}{5} = -\frac{\pi}{15} > -\pi
+\end{align}
+
+At $k=-2$:
+\begin{align}
+    x & =\frac{4\pi}{15} + \frac{2(-2)\pi}{5} = -\frac{8\pi}{15} > -\pi \\
+      & \&                                                              \\
+    x & =\frac{\pi}{3} + \frac{2(-2)\pi}{5} = -\frac{7\pi}{15} > -\pi
+\end{align}
+
+At $k=-3$:
+\begin{align}
+    x & =\frac{4\pi}{15} + \frac{2(-3)\pi}{5} = -\frac{14\pi}{15} > -\pi \\
+      & \&                                                               \\
+    x & =\frac{\pi}{3} + \frac{2(-3)\pi}{5} = -\frac{13\pi}{15} > -\pi
+\end{align}
+
+At $k=-4$:
+\begin{align}
+    x & =\frac{4\pi}{15} + \frac{2(-4)\pi}{5} = -\frac{4\pi}{3} < -\pi \\
+      & \&                                                             \\
+    x & =\frac{\pi}{3} + \frac{2(-4)\pi}{5} = -\frac{19\pi}{15} < -\pi
+\end{align}
+
+Then, we have $16$ solutions in total for Equation~\eqref{eq:3}.
+The solution set $S$ to Equation~\eqref{eq:3} is thus:
+
+\begin{equation}
+    \begin{aligned}
+        S & = \left\{ \frac{4\pi}{15}, \frac{\pi}{3}, \frac{2\pi}{3}, \frac{11\pi}{15}, \frac{16\pi}{15}, \frac{17\pi}{15}, \frac{22\pi}{15}, \frac{23\pi}{15}, \frac{28\pi}{15}, \frac{29\pi}{15}, \right. \\
+          & \qquad \left. -\frac{\pi}{15}, -\frac{2\pi}{15}, -\frac{7\pi}{15}, -\frac{8\pi}{15}, -\frac{13\pi}{15}, -\frac{14\pi}{15} \right\}
+    \end{aligned}
+\end{equation}
+
+Let's do another equation that is a bit more complex.
+
+\begin{problem}
+Solve on $\displaystyle \left[-\frac{3\pi}{2}, \frac{3\pi}{2}\right]$:
+\begin{equation*}
+    \sin(2x) = -\cos(2x) \label{eq:4}
+\end{equation*}
+\end{problem}
+
+We can rewrite this equation as follows:
+
+\begin{align}
+    -\frac{\sin(2x)}{\cos(2x)} & = 1  \\
+    -\tan(2x)                  & = 1  \\
+    \tan(2x)                   & = -1
+\end{align}
+
+Now we have an equation in terms of tangent.
+Looking at the unit circle, we want the angle where the sine and cosine differ by a negative sign.
+There are two angles opposite to each other that satisfy this.
+Those are the angles $\frac{3\pi}{4}$ and $\frac{7\pi}{4}$.
+Note that the second is just the first angle summed with $\pi$.
+Then, we can see that this repeats every $\pi$ so our general solution is:
+
+\begin{align}
+    2x & = \frac{3\pi}{4} + \pi k           \\
+    x  & = \frac{3\pi}{8} + \frac{\pi k}{2} \\
+    k  & \in \mathbb{Z}
+\end{align}
+
+We can see that $x$ at $k=1$ and $k=2$ is $\frac{7\pi}{8}$ and $\frac{11\pi}{8}$ respectively.
+Any values of $k$ above that will be outside our interval.
+$k=0$ will give us $\frac{3\pi}{8}$.
+$k=-1$, $k=2$ and $k=3$ give $-\frac{\pi}{8}$, $-\frac{5\pi}{8}$ and $-\frac{9\pi}{8}$.
+That is the last value of $k$ before we go outside our interval, so we can write our solution set $S$ for Equation~\eqref{eq:4} as:
+
+\begin{equation}
+    S = \left\{ \frac{3\pi}{8}, \frac{7\pi}{8}, \frac{11\pi}{8}, -\frac{\pi}{8}, -\frac{5\pi}{8}, -\frac{9\pi}{8} \right\}
+\end{equation}
+
+The method in which Equation~\eqref{eq:4} was solve is the 'standard' method.
+We could have had two sets of solutions and have added $2\pi k$ to both.
+This would be more familiar with the method of solving equations in terms of sine and cosines, and would have gotten us the same solutions in the given interval.
+For the tangent function, the way we did it is standard and better represents the nature of the function by having one solution that repeats every $\pi$.
+Let's do one more problem to show something important about trig equations.
+
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    \cos(3x) = 2 \label{eq:5}
+\end{equation*}
+\end{problem}
+
+This equation has no solutions.
+This is because the sine and cosine functions do not return values greater than $1$ or less than $-1$.
+Therefore, there is no angle that would satisfy the above equation.
+This shows that not all trig equations will have solutions.
+
+We have simple trig equations.
+There are more complicated trig equations that can be solved, which do not have solutions that are the common angles found on the unit circle.
+These equations require a calculator and will below
 
 \end{document}
