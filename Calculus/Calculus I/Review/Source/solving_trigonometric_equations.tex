@@ -29,6 +29,23 @@
 \begin{document}
 \maketitle
 
+\section{Introduction}
+Trigonometric equations are equations which involve trig functions.
+You should be aware of the methods to solve simple algebraic equations such as linear and quadratic equations.
+You should also be aware of the definitions of the trig functions, the sine and cosine functions in particular.
+Specifically, you should know how the functions are defined with the unit circle, discussed in an earlier section.
+With the sine and cosine functions, we can work out any other trig function via some algebraic manipulation.
+This is important to solve trig equations and get all of their answers.
+
+Remembering the unit circle is rather simple as only the first quadrant has to be memorised.
+The values in the other three quadrants can be worked out with a little bit of geometry.
+Polynomial equations such as quadratics may have multiple solutions.
+Likewise, trig functions have a set of solutions due to the periodic nature of the trig functions.
+The solutions would be evenly spaced and gotten by adding some term gotten from the period of the function used when solving the equation.
+One may also be asked to find the solutions to a trig equation in some interval, where there will only be a limited number of solutions.
+We may express some finite amount of solutions in some interval with some solution set, which we will define as $S$.
+
+\section{Simple Equations}
 Let's solve the following trig equation:
 
 \begin{problem}
@@ -48,11 +65,14 @@ We have to think of some angle $t$ which the cosine of gives us $\frac{\sqrt{3}}
 We can use the first quadrant of the unit circle to get the angle $\frac{\pi}{6}$.
 The symmetrical nature of the unit circle gives us the angle $\frac{11\pi}{6}$ as another solution.
 Note that due to the periodic nature of the cosine function, there will be an infinite amount of solutions to our equation, spaced evenly by the period of the function ($2\pi$).
-Our solution to Equation~\eqref{eq:1} is:
+Our solution to Problem~\eqref{eq:1} is:
 
-\begin{equation}
-    t = \frac{\pi}{6} + 2\pi k , \frac{11\pi}{6} + 2\pi k, k \in \mathbb{Z}
-\end{equation}
+\begin{align}
+    t & = \frac{\pi}{6} + 2\pi k   \\
+      & \&                         \\
+    t & = \frac{11\pi}{6} + 2\pi k \\
+    k & \in \mathbb{Z}
+\end{align}
 
 where $\mathbb{Z}$ is the set of integers.
 
@@ -74,7 +94,7 @@ With $k=0$, we get $t=\frac{\pi}{6}$ and $t=\frac{11\pi}{6}$.
 If we were to add $2\pi$ ($k=1$) to either of those the value of $t$ would be outside of the interval, so we should now look at values of $k$ smaller than $0$.
 With $k=-1$, we would get $t=-\frac{11\pi}{6}$ and $t=-\frac{\pi}{6}$.
 Once again, we cannot use a smaller value of $k$ as we would go outside of our interval.
-Then, the solution $S$ set for Equation~\eqref{eq:2} may be expressed as follows:
+Then, the solution $S$ set for Problem~\eqref{eq:2} may be expressed as follows:
 
 \begin{equation}
     S = \left\{ \frac{\pi}{6}, \frac{11\pi}{6}, -\frac{\pi}{6}, -\frac{11\pi}{6} \right\}
@@ -181,8 +201,8 @@ At $k=-4$:
     x & =\frac{\pi}{3} + \frac{2(-4)\pi}{5} = -\frac{19\pi}{15} < -\pi
 \end{align}
 
-Then, we have $16$ solutions in total for Equation~\eqref{eq:3}.
-The solution set $S$ to Equation~\eqref{eq:3} is thus:
+Then, we have $16$ solutions in total for Problem~\eqref{eq:3}.
+The solution set $S$ to Problem~\eqref{eq:3} is thus:
 
 \begin{equation}
     \begin{aligned}
@@ -225,13 +245,13 @@ We can see that $x$ at $k=1$ and $k=2$ is $\frac{7\pi}{8}$ and $\frac{11\pi}{8}$
 Any values of $k$ above that will be outside our interval.
 $k=0$ will give us $\frac{3\pi}{8}$.
 $k=-1$, $k=2$ and $k=3$ give $-\frac{\pi}{8}$, $-\frac{5\pi}{8}$ and $-\frac{9\pi}{8}$.
-That is the last value of $k$ before we go outside our interval, so we can write our solution set $S$ for Equation~\eqref{eq:4} as:
+That is the last value of $k$ before we go outside our interval, so we can write our solution set $S$ for Problem~\eqref{eq:4} as:
 
 \begin{equation}
     S = \left\{ \frac{3\pi}{8}, \frac{7\pi}{8}, \frac{11\pi}{8}, -\frac{\pi}{8}, -\frac{5\pi}{8}, -\frac{9\pi}{8} \right\}
 \end{equation}
 
-The method in which Equation~\eqref{eq:4} was solve is the 'standard' method.
+The method in which Problem~\eqref{eq:4} was solved is the 'standard' method.
 We could have had two sets of solutions and have added $2\pi k$ to both.
 This would be more familiar with the method of solving equations in terms of sine and cosines, and would have gotten us the same solutions in the given interval.
 For the tangent function, the way we did it is standard and better represents the nature of the function by having one solution that repeats every $\pi$.
@@ -250,8 +270,495 @@ This is because the sine and cosine functions do not return values greater than 
 Therefore, there is no angle that would satisfy the above equation.
 This shows that not all trig equations will have solutions.
 
-We have simple trig equations.
+We have solved simple trig equations so far, whose solutions lie on the unit circle.
 There are more complicated trig equations that can be solved, which do not have solutions that are the common angles found on the unit circle.
-These equations require a calculator and will below
+These equations require a calculator and will be solved below.
+
+\section{Complex Equations (with calculator)}
+
+The equations in this section will require a calculator.
+As we will work with radians, it is important to have your calculator in radian mode to get the correct answers.
+We will utilise the inverse trigonometric functions.
+These are inverse functions like the ones discussed in an earlier review section.
+If a trig function takes in an angle and returns a ratio between two sides of a triangle, the inverse of that trig function will take the ratio and return the original angle.
+
+There are two different notations commonly used.
+For instance, the inverse of $\sin(x)$ may be writen as $\sin^{-1}(x)$ or $\arcsin(x)$.
+I will be using the latter to avoid confusion between inverse trig functions and the reciprocal trig functions.
+Say we put the number $\frac{3}{4}$ as the argument to $\arccos(x)$, we would get the angle which if put in to the cosine function, would give us $\frac{3}{4}$.
+Then, using the inverse trig functions on a calculator is similar to getting it to solve a simple trig equation.
+Hence, the equation $\cos(x) = \frac{3}{4}$ gives:
+
+\begin{equation}
+    x = \arccos\left(\frac{3}{4}\right) = 0.7227 \quad 4~\text{d.p.}
+\end{equation}
+
+However, we know that there are an infinite number of solutions to this that are periodic in nature.
+We also know that there is a second angle that will be found in the interval $[0, 2\pi]$, as seen when solving the trig equations without a calculator.
+It is important to note that a calculator will only give one of the infinite answers, and the answer it will give for some number provided is the same every time.
+This means that we will still have to do some work to properly solve trig equations, even with a calculator.
+
+To know why the calculator provides a specific solution to trig equations, you have to be aware of the ranges of the ranges of the inverse trig functions.
+These are as follows:
+
+\begin{equation}
+    -\frac{\pi}{2} \leq \arcsin(x) \leq \frac{\pi}{2} \qquad 0 \leq \arccos(x) \leq \pi \qquad -\frac{\pi}{2} < \arctan(x) < \frac{\pi}{2}
+\end{equation}
+
+Notice that these are the periods for the regular trig functions.
+Looking at the unit circle, we can notice how all the possible values of the cosine function (representing the horizontal axis) can be found in the upper half of the circle.
+This is the range of the inverse cosine function.
+Likewise, all the values of the sine function (representing the vertical axis) may be found in the right half of the unit circle.
+For the tangent function, we can see its graph and notice the range of its inverse function is the branch which intersects the origin.
+The range does not include the endpoints as the tangent function does not exist there.
+
+We can use the above ranges as well as the unit circle to find the other angles in the interval $[0, 2\pi]$ required to get a general solution.
+Something else that may be considered important are the decimal approximations of some the important angles.
+To $4$ decimal places, these are:
+
+\begin{equation}
+    \frac{\pi}{2} = 1.5708 \qquad \pi = 3.1416 \qquad \frac{3\pi}{2} = 4.7124 \qquad 2\pi = 6.2832
+\end{equation}
+
+We can then see that the angle given by $\cos(x) = \frac{3}{4}$ is in the first quadrant of the unit circle.
+This fact is important to find the other solutions to our equation.
+Let's do a problem in which we will use a calculator to solve a trig equation.
+
+\begin{problem}
+Solve on $[-8, 10]$:
+\begin{equation*}
+    4\cos(t) = 3 \label{eq:6}
+\end{equation*}
+\end{problem}
+
+We can isolate the trig function and get:
+
+\begin{equation}
+    \cos(t) = \frac{3}{4}
+\end{equation}
+
+We will have to use the inverse cosine function in this case to get one of our solutions.
+$\arccos\left(\frac{3}{4}\right)$ gives us $0.7227$.
+This is in the first quadrant of the unit circle, the top right.
+As the cosine represents the $x$ values on the unit circle, we may see that there will be the same $x$ value in the fourth quadrant given by the angle $0.7227$.
+A line from the origin which intersects the unit circle at a point with an $x$ value of $\frac{3}{4}$ will make an angle of $0.7227$ with the horizontal.
+Then, a line mirrored horizontally that also has a point with $x$ value $\frac{3}{4}$ on the unit circle will have the angle $-0.7227$ or $2\pi-0.7227$ which is $5.5605$.
+We will use the latter angle to get our general solution as it is in the same period as our initial angle.
+We know that our second angle in the interval $[0, 2\pi]$ is $5.5605$.
+
+Our general solution to this trig equation is:
+
+\begin{align}
+    t & = 0.7227 + 2\pi k \\
+      & \&                \\
+    t & = 5.5605 + 2\pi k \\
+    k & \in \mathbb{Z}
+\end{align}
+
+We can know plug in values of $k$ to get all our solutions in the interval $[-8, 10]$.
+
+At $k=0$:
+\begin{align}
+    t & = 0.7227 + 2(0)\pi = 0.7227 < 10 \\
+      & \&                               \\
+    t & = 5.5605 + 2(0)\pi = 5.5605 < 10
+\end{align}
+
+At $k=1$:
+\begin{align}
+    t & = 0.7227 + 2(1)\pi = 7.0059 < 10  \\
+      & \&                                \\
+    t & = 5.5605 + 2(1)\pi = 11.8437 > 10
+\end{align}
+
+At $k=-1$:
+\begin{align}
+    t & = 0.7227 + 2(-1)\pi = -5.5605 > -8 \\
+      & \&                                 \\
+    t & = 5.5605 + 2(-1)\pi = -0.7227 > -8
+\end{align}
+
+At $k=-2$:
+\begin{align}
+    t & = 0.7227 + 2(-2)\pi = -11.8437 < -8 \\
+      & \&                                  \\
+    t & = 5.5605 + 2(-2)\pi = -7.0059 > -8
+\end{align}
+
+Then, our solution set $S$ for Problem~\eqref{eq:6} is:
+
+\begin{equation}
+    S = \left\{ 0.7227, 5.5605, 7.0059, -0.7227, -5.5605, -7.0059 \right\}
+\end{equation}
+
+If we were to use $-0.7227$ to get a general set of solutions, it would work and we would arrive at the same solution set $S$ in the end.
+Let's do another example with a cosine equation.
+
+\begin{problem}
+Solve on $[-2, 5]$:
+\begin{equation*}
+    -10\cos(3t) = 7 \label{eq:7}
+\end{equation*}
+\end{problem}
+
+We may rearrange to get the cosine function on its own.
+
+\begin{equation}
+    \cos(3t) = -\frac{7}{10}
+\end{equation}
+
+It would then follow that:
+
+\begin{align}
+    3t & = \arccos\left(-\frac{7}{10}\right) \\
+    3t & = 2.3462
+\end{align}
+
+This is in the second quadrant, so the other angle will be in the third quadrant.
+Since $\pi - 2.3462 = 0.7954$, the second angle is $\pi + 0.7954$ which is $3.9370$.
+We can then get our general solutions.
+
+\begin{align}
+    3t & = 2.3462 + 2\pi k           \\
+       & \&                          \\
+    3t & = 3.9370 + 2\pi k           \\
+    \nonumber                        \\
+    t  & = 0.7821 + \frac{2\pi k}{3} \\
+       & \&                          \\
+    t  & = 1.3123 + \frac{2\pi k}{3} \\
+    \nonumber                        \\
+    k  & \in \mathbb{Z}
+\end{align}
+
+Now we will plug in values of $k$ into the solutions.
+
+At $k=0$:
+\begin{align}
+    t & = 0.7821 + \frac{2(0)\pi}{3} = 0.7821 < 5 \\
+      & \&                                        \\
+    t & = 1.3123 + \frac{2(0)\pi}{3} = 1.3123 < 5
+\end{align}
+
+At $k=1$:
+\begin{align}
+    t & = 0.7821 + \frac{2(1)\pi}{3} = 2.8765 < 5 \\
+      & \&                                        \\
+    t & = 1.3123 + \frac{2(1)\pi}{3} = 3.4067 < 5
+\end{align}
+
+At $k=2$:
+\begin{align}
+    t & = 0.7821 + \frac{2(2)\pi}{3} = 4.9709 < 5 \\
+      & \&                                        \\
+    t & = 1.3123 + \frac{2(2)\pi}{3} = 5.5011 > 5
+\end{align}
+
+At $k=-1$:
+\begin{align}
+    t & = 0.7821 + \frac{2(-1)\pi}{3} = -1.3123 > -2 \\
+      & \&                                           \\
+    t & = 1.3123 + \frac{2(-1)\pi}{3} = -0.7821 > -2
+\end{align}
+
+At $k=-2$:
+\begin{align}
+    t & = 0.7821 + \frac{2(-1)\pi}{3} = -3.4067 < -2 \\
+      & \&                                           \\
+    t & = 1.3123 + \frac{2(-1)\pi}{3} = -2.8765 < -2
+\end{align}
+
+The solution set $S$ for Problem~\eqref{eq:7} is:
+
+\begin{equation}
+    S = \left\{ 0.7821, 1.3123, 2.8765, 3.4067, 4.9709, -0.7821, -1.3123 \right\}
+\end{equation}
+
+Let's solve a problem with sines now.
+
+\begin{problem}
+Solve on $[-20, 30]$:
+\begin{equation*}
+    6\sin\left(\frac{x}{2}\right) = 1 \label{eq:8}
+\end{equation*}
+\end{problem}
+
+We will rearrange and solve as follows:
+
+\begin{align}
+    \sin\left(\frac{x}{2}\right) & = \frac{1}{6}                     \\
+    \nonumber                                                        \\
+    \frac{x}{2}                  & = \arcsin\left(\frac{1}{6}\right) \\
+    \frac{x}{2}                  & = 0.1674
+\end{align}
+
+With sine, we look at the quadrant to the left or right of the quadrant of the angle the inverse sine gives us.
+This is the opposite of what we do with cosine.
+Our angle is in the first quadrant so the other angle will be in the second quadrant.
+A line passing through the origin which intersects the unit circle at a point with a $y$ value of $\frac{1}{6}$ will make an angle of $0.1674$ with the horizontal.
+The line vertically mirrored obviously has a line of symmetry with the original line as the vertical axis.
+The angle of the top part of the vertical seperating the first and second quadrants is $\frac{\pi}{2}$, which is an angle of symmetry of our angle and the angle we wish to find.
+Thus, as $\frac{\pi}{2}-0.1674=1.4034$, the other angle is $\pi+1.4034$ which is $2.9742$.
+
+We could have also done it by rotating by $\pi$ counter-clockwise from the positive $x$-axis and then rotating by $0.1674$ clockwise and using the total rotation to get the same angle.
+This would work as our other angle is $0.1674$ with the negative $x$-axis, the same as the original angle with the positive $x$-axis.
+
+We can solve the rest as follows:
+
+\begin{align}
+    \frac{x}{2} & = 0.1674 + 2\pi k \\
+                & \&                \\
+    \frac{x}{2} & = 2.9742 + 2\pi k \\
+    \nonumber                       \\
+    x           & = 0.3348 + 4\pi k \\
+                & \&                \\
+    x           & = 5.9484 + 4\pi k \\
+    \nonumber                       \\
+    k           & \in \mathbb{Z}
+\end{align}
+
+At $k=0$:
+\begin{align}
+    x & = 0.3348 + 4(0)\pi = 0.3348 < 30 \\
+      & \&                               \\
+    x & = 5.9484 + 4(0)\pi = 5.9484 < 30
+\end{align}
+
+At $k=1$
+\begin{align}
+    x & = 0.3348 + 4(1)\pi = 12.9012 < 30 \\
+      & \&                                \\
+    x & = 5.9484 + 4(1)\pi = 18.5148 < 30
+\end{align}
+
+At $k=2$
+\begin{align}
+    x & = 0.3348 + 4(2)\pi = 25.4675 < 30 \\
+      & \&                                \\
+    x & = 5.9484 + 4(2)\pi = 31.0811 > 30
+\end{align}
+
+At $k=-1$:
+\begin{align}
+    x & = 0.3348 + 4(-1)\pi = -12.2316 > -20 \\
+      & \&                                   \\
+    x & = 5.9484 + 4(-1)\pi = -6.6180 > -20
+\end{align}
+
+At $k=-2$:
+\begin{align}
+    x & = 0.3348 + 4(-2)\pi = -24.7979 < -20 \\
+      & \&                                   \\
+    x & = 5.9484 + 4(-2)\pi = -19.1843 > -20
+\end{align}
+
+Our solution set $S$ for Problem~\eqref{eq:8} is:
+
+\begin{equation}
+    \begin{aligned}
+        S & = \left\{ 0.3348, 5.9484, 12.9012, 18.5148, 25.4675, \right. \\
+          & \qquad \left. -6.6180, -12.2316, -19.1843 \right\}
+    \end{aligned}
+\end{equation}
+
+\begin{problem}
+Solve on $[0, 1]$:
+\begin{equation*}
+    3\sin(5z) = -2 \label{eq:9}
+\end{equation*}
+\end{problem}
+
+We will solve as follows:
+
+\begin{align}
+    \sin(5z) & = -\frac{2}{3}                    \\
+    \nonumber                                    \\
+    5z       & = \arcsin\left(-frac{2}{3}\right) \\
+    5z       & = -0.7297
+\end{align}
+
+Our angle is not on the unit circle, but adding $2\pi$ (as the sine function has a period of $2\pi$ and the value given by the sine of the angle would be kept the same) would give us $5.5535$ which is in the fourth quadrant.
+Let's use $5.5535$ instead of $-0.7297$ and find the other angle on the unit circle, which would be in the third quadrant.
+As $\frac{3\pi}{2}-5.5535=-0.8411$, our other angle is $\frac{3\pi}{2}-0.8411$ which is $3.8713$.
+Our general solution is then:
+
+\begin{align}
+    5z & = 5.5535 + 2\pi k           \\
+       & \&                          \\
+    5z & = 3.8713 + 2\pi k           \\
+    \nonumber                        \\
+    z  & = 1.1107 + \frac{2\pi k}{5} \\
+       & \&                          \\
+    z  & = 0.7743 + \frac{2\pi k}{5} \\
+    \nonumber                        \\
+    k  & \in \mathbb{Z}
+\end{align}
+
+At $k=0$:
+\begin{align}
+    z & = 1.1107 + \frac{2(0)\pi}{5} = 1.1107 > 1 \\
+      & \&                                        \\
+    z & = 0.7743 + \frac{2(0)\pi}{5} = 0.7743 < 1 \\
+\end{align}
+
+At $k=-1$:
+\begin{align}
+    z & = 1.1107 + \frac{2(-1)\pi}{5} = -0.1459 < 0 \\
+      & \&                                          \\
+    z & = 0.7743 + \frac{2(-1)\pi}{5} = -0.4823 < 0 \\
+\end{align}
+
+Note that we only have only solution to our equation which falls in the given interval.
+Also, the angle that the inverse trig function gave us did not fall in the interval.
+This shows that work has to be done after plugging in the values into a calculator to get the right answer.
+Our single element solution set $S$ for Problem~\eqref{eq:9} is thus:
+
+\begin{equation}
+    S = \left\{ 0.7743 \right\}
+\end{equation}
+
+Now, let's solve a trig equation that will require us to use functions other than sine and cosine.
+
+\begin{problem}
+Solve on $[-10, 0]$:
+\begin{equation*}
+    9\sin(2x) = -5\cos(2x) \label{eq:10}
+\end{equation*}
+\end{problem}
+
+We can rearrange this equation to put all our trig terms on one side and solve as follows:
+
+\begin{align}
+    -\frac{9\sin(2x)}{5\cos(2x)} & = 1                                \\
+    -\frac{9\tan(2x)}{5}         & = 1                                \\
+    \tan(2x)                     & = -\frac{5}{9}                     \\
+    \nonumber                                                         \\
+    2x                           & = \arctan\left(-\frac{5}{9}\right) \\
+    2x                           & = -0.5071
+\end{align}
+
+This angle is outside of the unit circle but we can add $\pi$ (the period of the tangent function) and get $2.6345$.
+We don't have to do this as our $k$ term will make using either angle in our general solution equivalent.
+However, having our solutions in terms of angles in the unit circle is nice.
+Our general solution is then:
+
+\begin{align}
+    2x & = 2.6345 + \pi k           \\
+    x  & = 1.3173 + \frac{\pi k}{2} \\
+    k  & \in \mathbb{Z}
+\end{align}
+
+At $k=0$:
+\begin{equation}
+    x = 1.3173 + \frac{(0)\pi}{2} = 1.3173 > 0
+\end{equation}
+
+Our value of $x$ at $k=0$ is already outside the interval so we will look at smaller values of $k$.
+
+At $k=-1$:
+\begin{equation}
+    x = 1.3173 + \frac{(-1)\pi}{2} = -0.2535 > -10
+\end{equation}
+
+At $k=-2$:
+\begin{equation}
+    x = 1.3173 + \frac{(-2)\pi}{2} = -1.8243 > -10
+\end{equation}
+
+At $k=-3$:
+\begin{equation}
+    x = 1.3173 + \frac{(-3)\pi}{2} = -3.3951 > -10
+\end{equation}
+
+At $k=-4$:
+\begin{equation}
+    x = 1.3173 + \frac{(-4)\pi}{2} = -4.9659 > -10
+\end{equation}
+
+At $k=-5$:
+\begin{equation}
+    x = 1.3173 + \frac{(-5)\pi}{2} = -6.5367 > -10
+\end{equation}
+
+At $k=-6$:
+\begin{equation}
+    x = 1.3173 + \frac{(-6)\pi}{2} = -8.1075 > -10
+\end{equation}
+
+At $k=-7$:
+\begin{equation}
+    x = 1.3173 + \frac{(-7)\pi}{2} = -9.6783 > -10
+\end{equation}
+
+At $k=-8$:
+\begin{equation}
+    x = 1.3173 + \frac{(-8)\pi}{2} = -11.2491 < -10
+\end{equation}
+
+We solved this trig equation the standard way for the tangent function.
+We could have found both angles in the unit circle and made two general solutions.
+However, there's no point as the period of tangent is only $\pi$ so one angle in the unit circle was all we needed.
+We would get all the above solutions in the interval if we were to use that method though, which is more similar to what we do for sine and cosine equations.
+Our solution set $S$ for Problem~\eqref{eq:10} is:
+
+\begin{equation}
+    \begin{aligned}
+        S & = \left\{-0.2535, -1.8243, -3.3951, -4.9659, \right. \\
+          & \qquad \left. -6.5367, -8.1075, -9.6783 \right\}
+    \end{aligned}
+\end{equation}
+
+Let's do one problem that does not require a calculator but is important and may be a bit challenging if you haven't come across it.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    \cos(4\theta) = -1 \label{eq:11}
+\end{equation*}
+\end{problem}
+
+We know that the angle $\pi$ will give $-1$ with the cosine function.
+However, this is the only angle inside the unit circle that is a solution to this equation.
+It turns out that that there isn't another angle to be paired with it so we only have one general solution.
+That solution, for Problem~\eqref{eq:11}, is:
+
+\begin{align}
+    4\theta & = \pi + 2\pi k                    \\
+    \nonumber                                   \\
+    \theta  & = \frac{\pi}{4} + \frac{\pi k}{2} \\
+    k       & \in \mathbb{Z}
+\end{align}
+
+Let's do another equation that may be a bit challenging, or rather have a unique detail.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    \sin\left(\frac{\alpha}{7}\right) = 0 \label{eq:12}
+\end{equation*}
+\end{problem}
+
+We know the two angles on the unit circle that would work is $0$ and $pi$.
+However, either will be included in the other's general solution because of the $k$ term.
+In fact, just having a $k$ term would work and we can express the solution to Problem~\eqref{eq:12} as:
+
+\begin{align}
+    \frac{\alpha}{7} & = \pi k        \\
+    \nonumber                         \\
+    \alpha           & = 7\pi k       \\
+    k                & \in \mathbb{Z}
+\end{align}
+
+Let's look at one more problem.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    \sin(3t) = 2 \label{eq:13}
+\end{equation*}
+\end{problem}
+
+We know that this has no solution as the sine function has the range $[-1, 1]$ for any value of $t$ such that $t \in \mathbb{R}$.
+Putting $arcsin(2)$ into a calculator will even give an error, showing that there are no angles that will satisfy this equation.
+This shows that not all trig equations have solutions.
 
 \end{document}
