@@ -4,14 +4,11 @@
 \usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage[style=iso]{datetime2}
-\usepackage{graphicx}
 \usepackage[explicit]{titlesec}
 \usepackage{amsthm}
 
 \theoremstyle{definition}
 \newtheorem{problem}{Problem}
-
-\graphicspath{ {./Images/} }
 
 \begin{titlepage}
 \title{Calculus I: Review of Solving Trigonometric Equations}
@@ -68,10 +65,10 @@ Note that due to the periodic nature of the cosine function, there will be an in
 Our solution to Problem~\eqref{eq:1} is:
 
 \begin{align}
-    t & = \frac{\pi}{6} + 2\pi k   \\
-      & \&                         \\
-    t & = \frac{11\pi}{6} + 2\pi k \\
-    k & \in \mathbb{Z}
+    t         & = \frac{\pi}{6} + 2\pi k   \\
+    \nonumber & \&                         \\
+    t         & = \frac{11\pi}{6} + 2\pi k \\
+    k         & \in \mathbb{Z}
 \end{align}
 
 where $\mathbb{Z}$ is the set of integers.
@@ -116,11 +113,11 @@ We will solve as follows:
     \sin(5x)  & = -\frac{\sqrt{3}}{2}                \\
     \nonumber                                        \\
     5x        & = \frac{4\pi}{3} + 2\pi k            \\
-              & \&                                   \\
+    \nonumber & \&                                   \\
     5x        & = \frac{5\pi}{3} + 2\pi k            \\
     \nonumber                                        \\
     x         & = \frac{4\pi}{15} + \frac{2\pi k}{5} \\
-              & \&                                   \\
+    \nonumber & \&                                   \\
     x         & = \frac{\pi}{3} + \frac{2\pi k}{5}   \\
     \nonumber                                        \\
     k         & \in \mathbb{Z}
@@ -130,44 +127,44 @@ Now we will plug in values of $k$ to get all of our solutions in the given inter
 
 At $k=0$:
 \begin{align}
-    x & =\frac{4\pi}{15} + \frac{2(0)\pi}{5} = \frac{4\pi}{15} < 2\pi \\
-      & \&                                                            \\
-    x & =\frac{\pi}{3} + \frac{2(0)\pi}{5} = \frac{\pi}{3} < 2\pi
+    x         & =\frac{4\pi}{15} + \frac{2(0)\pi}{5} = \frac{4\pi}{15} < 2\pi \\
+    \nonumber & \&                                                            \\
+    x         & =\frac{\pi}{3} + \frac{2(0)\pi}{5} = \frac{\pi}{3} < 2\pi
 \end{align}
 
 At $k=1$:
 \begin{align}
-    x & =\frac{4\pi}{15} + \frac{2(1)\pi}{5} = \frac{2\pi}{3} < 2\pi \\
-      & \&                                                           \\
-    x & =\frac{\pi}{3} + \frac{2(1)\pi}{5} = \frac{11\pi}{15} < 2\pi
+    x         & =\frac{4\pi}{15} + \frac{2(1)\pi}{5} = \frac{2\pi}{3} < 2\pi \\
+    \nonumber & \&                                                           \\
+    x         & =\frac{\pi}{3} + \frac{2(1)\pi}{5} = \frac{11\pi}{15} < 2\pi
 \end{align}
 
 At $k=2$:
 \begin{align}
-    x & =\frac{4\pi}{15} + \frac{2(2)\pi}{5} = \frac{16\pi}{15} < 2\pi \\
-      & \&                                                             \\
-    x & =\frac{\pi}{3} + \frac{2(2)\pi}{5} = \frac{17\pi}{15} < 2\pi
+    x         & =\frac{4\pi}{15} + \frac{2(2)\pi}{5} = \frac{16\pi}{15} < 2\pi \\
+    \nonumber & \&                                                             \\
+    x         & =\frac{\pi}{3} + \frac{2(2)\pi}{5} = \frac{17\pi}{15} < 2\pi
 \end{align}
 
 At $k=3$:
 \begin{align}
-    x & =\frac{4\pi}{15} + \frac{2(3)\pi}{5} = \frac{22\pi}{15} < 2\pi \\
-      & \&                                                             \\
-    x & =\frac{\pi}{3} + \frac{2(3)\pi}{5} = \frac{23\pi}{15} < 2\pi
+    x         & =\frac{4\pi}{15} + \frac{2(3)\pi}{5} = \frac{22\pi}{15} < 2\pi \\
+    \nonumber & \&                                                             \\
+    x         & =\frac{\pi}{3} + \frac{2(3)\pi}{5} = \frac{23\pi}{15} < 2\pi
 \end{align}
 
 At $k=4$:
 \begin{align}
-    x & =\frac{4\pi}{15} + \frac{2(4)\pi}{5} = \frac{28\pi}{15} < 2\pi \\
-      & \&                                                             \\
-    x & =\frac{\pi}{3} + \frac{2(4)\pi}{5} = \frac{29\pi}{15} < 2\pi
+    x         & =\frac{4\pi}{15} + \frac{2(4)\pi}{5} = \frac{28\pi}{15} < 2\pi \\
+    \nonumber & \&                                                             \\
+    x         & =\frac{\pi}{3} + \frac{2(4)\pi}{5} = \frac{29\pi}{15} < 2\pi
 \end{align}
 
 At $k=5$:
 \begin{align}
-    x & =\frac{4\pi}{15} + \frac{2(5)\pi}{5} = \frac{34\pi}{15} > 2\pi \\
-      & \&                                                             \\
-    x & =\frac{\pi}{3} + \frac{2(5)\pi}{5} = \frac{7\pi}{3} > 2\pi
+    x         & =\frac{4\pi}{15} + \frac{2(5)\pi}{5} = \frac{34\pi}{15} > 2\pi \\
+    \nonumber & \&                                                             \\
+    x         & =\frac{\pi}{3} + \frac{2(5)\pi}{5} = \frac{7\pi}{3} > 2\pi
 \end{align}
 
 So far, we have found $10$ solutions for the equation.
@@ -175,30 +172,30 @@ Now let's look at negative values for $k$.
 
 At $k=-1$:
 \begin{align}
-    x & =\frac{4\pi}{15} + \frac{2(-1)\pi}{5} = -\frac{2\pi}{15} > -\pi \\
-      & \&                                                              \\
-    x & =\frac{\pi}{3} + \frac{2(-1)\pi}{5} = -\frac{\pi}{15} > -\pi
+    x         & =\frac{4\pi}{15} + \frac{2(-1)\pi}{5} = -\frac{2\pi}{15} > -\pi \\
+    \nonumber & \&                                                              \\
+    x         & =\frac{\pi}{3} + \frac{2(-1)\pi}{5} = -\frac{\pi}{15} > -\pi
 \end{align}
 
 At $k=-2$:
 \begin{align}
-    x & =\frac{4\pi}{15} + \frac{2(-2)\pi}{5} = -\frac{8\pi}{15} > -\pi \\
-      & \&                                                              \\
-    x & =\frac{\pi}{3} + \frac{2(-2)\pi}{5} = -\frac{7\pi}{15} > -\pi
+    x         & =\frac{4\pi}{15} + \frac{2(-2)\pi}{5} = -\frac{8\pi}{15} > -\pi \\
+    \nonumber & \&                                                              \\
+    x         & =\frac{\pi}{3} + \frac{2(-2)\pi}{5} = -\frac{7\pi}{15} > -\pi
 \end{align}
 
 At $k=-3$:
 \begin{align}
-    x & =\frac{4\pi}{15} + \frac{2(-3)\pi}{5} = -\frac{14\pi}{15} > -\pi \\
-      & \&                                                               \\
-    x & =\frac{\pi}{3} + \frac{2(-3)\pi}{5} = -\frac{13\pi}{15} > -\pi
+    x         & =\frac{4\pi}{15} + \frac{2(-3)\pi}{5} = -\frac{14\pi}{15} > -\pi \\
+    \nonumber & \&                                                               \\
+    x         & =\frac{\pi}{3} + \frac{2(-3)\pi}{5} = -\frac{13\pi}{15} > -\pi
 \end{align}
 
 At $k=-4$:
 \begin{align}
-    x & =\frac{4\pi}{15} + \frac{2(-4)\pi}{5} = -\frac{4\pi}{3} < -\pi \\
-      & \&                                                             \\
-    x & =\frac{\pi}{3} + \frac{2(-4)\pi}{5} = -\frac{19\pi}{15} < -\pi
+    x         & =\frac{4\pi}{15} + \frac{2(-4)\pi}{5} = -\frac{4\pi}{3} < -\pi \\
+    \nonumber & \&                                                             \\
+    x         & =\frac{\pi}{3} + \frac{2(-4)\pi}{5} = -\frac{19\pi}{15} < -\pi
 \end{align}
 
 Then, we have $16$ solutions in total for Problem~\eqref{eq:3}.
@@ -274,7 +271,8 @@ We have solved simple trig equations so far, whose solutions lie on the unit cir
 There are more complicated trig equations that can be solved, which do not have solutions that are the common angles found on the unit circle.
 These equations require a calculator and will be solved below.
 
-\section{Complex Equations (with calculator)}
+\section{Equations with Non-Standard Angles \\
+  (Calculator)}
 
 The equations in this section will require a calculator.
 As we will work with radians, it is important to have your calculator in radian mode to get the correct answers.
@@ -349,40 +347,40 @@ We know that our second angle in the interval $[0, 2\pi]$ is $5.5605$.
 Our general solution to this trig equation is:
 
 \begin{align}
-    t & = 0.7227 + 2\pi k \\
-      & \&                \\
-    t & = 5.5605 + 2\pi k \\
-    k & \in \mathbb{Z}
+    t         & = 0.7227 + 2\pi k \\
+    \nonumber & \&                \\
+    t         & = 5.5605 + 2\pi k \\
+    k         & \in \mathbb{Z}
 \end{align}
 
 We can know plug in values of $k$ to get all our solutions in the interval $[-8, 10]$.
 
 At $k=0$:
 \begin{align}
-    t & = 0.7227 + 2(0)\pi = 0.7227 < 10 \\
-      & \&                               \\
-    t & = 5.5605 + 2(0)\pi = 5.5605 < 10
+    t         & = 0.7227 + 2(0)\pi = 0.7227 < 10 \\
+    \nonumber & \&                               \\
+    t         & = 5.5605 + 2(0)\pi = 5.5605 < 10
 \end{align}
 
 At $k=1$:
 \begin{align}
-    t & = 0.7227 + 2(1)\pi = 7.0059 < 10  \\
-      & \&                                \\
-    t & = 5.5605 + 2(1)\pi = 11.8437 > 10
+    t         & = 0.7227 + 2(1)\pi = 7.0059 < 10  \\
+    \nonumber & \&                                \\
+    t         & = 5.5605 + 2(1)\pi = 11.8437 > 10
 \end{align}
 
 At $k=-1$:
 \begin{align}
-    t & = 0.7227 + 2(-1)\pi = -5.5605 > -8 \\
-      & \&                                 \\
-    t & = 5.5605 + 2(-1)\pi = -0.7227 > -8
+    t         & = 0.7227 + 2(-1)\pi = -5.5605 > -8 \\
+    \nonumber & \&                                 \\
+    t         & = 5.5605 + 2(-1)\pi = -0.7227 > -8
 \end{align}
 
 At $k=-2$:
 \begin{align}
-    t & = 0.7227 + 2(-2)\pi = -11.8437 < -8 \\
-      & \&                                  \\
-    t & = 5.5605 + 2(-2)\pi = -7.0059 > -8
+    t         & = 0.7227 + 2(-2)\pi = -11.8437 < -8 \\
+    \nonumber & \&                                  \\
+    t         & = 5.5605 + 2(-2)\pi = -7.0059 > -8
 \end{align}
 
 Then, our solution set $S$ for Problem~\eqref{eq:6} is:
@@ -419,52 +417,52 @@ Since $\pi - 2.3462 = 0.7954$, the second angle is $\pi + 0.7954$ which is $3.93
 We can then get our general solutions.
 
 \begin{align}
-    3t & = 2.3462 + 2\pi k           \\
-       & \&                          \\
-    3t & = 3.9370 + 2\pi k           \\
-    \nonumber                        \\
-    t  & = 0.7821 + \frac{2\pi k}{3} \\
-       & \&                          \\
-    t  & = 1.3123 + \frac{2\pi k}{3} \\
-    \nonumber                        \\
-    k  & \in \mathbb{Z}
+    3t        & = 2.3462 + 2\pi k           \\
+    \nonumber & \&                          \\
+    3t        & = 3.9370 + 2\pi k           \\
+    \nonumber                               \\
+    t         & = 0.7821 + \frac{2\pi k}{3} \\
+    \nonumber & \&                          \\
+    t         & = 1.3123 + \frac{2\pi k}{3} \\
+    \nonumber                               \\
+    k         & \in \mathbb{Z}
 \end{align}
 
 Now we will plug in values of $k$ into the solutions.
 
 At $k=0$:
 \begin{align}
-    t & = 0.7821 + \frac{2(0)\pi}{3} = 0.7821 < 5 \\
-      & \&                                        \\
-    t & = 1.3123 + \frac{2(0)\pi}{3} = 1.3123 < 5
+    t         & = 0.7821 + \frac{2(0)\pi}{3} = 0.7821 < 5 \\
+    \nonumber & \&                                        \\
+    t         & = 1.3123 + \frac{2(0)\pi}{3} = 1.3123 < 5
 \end{align}
 
 At $k=1$:
 \begin{align}
-    t & = 0.7821 + \frac{2(1)\pi}{3} = 2.8765 < 5 \\
-      & \&                                        \\
-    t & = 1.3123 + \frac{2(1)\pi}{3} = 3.4067 < 5
+    t         & = 0.7821 + \frac{2(1)\pi}{3} = 2.8765 < 5 \\
+    \nonumber & \&                                        \\
+    t         & = 1.3123 + \frac{2(1)\pi}{3} = 3.4067 < 5
 \end{align}
 
 At $k=2$:
 \begin{align}
-    t & = 0.7821 + \frac{2(2)\pi}{3} = 4.9709 < 5 \\
-      & \&                                        \\
-    t & = 1.3123 + \frac{2(2)\pi}{3} = 5.5011 > 5
+    t         & = 0.7821 + \frac{2(2)\pi}{3} = 4.9709 < 5 \\
+    \nonumber & \&                                        \\
+    t         & = 1.3123 + \frac{2(2)\pi}{3} = 5.5011 > 5
 \end{align}
 
 At $k=-1$:
 \begin{align}
-    t & = 0.7821 + \frac{2(-1)\pi}{3} = -1.3123 > -2 \\
-      & \&                                           \\
-    t & = 1.3123 + \frac{2(-1)\pi}{3} = -0.7821 > -2
+    t         & = 0.7821 + \frac{2(-1)\pi}{3} = -1.3123 > -2 \\
+    \nonumber & \&                                           \\
+    t         & = 1.3123 + \frac{2(-1)\pi}{3} = -0.7821 > -2
 \end{align}
 
 At $k=-2$:
 \begin{align}
-    t & = 0.7821 + \frac{2(-1)\pi}{3} = -3.4067 < -2 \\
-      & \&                                           \\
-    t & = 1.3123 + \frac{2(-1)\pi}{3} = -2.8765 < -2
+    t         & = 0.7821 + \frac{2(-1)\pi}{3} = -3.4067 < -2 \\
+    \nonumber & \&                                           \\
+    t         & = 1.3123 + \frac{2(-1)\pi}{3} = -2.8765 < -2
 \end{align}
 
 The solution set $S$ for Problem~\eqref{eq:7} is:
@@ -497,7 +495,7 @@ Our angle is in the first quadrant so the other angle will be in the second quad
 A line passing through the origin which intersects the unit circle at a point with a $y$ value of $\frac{1}{6}$ will make an angle of $0.1674$ with the horizontal.
 The line vertically mirrored obviously has a line of symmetry with the original line as the vertical axis.
 The angle of the top part of the vertical seperating the first and second quadrants is $\frac{\pi}{2}$, which is an angle of symmetry of our angle and the angle we wish to find.
-Thus, as $\frac{\pi}{2}-0.1674=1.4034$, the other angle is $\pi+1.4034$ which is $2.9742$.
+Thus, as $\frac{\pi}{2}-0.1674=1.4034$, the other angle is $\frac{\pi}{2}+1.4034$ which is $2.9742$.
 
 We could have also done it by rotating by $\pi$ counter-clockwise from the positive $x$-axis and then rotating by $0.1674$ clockwise and using the total rotation to get the same angle.
 This would work as our other angle is $0.1674$ with the negative $x$-axis, the same as the original angle with the positive $x$-axis.
@@ -506,11 +504,11 @@ We can solve the rest as follows:
 
 \begin{align}
     \frac{x}{2} & = 0.1674 + 2\pi k \\
-                & \&                \\
+    \nonumber   & \&                \\
     \frac{x}{2} & = 2.9742 + 2\pi k \\
     \nonumber                       \\
     x           & = 0.3348 + 4\pi k \\
-                & \&                \\
+    \nonumber   & \&                \\
     x           & = 5.9484 + 4\pi k \\
     \nonumber                       \\
     k           & \in \mathbb{Z}
@@ -518,37 +516,37 @@ We can solve the rest as follows:
 
 At $k=0$:
 \begin{align}
-    x & = 0.3348 + 4(0)\pi = 0.3348 < 30 \\
-      & \&                               \\
-    x & = 5.9484 + 4(0)\pi = 5.9484 < 30
+    x         & = 0.3348 + 4(0)\pi = 0.3348 < 30 \\
+    \nonumber & \&                               \\
+    x         & = 5.9484 + 4(0)\pi = 5.9484 < 30
 \end{align}
 
 At $k=1$
 \begin{align}
-    x & = 0.3348 + 4(1)\pi = 12.9012 < 30 \\
-      & \&                                \\
-    x & = 5.9484 + 4(1)\pi = 18.5148 < 30
+    x         & = 0.3348 + 4(1)\pi = 12.9012 < 30 \\
+    \nonumber & \&                                \\
+    x         & = 5.9484 + 4(1)\pi = 18.5148 < 30
 \end{align}
 
 At $k=2$
 \begin{align}
-    x & = 0.3348 + 4(2)\pi = 25.4675 < 30 \\
-      & \&                                \\
-    x & = 5.9484 + 4(2)\pi = 31.0811 > 30
+    x         & = 0.3348 + 4(2)\pi = 25.4675 < 30 \\
+    \nonumber & \&                                \\
+    x         & = 5.9484 + 4(2)\pi = 31.0811 > 30
 \end{align}
 
 At $k=-1$:
 \begin{align}
-    x & = 0.3348 + 4(-1)\pi = -12.2316 > -20 \\
-      & \&                                   \\
-    x & = 5.9484 + 4(-1)\pi = -6.6180 > -20
+    x         & = 0.3348 + 4(-1)\pi = -12.2316 > -20 \\
+    \nonumber & \&                                   \\
+    x         & = 5.9484 + 4(-1)\pi = -6.6180 > -20
 \end{align}
 
 At $k=-2$:
 \begin{align}
-    x & = 0.3348 + 4(-2)\pi = -24.7979 < -20 \\
-      & \&                                   \\
-    x & = 5.9484 + 4(-2)\pi = -19.1843 > -20
+    x         & = 0.3348 + 4(-2)\pi = -24.7979 < -20 \\
+    \nonumber & \&                                   \\
+    x         & = 5.9484 + 4(-2)\pi = -19.1843 > -20
 \end{align}
 
 Our solution set $S$ for Problem~\eqref{eq:8} is:
@@ -582,29 +580,29 @@ As $\frac{3\pi}{2}-5.5535=-0.8411$, our other angle is $\frac{3\pi}{2}-0.8411$ w
 Our general solution is then:
 
 \begin{align}
-    5z & = 5.5535 + 2\pi k           \\
-       & \&                          \\
-    5z & = 3.8713 + 2\pi k           \\
-    \nonumber                        \\
-    z  & = 1.1107 + \frac{2\pi k}{5} \\
-       & \&                          \\
-    z  & = 0.7743 + \frac{2\pi k}{5} \\
-    \nonumber                        \\
-    k  & \in \mathbb{Z}
+    5z        & = 5.5535 + 2\pi k           \\
+    \nonumber & \&                          \\
+    5z        & = 3.8713 + 2\pi k           \\
+    \nonumber                               \\
+    z         & = 1.1107 + \frac{2\pi k}{5} \\
+    \nonumber & \&                          \\
+    z         & = 0.7743 + \frac{2\pi k}{5} \\
+    \nonumber                               \\
+    k         & \in \mathbb{Z}
 \end{align}
 
 At $k=0$:
 \begin{align}
-    z & = 1.1107 + \frac{2(0)\pi}{5} = 1.1107 > 1 \\
-      & \&                                        \\
-    z & = 0.7743 + \frac{2(0)\pi}{5} = 0.7743 < 1 \\
+    z         & = 1.1107 + \frac{2(0)\pi}{5} = 1.1107 > 1 \\
+    \nonumber & \&                                        \\
+    z         & = 0.7743 + \frac{2(0)\pi}{5} = 0.7743 < 1 \\
 \end{align}
 
 At $k=-1$:
 \begin{align}
-    z & = 1.1107 + \frac{2(-1)\pi}{5} = -0.1459 < 0 \\
-      & \&                                          \\
-    z & = 0.7743 + \frac{2(-1)\pi}{5} = -0.4823 < 0 \\
+    z         & = 1.1107 + \frac{2(-1)\pi}{5} = -0.1459 < 0 \\
+    \nonumber & \&                                          \\
+    z         & = 0.7743 + \frac{2(-1)\pi}{5} = -0.4823 < 0 \\
 \end{align}
 
 Note that we only have only solution to our equation which falls in the given interval.
@@ -708,6 +706,8 @@ Our solution set $S$ for Problem~\eqref{eq:10} is:
 \end{equation}
 
 Let's do one problem that does not require a calculator but is important and may be a bit challenging if you haven't come across it.
+We will now only provide the general solution(s) to a trig equation instead of having an interval.
+The general is the important bit and getting the solutions that fall into a certain interval afterwards is rather simple and the process is practically the same for all trig equations.
 
 \begin{problem}
 Solve:
@@ -760,5 +760,285 @@ Solve:
 We know that this has no solution as the sine function has the range $[-1, 1]$ for any value of $t$ such that $t \in \mathbb{R}$.
 Putting $arcsin(2)$ into a calculator will even give an error, showing that there are no angles that will satisfy this equation.
 This shows that not all trig equations have solutions.
+
+\section{Equations with Complex Arguments}
+
+In all the previous problems, the arguments to the trig functions have remained quite simple.
+Let's look at an equation with more complicated arguments.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    5\cos(2x-1) = -3 \label{eq:14}
+\end{equation*}
+\end{problem}
+
+We will solve as follows:
+
+\begin{align}
+    \cos(2x-1)          & = -\frac{3}{5}                     \\
+    \arccos(\cos(2x-1)) & = \arccos\left(-\frac{3}{5}\right) \\
+    2x-1                & = \arccos\left(-\frac{3}{5}\right) \\
+    2x-1                & = 2.2143
+\end{align}
+
+That angle is in the second quadrant so the other angle in the unit circle will be in the third quadrant.
+Since $\pi-2.2143=0.9273$, the other angle is $\pi+0.9273$ which is $4.0689$.
+We can get the general solution to Problem~\eqref{eq:14} as follows:
+
+\begin{align}
+    2x-1      & = 2.2143 + 2\pi k \\
+    \nonumber & \&                \\
+    2x-1      & = 4.0689 + 2\pi k \\
+    \nonumber                     \\
+    x         & = 1.6072 + \pi k  \\
+    \nonumber & \&                \\
+    x         & = 2.5345 + \pi k  \\
+    \nonumber                     \\
+    k         & \in \mathbb{Z}
+\end{align}
+
+Getting the angles was the same as before.
+The only step that was different was obtaining the variable at the end which only required a bit of algebraic manipulation of our solutions.
+
+\section{Multi-Step Equations}
+We have so far only looked at trig equations where we can isolate the trig function in a single step, getting an equation where we can use inverse functions or our knowledge of the unit circle to solve the equation rather easily.
+Let's look at a problem where we will have to do a bit more work.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    2\cos(6y) + 11\cos(6y)\sin(3y) = 0 \label{eq:15}
+\end{equation*}
+\end{problem}
+
+We will have to factor the left hand side of the equation first.
+Here, that is quite simple as there is $\cos(6y)$ in both of the terms.
+
+\begin{equation}
+    \cos(6y)(2+11\sin(3y)) = 0
+\end{equation}
+
+We have a product of two terms that equal $0$, meaning that both or either of the terms could equal $0$ to satisfy the equation.
+
+\begin{equation}
+    \cos(6y) = 0 \qquad \text{or} \qquad 2+11\sin(3y) = 0
+\end{equation}
+
+Let's do the left equation first.
+We know that the two angles whose cosine will give $0$ on the unit circle are $\frac{\pi}{2}$ and $\frac{3\pi}{2}$.
+By choosing the $k$ term to be $\pi k$, we can have both of the angles represented by one solution.
+
+For the second equation, we can solve as follows:
+
+\begin{align}
+    2+11\sin(3y)      & = 0                                 \\
+    \sin(3y)          & = -\frac{2}{11}                     \\
+    \arcsin(\sin(3y)) & = \arcsin\left(-\frac{2}{11}\right) \\
+    3y                & = \arcsin\left(-\frac{2}{11}\right) \\
+    3y                & = -0.1828
+\end{align}
+
+That is outside of the unit circle, but we can add $2\pi$ to get $6.1004$.
+This is in the fourth quadrant, so our other angle in the unit circle will be in the third quadrant.
+Since $\frac{3\pi}{2}-6.1004=-1.3880$, the other angle is $\frac{3\pi}{2}-1.3880$ which equals $3.3244$.
+Our three general solutions for Problem~\eqref{eq:15} are:
+
+\begin{align}
+    6y        & = \frac{\pi}{2} + \pi k            \\
+    \nonumber & \&                                 \\
+    3y        & = 6.1004 + 2\pi k                  \\
+    \nonumber & \&                                 \\
+    3y        & = 3.3244 + 2\pi k                  \\
+    \nonumber                                      \\
+    y         & = \frac{\pi}{12} + \frac{\pi k}{6} \\
+    \nonumber & \&                                 \\
+    y         & = 2.0335 + \frac{2\pi k}{3}        \\
+    \nonumber & \&                                 \\
+    y         & = 1.1081 + \frac{2\pi k}{3}        \\
+    \nonumber                                      \\
+    k         & \in \mathbb{Z}
+\end{align}
+
+Let's solve another trig equation that may be attempted in a similar manner.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    4\sin^2\left(\frac{t}{3}\right) - 3\sin\left(\frac{t}{3}\right) = 1 \label{eq:16}
+\end{equation*}
+\end{problem}
+
+We can see that the trig functions found are the exact same, $\sin\left(\frac{t}{3}\right)$.
+While one may be squared, we can do a substitution and solve this as a rather simple polynomial equation.
+
+\begin{align}
+    4\sin^2\left(\frac{t}{3}\right) - 3\sin\left(\frac{t}{3}\right) - 1 & = 0                            \\
+    \nonumber                                                                                            \\
+    u                                                                   & = \sin\left(\frac{t}{3}\right) \\
+    \nonumber                                                                                            \\
+    4u^2 - 3u - 1                                                       & = 0                            \\
+    4u^2 - 4u + u - 1                                                   & = 0                            \\
+    4u(u-1) + (u-1)                                                     & = 0                            \\
+    (4u+1)(u-1)                                                         & = 0                            \\
+    \nonumber                                                                                            \\
+    4u-1                                                                & =0                             \\
+    \nonumber                                                           & \&                             \\
+    u-1                                                                 & = 0                            \\
+    \nonumber                                                                                            \\
+    u                                                                   & = \frac{1}{4}                  \\
+    \nonumber                                                           & \&                             \\
+    u                                                                   & = 1                            \\
+    \nonumber                                                                                            \\
+    \sin\left(\frac{t}{3}\right)                                        & = \frac{1}{4}                  \\
+    \nonumber                                                           & \&                             \\
+    \sin\left(\frac{t}{3}\right)                                        & = 1
+\end{align}
+
+What we end up with are two simpler trig equations which we may easily solve seperately.
+
+\begin{align}
+    \sin\left(\frac{t}{3}\right)                     & = \frac{1}{4}                     \\
+    \arcsin\left(\sin\left(\frac{t}{3}\right)\right) & = \arcsin\left(\frac{1}{4}\right) \\
+    \frac{t}{3}                                      & = \arcsin\left(\frac{1}{4}\right) \\
+    \frac{t}{3}                                      & = 0.2527
+\end{align}
+
+This angle is in the first quadrant, so the other angle will be in the second quadrant.
+The other angle will be $\pi-0.2527$ which is $2.8889$.
+For the second equation, we know that the sine of $\frac{\pi}{2}$ equals $1$ and that there isn't another angle that will pair with it (shown by it being the boundary between the first and second quadrants of the unit circle).
+Our general solutions for Problem~\eqref{eq:16} are:
+
+\begin{align}
+    \frac{t}{3} & = 0.2527 + 2\pi k         \\
+    \nonumber   & \&                        \\
+    \frac{t}{3} & = 2.8889 + 2\pi k         \\
+    \nonumber   & \&                        \\
+    \frac{t}{3} & = \frac{\pi}{2} + 2\pi k  \\
+    \nonumber                               \\
+    t           & = 0.7581 + 6\pi k         \\
+    \nonumber   & \&                        \\
+    t           & = 8.6667 + 6\pi k         \\
+    \nonumber   & \&                        \\
+    t           & = \frac{3\pi}{2} + 6\pi k \\
+    \nonumber                               \\
+    k           & \in \mathbb{Z}
+\end{align}
+
+The previous problem required us to factor, but in the way we would solve a quadratic equation.
+Let's do another trig equation that may be turned into a quadratic.
+
+\begin{problem}
+\begin{equation*}
+    8\cos^2(1-x) + 13\cos(1-x) - 5 = 0  \label{eq:17}
+\end{equation*}
+\end{problem}
+
+We can see that we are once again able to perform a substitution to get a quadratic equation.
+
+\begin{align}
+    8\cos^2(1-x) + 13\cos(1-x) - 5 & = 0         \\
+    \nonumber                                    \\
+    u                              & = \cos(1-x) \\
+    \nonumber                                    \\
+    8u^2 + 13u - 5                 & = 0
+\end{align}
+
+It seems that we are not able to factor the quadratic we have ended up with.
+However, we can just use the quadratic formula to solve it.
+
+\begin{align}
+    u         & = \frac{-b\pm\sqrt{b^2-4ac}}{2a}              \\
+    a         & = 8                                           \\
+    b         & = 13                                          \\
+    c         & = -5                                          \\
+    \nonumber                                                 \\
+    u         & = \frac{-(13)\pm\sqrt{(13)^2-4(8)(-5)}}{2(8)} \\
+    u         & = \frac{-13\pm\sqrt{329}}{16}                 \\
+    \nonumber                                                 \\
+    \cos(1-x) & = \frac{-13\pm\sqrt{329}}{16}                 \\
+    \nonumber                                                 \\
+    \cos(1-x) & = 0.3211                                      \\
+    \nonumber & \&                                            \\
+    \cos(1-x) & = -1.9461
+\end{align}
+
+We can see that $-1.9461$ falls out of the range of the cosine function so the second trig equation has no real solution.
+We will only solve the first one.
+
+\begin{align}
+    \cos(1-x)          & = 0.3211          \\
+    \arccos(\cos(1-x)) & = \arccos(0.3211) \\
+    1-x                & = \arccos(0.3211) \\
+    1-x                & = 1.2439
+\end{align}
+
+This angle is in the first quadrant so the other angle in the unit circle will be in the fourth quadrant.
+The other angle is $2\pi - 1.2439$ which is $5.0393$.
+The general solution to Problem~\eqref{eq:17} is:
+
+\begin{align}
+    1-x       & = 1.2439 + 2\pi k  \\
+    \nonumber & \&                 \\
+    1-x       & = 5.0393 + 2\pi k  \\
+    \nonumber                      \\
+    x         & = -0.2439 - 2\pi k \\
+    \nonumber & \&                 \\
+    x         & = 4.0393 - 2\pi k  \\
+    \nonumber                      \\
+    k         & \in \mathbb{Z}
+\end{align}
+
+Let's do one more trig equation where factoring may appear, but in a different way.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    5x\tan(8x) = 3x \label{eq:18}
+\end{equation*}
+\end{problem}
+
+Note that we do not want to divide both sides by $x$ as this would lead to us losing a solution of the original equation.
+Instead, we can move everything to one side and factor the $x$ out.
+
+\begin{align}
+    5x\tan(8x)       & = 3x                             \\
+    5x\tan(8x) - 3x  & = 0                              \\
+    x(5\tan(8x) - 3) & = 0                              \\
+    \nonumber                                           \\
+    x = 0 \qquad     & \text{or} \qquad 5\tan(8x)-3 = 0
+\end{align}
+
+The solution $x=0$ would have been lost if we divided both sides by $x$ at the start.
+Now, we can solve the tangent equation.
+
+\begin{align}
+    5\tan(8x)-3       & = 0                               \\
+    \tan(8x)          & = \frac{3}{5}                     \\
+    \arctan(\tan(8x)) & = \arctan\left(\frac{3}{5}\right) \\
+    8x                & = 0.5404
+\end{align}
+
+We know that this angle is in the first quadrant and the other angle would be in the third quadrant.
+However, we can express both with one solution, shown below:
+
+\begin{align}
+    8x & = 0.5404 + \pi k           \\
+    x  & = 0.0676 + \frac{\pi k}{8} \\
+    k  & \in \mathbb{Z}
+\end{align}
+
+The general solution to Problem~\eqref{eq:18} is:
+
+\begin{align}
+    x         & = 0                        \\
+    \nonumber & \&                         \\
+    x         & = 0.0676 + \frac{\pi k}{8} \\
+    k         & \in \mathbb{Z}
+\end{align}
+
+These are most of the types of trigonometric equations.
+In a Calc I course, you wouldn't need to solve equations that are any more complex than the ones above and the general skills used to solve such equations are the same.
+Some additional algebraic manipulation may be required but the ability to utilise the unit circle and find all the solutions in some given interval are essential and have been discussed in this section.
 
 \end{document}
