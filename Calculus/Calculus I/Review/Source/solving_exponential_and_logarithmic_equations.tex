@@ -1,0 +1,374 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage[style=iso]{datetime2}
+\usepackage[explicit]{titlesec}
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+
+\begin{titlepage}
+\title{Calculus I: Review of Solving Exponential and Logarithmic Equations}
+\author{The Melon Man}
+\date{\today}
+\end{titlepage}
+
+\renewcommand{\thesection}{\Roman{section}}
+
+\allowdisplaybreaks
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Exponential equations are ones that contain exponential functions discussed in an earlier section.
+Logarithmic equations, as the name suggests contain logarithmic functions.
+Logarithmic functions are the inverses of exponential functions.
+As we would use inverse trigonometric functions to solve trig equations, we would use logarithmic functions to solve exponential equations and vice versa.
+
+We will solve some exponential equations first.
+The main property that will be used is:
+
+\begin{equation}
+    \log_b(b^x) = x
+\end{equation}
+
+This represents the inverse relationship between exponential and logarithmic functions.
+Note that we will give our final answers with four decimal place accuracy, if a calculator is used.
+
+\section{Exponential Equations}
+Let's solve the following equation:
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    7 + 15e^{1-3z} = 10 \label{eq:1}
+\end{equation*}
+\end{problem}
+
+We will first rearrange the equation to get the exponential function on its own.
+
+\begin{equation}
+    e^{1-3z} = \frac{1}{5}
+\end{equation}
+
+We will take the natural logarithm of both sides of our equation and use the property above to simplify.
+
+\begin{align}
+    \ln(e^{1-3z}) & = \ln\left(\frac{1}{5}\right)             \\
+    1-3z          & = \ln\left(\frac{1}{5}\right)             \\
+    3z            & = 1-\ln\left(\frac{1}{5}\right)           \\
+    z             & = \frac{1-\ln\left(\frac{1}{5}\right)}{3} \\
+    z             & = 0.8698
+\end{align}
+
+By taking the natural logarithm, we were able to simplify to a linear equation with $z$ that we were easily able to solve.
+Our final answer to Problem~\eqref{eq:1} is:
+
+\begin{equation}
+    z = 0.8698
+\end{equation}
+
+Let's do another exponential equation.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    10^{t^2-t} = 100 \label{eq:2}
+\end{equation*}
+\end{problem}
+
+We may take the common logarithm of both sides.
+
+\begin{align}
+    log(10^{t^2-t}) & = log(100) \\
+    t^2-t           & = 2
+\end{align}
+
+Then we see that we are left with a very simple quadratic that we may solve as follows:
+
+\begin{align}
+    t^2-t-2    & = 0  \\
+    (t+1)(t-2) & = 0  \\
+    \nonumber         \\
+    t          & = -1 \\
+               & \&   \\
+    t          & = 2
+\end{align}
+
+Once again, that was rather simple to solve after getting rid of the exponential function.
+Our final set of solutions $S$ to Problem~\eqref{eq:2} is:
+
+\begin{equation}
+    S = {-1, 2}
+\end{equation}
+
+The equations so far have solved only have the variable as part of the exponent.
+Let's solve an equation where it is both in the exponent and in other terms.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    x - xe^{5x+2} = 0 \label{eq:3}
+\end{equation*}
+\end{problem}
+
+This one is rather simple as we may factor $x$ out of both the terms on the left side of the equation.
+Then, we end up with:
+
+\begin{equation}
+    x(1-e^{5x+2}) = 0
+\end{equation}
+
+It is obvious from here that $x=0$ is one of the solutions to the equation.
+We may rearrange and solve for the other solution as follows:
+
+\begin{align}
+    1-e^{5x+2}    & = 0            \\
+    e^{5x+2}      & = 1            \\
+    \ln(e^{5x+2}) & = \ln(1)       \\
+    5x + 2        & = 0            \\
+    x             & = -\frac{2}{5}
+\end{align}
+
+Above, we also used the fact that the logarithm of 1 will be 0 as any number raised to the 0th power is 1.
+Also note that dividing $x$ from both sides of the equation at the beginning instead of factorising would have lost the solution $x=0$.
+Our solution set $S$ to Problem~\eqref{eq:3} is then:
+
+\begin{equation}
+    S = \left\{0, -\frac{2}{5} \right\}
+\end{equation}
+
+The following equation looks more complicated but can be solved in relatively the same way as the previous one.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    5(x^2-4) = (x^2-4)e^{7-x} \label{eq:4}
+\end{equation*}
+\end{problem}
+
+Again, we should remember to not divide out a term with the variable in to avoid losing a solution.
+Instead, we will move everything to one side and factor.
+Note that if we are able to divide a term out of an equation, we are also able to factor it out (if the equation is in the right form).
+
+\begin{align}
+    5(x^2-4) - (x^2-4)e^{7-x} & = 0 \\
+    (x^2-4)(5-e^{7-x})        & = 0
+\end{align}
+
+The quadratic $x^2-4$ has the solutions $x=2$ and $x-2$.
+The other factor may be solved as follows:
+
+\begin{align}
+    5-e^{7-x}    & = 0        \\
+    e^{7-x}      & = 5        \\
+    \ln(e^{7-x}) & = \ln(5)   \\
+    7-x          & = \ln(5)   \\
+    x            & = 7-\ln(5) \\
+    x            & = 5.3906
+\end{align}
+
+Our solution set $S$ to Problem~\eqref{eq:4} is:
+
+\begin{equation}
+    S = {2, -2, 5.3906}
+\end{equation}
+
+Let's look at a final example, which has multiple exponential terms.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    4e^{1+3x} - 9e^{5-2x} = 0 \label{eq:5}
+\end{equation*}
+\end{problem}
+
+We are not able to take the logarithm of both sides as the logarithm of 0 is undefined.
+Instead, we will have one exponential on both sides and then take the natural logarithm of both sides.
+Then, we may solve as follows:
+
+\begin{align}
+    4e^{1+3x}              & = 9e^{5-2x}                               \\
+    \ln(4e^{1+3x})         & = \ln(9e^{5-2x})                          \\
+    \ln(4) + \ln(e^{1+3x}) & = \ln(9) + \ln(e^{5-2x})                  \\
+    \ln(4) + 1+3x          & = \ln(9) + 5-2x                           \\
+    5x                     & = \ln(9) + 4 - \ln(4)                     \\
+    5x                     & = \ln\left(\frac{9}{4}\right)+4           \\
+    x                      & = \frac{\ln\left(\frac{9}{4}\right)+4}{5} \\
+    x                      & = 0.9622
+\end{align}
+
+We could have also wrote the equation as a quotient of exponential terms and then simplified.
+Either way, our final answer to Problem~\eqref{eq:5} is:
+
+\begin{equation}
+    x = 0.9622
+\end{equation}
+
+\section{Logarithmic Equations}
+We will now solve equations with logarithmic terms.
+The main property used for this will be:
+
+\begin{equation}
+    b^{\log_b(x)} = x
+\end{equation}
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    3 + 2\ln\left(\frac{x}{7}+3\right) = -4 \label{eq:6}
+\end{equation*}
+\end{problem}
+
+We will rearrange to get the logartihmic term on one side and everything else on the rest.
+
+\begin{equation}
+    \ln\left(\frac{x}{7}+3\right) = -\frac{7}{2}
+\end{equation}
+
+Now, we will raise $e$ to both sides of the equation to cancel out the logarithm.
+
+\begin{align}
+    e^{\ln\left(\frac{x}{7}+3\right)} & = e^{-\frac{7}{2}}      \\
+    \frac{x}{7}+3                     & = e^{-\frac{7}{2}}      \\
+    x                                 & = 7(e^{-\frac{7}{2}}-3) \\
+    x                                 & = -20.7889
+\end{align}
+
+Now, we cannot move on yet.
+Recall that logarithmic functions cannot take in negative arguments.
+Our solution begin negative doesn't necassarily mean the argument will be negative.
+Putting our solution into the original logarithm will show that it will work, meaning that the solution to Problem~\eqref{eq:6} is:
+
+\begin{equation}
+    x = -20.7889
+\end{equation}
+
+Let's do a more complciated logarithmic equation.
+This will require us to manipulate the equation a bit first as there are multiple logarithmic terms.
+We can do so with the following properties of logarithms:
+
+\begin{enumerate}
+    \item $\log_b(xy) = \log_b(x) + \log_b(y)$
+    \item $\log_b\left(\frac{x}{y}\right) = \log_b(x) - \log_b(y)$
+    \item $\log_b(x^y) = y\log_b(x)$
+\end{enumerate}
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    2\ln(\sqrt{x}) - \ln(1-x) = 2 \label{eq:7}
+\end{equation*}
+\end{problem}
+
+We will solve as follows:
+
+\begin{align}
+    2\ln(\sqrt{x}) - \ln(1-x)         & = 2                 \\
+    \ln((\sqrt{x})^2) - \ln(1-x)      & = 2                 \\
+    \ln(x) - \ln(1-x)                 & = 2                 \\
+    \ln\left(\frac{x}{1-x}\right)     & = 2                 \\
+    e^{\ln\left(\frac{x}{1-x}\right)} & = e^2               \\
+    \frac{x}{1-x}                     & = e^2               \\
+    x                                 & = (1-x)e^2          \\
+    x                                 & = e^2 - e^2x        \\
+    x + e^2x                          & = e^2               \\
+    x(1+e^2)                          & = e^2               \\
+    x                                 & = \frac{e^2}{1+e^2} \\
+    x                                 & = 0.8808
+\end{align}
+
+This solution is valid for both of our original logarithms so our final answer to Problem~\eqref{eq:7} is:
+
+\begin{equation}
+    x = 0.8808
+\end{equation}
+
+Let's look at another equation with multiple logarithmic terms.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    \log(x) + \log(x-3) = 1 \label{eq:8}
+\end{equation*}
+\end{problem}
+
+We will solve as follows:
+
+\begin{align}
+    \log(x) + \log(x-3) & = 1    \\
+    \log(x(x-3))        & = 1    \\
+    \log(x^2-3x)        & = 1    \\
+    10^{\log(x^2-3x)}   & = 10^1 \\
+    x^2-3x              & = 10   \\
+    x^2-3x-10           & = 0    \\
+    (x-5)(x+2)          & = 0    \\
+    \nonumber                    \\
+    x                   & = 5    \\
+                        & \&     \\
+    x                   & = -2
+\end{align}
+
+Plugging $x=5$ into the original equation, both logarithms will have valid arguments.
+However, if we plug in $x=-2$, then both logarithmic terms will have a negative number as their argument.
+Since logarithms can only have positive arguments, the only valid solution to Problem~\eqref{eq:8} is:
+
+\begin{equation}
+    x = 5
+\end{equation}
+
+It is important to plug our solutions back in to the original equation to check if they are valid.
+We must make sure it is the original equation we are checking our solutions in and not any of the ones where we have manipulated the logarithms.
+If we did, then our solutions would work in them.
+The reason is because these manipulations are where the extra solutions which do not work in the original equation are actually introduced.
+Additionally, it may not always be the case that we get 2 solutions and only 1 works.
+We could have 2 valid solutions, or neither could be valid.
+
+Let's do one more problem.
+
+\begin{problem}
+Solve:
+\begin{equation*}
+    \ln(x-2) + \ln(x+1) = 2 \label{eq:9}
+\end{equation*}
+\end{problem}
+
+We will solve as follows:
+
+\begin{align}
+    \ln(x-2) + \ln(x+1) & = 2                                                 \\
+    \ln((x-2)(x+1))     & = 2                                                 \\
+    \ln(x^2-x-2)        & = 2                                                 \\
+    e^{\ln(x^2-x-2)}    & = e^2                                               \\
+    x^2-x-2             & = e^2                                               \\
+    x^2-x-(2+e^2)       & = 0                                                 \\
+    \nonumber                                                                 \\
+    x                   & = \frac{-b\pm\sqrt{b^2-4ac}}{2a}                    \\
+    a                   & = 1                                                 \\
+    b                   & = -1                                                \\
+    c                   & = -(2+e^2)                                          \\
+    \nonumber                                                                 \\
+    x                   & = \frac{-(-1)\pm\sqrt{(-1)^2-4(1)(-(2+e^2))}}{2(1)} \\
+    x                   & = \frac{1\pm\sqrt{1+4(2+e^2)}}{2}                   \\
+    x                   & = \frac{1\pm\sqrt{9+4e^2}}{2}                       \\
+    \nonumber                                                                 \\
+    x                   & = 3.6047                                            \\
+                        & \&                                                  \\
+    x                   & = - 2.6047
+\end{align}
+
+Plugging the two solutions in our original equation, we can see that only $x = 3.6047$ will allow for the logarithms to have valid arguments.
+Therefore, the solution to Problem~\eqref{eq:9} is:
+
+\begin{equation}
+    x = 3.6047
+\end{equation}
+
+\end{document}
