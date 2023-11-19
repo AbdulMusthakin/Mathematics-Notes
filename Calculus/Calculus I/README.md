@@ -16,9 +16,9 @@ Review -> Limits -> Derivatives -> Applications of Derivatives -> Integrals -> A
 -   [Solving Exponential and Logarithmic Equations](/Calculus/Calculus%20I/Review/solving_exponential_and_logarithmic_functions.pdf)
 -   [Common Graphs](\Calculus\Calculus%20I\Review\common_graphs.pdf)
 
-### Limitss
+### Limits
 
--   [Tanget Lines and Rates of Change](#tangent-lines-and-rates-of-change)
+-   [Tanget Lines and Rates of Change](\Calculus\Calculus%20I\Limits\tangent_lines_and_rates_of_change.pdf)
 -   [The Limit](#the-limit)
 -   [One-Sided Limits](#one-sided-limits)
 -   [Limit Properties](#limit-properties)
@@ -87,3 +87,27 @@ Review -> Limits -> Derivatives -> Applications of Derivatives -> Integrals -> A
 -   [Types of Infinity](#types-of-infinity)
 -   [Summation Notation](#summation-notation)
 -   [Constant of Integration](#constant-of-integration)
+
+## Review
+
+Knowledge of algebra and trigonometry is essential to being successful in Calculus I. It is however the case that many people attempt calculus with a poor foundation to work on. This makes the subject appear to be much more difficult than it actually is. Many algebra courses are aimed at a general audience instead of people specifically wishing to learn the algebra needed for calculus. This means that a lot of material required is left out to keep the difficulty of the course low.
+
+This section will not cover all of the algebra and trigonometry needed as that would be too much to cover. Instead, it will cover the most important parts and things that people may struggle with. For instance, it will be expected that anyone who is doing Calculus I is able to solve both linear and quadratic equations. Thus, they will not be covered here. Also, factorising is a very important skill as someone who is learning calculus should be able to factorise.
+
+## Limits
+
+This is the first of the three major topics that are covered in Calculus I. We will spend the least time on this though it is very important to calculus and limits will appear in other sections. In particular, they appear in formal definitions found in the other two main topics.
+
+We will discuss what a limit tells us about a function and how they can be used to get the rate of change as well as the gradient/slope of a line tangent to a point in a function. We will look at properties of limits and techniques used to compute them. We will also look at limits that equal infinity and limits that go to infinity, as well as how to compute them.
+
+Additionally, the concept of continuity will be discussed and how it is used in the intermediate value theorem. The intermediate value theorem is used to show that a function has a root in a given interval. The section will end with the formal definition of a limit, which may also be referred to as the epsilon-delta definition of a limit.
+
+## Derivatives
+
+## Applications of Derivatives
+
+## Integrals
+
+## Applications of Integrals
+
+## Extras

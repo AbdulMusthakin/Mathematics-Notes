@@ -57,29 +57,32 @@ Afterwards, we would solve for $y$:
 \end{equation}
 
 Note that here, we have two values for $y$.
-Let's just use the positive.
-In which case, we may replace $y$ with $f^{-1}(x)$ and get:
+We may replace $y$ with $f^{-1}(x)$ and get:
 
-\begin{equation}
-    f^{-1}(x) = \sqrt{x}
-\end{equation}
-
-
-We can check our answer by doing some function composition.
-It should be true that $(f \circ f^{-1}) = (f^{-1} \circ f) = x$.
-We can do $(\sqrt{x})^2$ which equals $x$.
-This shows that we are correct.
-Now, we had two values for $y$ and we ignored the negative.
-Something to note is that the function $x^2$ doesn't really have a proper inverse, or at least one.
-The function $\sqrt{x}$ would satisfy the composition statement so it is the inverse.
-However, our method gave us two answers and the negative version wouldn't satisfy the statement.
-The reason this happens in this instance is because the function $x^2$ is not a one-to-one function.
-A one-to-one function maps some value of $x$ to a unique value of $y$.
-We can see that this isn't true for $f(x)=x^2$ quite easily.
-We know that the shape is a parabola, and values such as $x=2$ and $x=-2$ will give the same $y$ value making it not a one-to-one function.
+\begin{align}
+    f^{-1}(x) & = \sqrt{x}  \\
+              & \&          \\
+    f^{-1}(x) & = -\sqrt{x}
+\end{align}
 
 
-Let's try some examples:
+Now, we were given two inverse functions for $f(x)=x^2$.
+This is due to the fact that each inverse function only works for certain intervals of $x$.
+$f^{-1}(x)=\sqrt{x}$ is a valid inverse function for $f(x)=x^2$ for $x$ values on the interval $[0, \infty)$.
+                For these $x$ values, it holds true that $(\sqrt{x})^2 = \sqrt{(x^2)} = x$, so $(f \circ f^{-1}) = (f^{-1} \circ f) = x$.
+                However, if we have something like $x=-1$, it would be true that $(\sqrt{x})^2 = x$ but not that $\sqrt{(x^2)} = x$ since $\sqrt{(-1)^2} = 1$ and $-1 \neq 1$.
+                For $x$ values on the interval $(-\infty, 0]$, the inverse function is $f^{-1}(x)=-\sqrt{x}$.
+On this interval, it is true that $(-\sqrt{x})^2 = -\sqrt{(x^2)} = x$, so $(f \circ f^{-1}) = (f^{-1} \circ f) = x$.
+For instance, with $x=-1$, $(-\sqrt{x})^2 = x$ is true and so is $-\sqrt{(x^2)} = x$ as $-\sqrt{(-1)^2} = -1$.
+
+The reason $f(x)=x^2$ has multiple inverse functions is because it is not injective.
+If a function is injective, then for any value of $f(x)$, there is only one value of $x$ corresponds to it.
+$x^2$ is not injectie as $(-x)^2 = x^2$ for all $x \in \mathbb{R}$.
+Say we have $f(x) = 4$; it could be true that $x=2$ or $x=-2$.
+$\sqrt{(x^2)}$ will return $|x|$ instead of $x$, so $f^{-1}(x)=\sqrt{x}$ does not work as an inverse function for $x<0$ as $(f^{-1} \circ f)$ would not return $x$.
+Thus, the function has two inverses that work for different intervals.
+
+Let's try some examples of finding inverse functions:
 
 \begin{enumerate}
     \item $f(x) = 6x + 15$
