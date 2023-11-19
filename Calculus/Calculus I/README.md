@@ -13,12 +13,12 @@ Review -> Limits -> Derivatives -> Applications of Derivatives -> Integrals -> A
 -   [Trigonometric Functions](/Calculus/Calculus%20I/Review/trigonometric_functions.pdf)
 -   [Solving Trigonometric Equations](/Calculus/Calculus%20I/Review/solving_trigonometric_equations.pdf)
 -   [Exponential and Logarithmic Functions](/Calculus/Calculus%20I/Review/exponential_and_logarithmic_functions.pdf)
--   [Solving Exponential and Logarithmic Equations](/Calculus/Calculus%20I/Review/solving_exponential_and_logarithmic_functions.pdf)
--   [Common Graphs](\Calculus\Calculus%20I\Review\common_graphs.pdf)
+-   [Solving Exponential and Logarithmic Equations](/Calculus/Calculus%20I/Review/solving_exponential_and_logarithmic_equations.pdf)
+-   [Common Graphs](/Calculus/Calculus%20I/Review/common_graphs.pdf)
 
 ### Limits
 
--   [Tanget Lines and Rates of Change](\Calculus\Calculus%20I\Limits\tangent_lines_and_rates_of_change.pdf)
+-   [Tanget Lines and Rates of Change](/Calculus/Calculus%20I/Limits/tangent_lines_and_rates_of_change.pdf)
 -   [The Limit](#the-limit)
 -   [One-Sided Limits](#one-sided-limits)
 -   [Limit Properties](#limit-properties)
