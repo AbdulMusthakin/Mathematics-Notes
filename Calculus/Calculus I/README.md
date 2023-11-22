@@ -19,7 +19,7 @@ Review -> Limits -> Derivatives -> Applications of Derivatives -> Integrals -> A
 ### Limits
 
 -   [Tanget Lines and Rates of Change](/Calculus/Calculus%20I/Limits/tangent_lines_and_rates_of_change.pdf)
--   [The Limit](#the-limit)
+-   [Introduction to Limits](/Calculus/Calculus%20I/Limits/introduction_to_limits.pdf)
 -   [One-Sided Limits](#one-sided-limits)
 -   [Limit Properties](#limit-properties)
 -   [Computing Limits](#computing-limits)
