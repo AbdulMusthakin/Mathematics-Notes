@@ -1,0 +1,85 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage[style=iso]{datetime2}
+\usepackage[explicit]{titlesec}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{float}
+
+\graphicspath{ {./Images/} }
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem{definition}{Definition}
+
+\begin{titlepage}
+\title{Calculus I: One-Sided Limits}
+\author{The Melon Man}
+\date{\today}
+\end{titlepage}
+
+\renewcommand{\thesection}{\Roman{section}}
+
+\allowdisplaybreaks
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\begin{document}
+\maketitle
+
+In the previous section, we looked at two limits which do not exist; the reason for them not existing, however, were quite different.
+One of the limits were:
+
+\begin{equation*}
+    \lim_{t\to0} \cos\left(\frac{\pi}{t}\right)
+\end{equation*}
+
+We saw that this limit does not exist as the function oscillates wildly as we approach $t=0$ from either side.
+As the function does not settle on any one value, the limit does not exist.
+We had also considered the following limit.
+
+\begin{equation*}
+    \lim_{x \to 0} H(t), \quad H(t) =
+    \begin{cases}
+        0 & \text{if } t < 0    \\
+        1 & \text{if } t \geq 0
+    \end{cases}
+\end{equation*}
+
+This limit does not exist either but for a different reason.
+From the left of $t=0$, $H(t)$ approaches 0 while it approaches 1 from the right.
+As the function settles on two different values depending on which side of $t=0$ we are looking at, the limit does not exist.
+
+We will differentiate these two cases of limits that do not exist.
+This will be done with \textbf{one-sided limits} whose definitions are present below; these involve us looking at what a function approaches from only one side.
+
+\begin{definition}
+    The limit of $f(x)$ is $L$ as $x$ approaches $a$ from the right, written as
+
+    \begin{equation*}
+        \lim_{x\to a^+} f(x) = L, \label{eq:1}
+    \end{equation*}
+
+    if $f(x)$ can be made to be close to $L$ for all values of $x$ close to $a$, with $x>a$.
+\end{definition}
+
+\begin{definition}
+    The limit of $f(x)$ is $L$ as $x$ approaches $a$ from the left, written as
+
+    \begin{equation*}
+        \lim_{x\to a^-} f(x) = L, \label{eq:2}
+    \end{equation*}
+
+    if $f(x)$ can be made to be close to $L$ for all values of $x$ close to $a$, with $x<a$.
+\end{definition}
+
+Notice that the change in notation here from normal limits is very slight.
+The only difference is that there is a superscripted sign after the $a$, under the "lim" part; right-handed limits have us go to $a^+$ while left-handed limits have us go to $a^-$.
+These tell us whether we are considering $x>a$ or $x<a$, the direction we approach the target value.
+
+\end{document}
