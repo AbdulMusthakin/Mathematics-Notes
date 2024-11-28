@@ -1,0 +1,99 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\usepackage[style=iso]{datetime2}
+\usepackage{xcolor}
+\usepackage{polynom}
+\usepackage{tocloft}
+
+\begin{titlepage}
+\title{STEP Notes (2011.02.07)}
+\author{The Melon Man}
+\date{\today}
+\end{titlepage}
+
+\renewcommand{\thesection}{\Roman{section}}
+
+% \counterwithout{subsection}{section}  % have subsections numbered independently of sections
+% \renewcommand{\thesubsection}{\arabic{subsection}.}  % have dot after subsection number
+
+\addtolength{\cftsecnumwidth}{10pt}
+
+\allowdisplaybreaks
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\begin{document}
+\maketitle
+
+I am typesetting my notes for this STEP problem, because I it rather interesting.
+Additionally, it is one of the first STEP problems that I have attempted and completed myself -- with almost no aid.
+It is a geometric progressions' problem, and a fairly difficult one.
+However, I found it simpler than most of the ones that I have seen far.
+As I attempt more problems, I will get better at learning how to approach them.
+Time-Management skills are not as important now, but they will be developed within due time.
+
+Firstly, it is useful to express the formula for the sum of the first $n$ terms of a geometric progression.
+\begin{equation}
+    \sum_{i=1}^n ar^{i-1} = a + ar + ar^2 + \cdots + ar^n = \frac{a(1-r^n)}{1-r} \label{Geometric Series}
+\end{equation}
+
+We are given some information, all of which is useful.
+Two sequences, $a_0, a_1, a_2, \ldots$, and $b_0, b_1, b_2, \ldots$ have the general terms,
+\begin{equation*}
+    a_n = \lambda^n + \mu^n \quad \text{and} \quad b_n = \lambda^n - \mu^n,
+\end{equation*}
+where
+\begin{equation*}
+    \lambda = 1 + \sqrt{2} \quad \text{and} \quad \mu = 1 - \sqrt{2}.
+\end{equation*}
+
+Part (i) provides us with a result which we must show is true.
+\begin{equation}
+    \sum_{r=0}^{n} b_r = -\sqrt{2} + \frac{1}{\sqrt{2}} a_{n+1}
+\end{equation}
+Additionally, it asks us to give a corresponding result for:
+\begin{equation*}
+    \sum_{r=0}^{n} a_r
+\end{equation*}
+
+Given the information we have, we can write the sum of $b_r$ in terms of $\lambda$ and $\mu$.
+\begin{equation*}
+    \sum_{r=0}^{n} b_r = \sum_{r=0}^{n} \lambda^r - \mu^r = \sum_{r=0}^{n} \lambda^r - \sum_{r=0}^{n} \mu^r
+\end{equation*}
+Now we have the difference between two geometric series; both of them can be evaluated using \eqref{Geometric Series}.
+The initial term for both sums is 1 ($\lambda^0=\mu^0=1$), and the common ratios are $\lambda$ and $\mu$ respectively.
+\begin{align}
+    \sum_{i=0}^{n} \lambda^i = \sum_{i=1}^{n} \lambda^{i-1} = \frac{1-\lambda^n}{1-\lambda} + \lambda^n \\
+    \sum_{i=0}^{n} \mu^i = \sum_{i=1}^{n} \mu^{i-1} = \frac{1-\mu^n}{1-\mu} + \mu^n
+\end{align}
+With these, we can find the sum of $b_r$.
+It is better not write $\lambda$ and $\mu$ as the expressions they were given as for the sake of keeping our work simple.
+Those definitions will be utilised to simplify when possible.
+\begin{align*}
+    \sum_{r=0}^{n} b_r & = \frac{1-\lambda^n}{1-\lambda} - \frac{1-\mu^n}{1-\mu} + \lambda^n - \mu^n                                      \\
+                       & = \frac{(1-\lambda^n)(1-\mu) - (1-\mu^n)(1-\lambda)}{(1-\lambda)(1-\mu)} + \lambda^n - \mu^n                     \\
+                       & = \frac{(1-\lambda^n)(1-1+\sqrt{2}) - (1-\mu^n)(1-1-\sqrt{2})}{(1-1-\sqrt{2})(1-1+\sqrt{2})} + \lambda^n - \mu^n \\
+                       & = \frac{\sqrt{2}(1-\lambda^n) + \sqrt{2}(1-\mu^n)}{-2} + \lambda^n - \mu^n                                       \\
+                       & = -\frac{\sqrt{2}}{2}\bigg(1-\lambda^n+1-\mu^n\bigg) + \lambda^n - \mu^n                                         \\
+                       & = -\frac{1}{\sqrt{2}}\bigg(2-\lambda^n-\mu^n\bigg) + \lambda^n - \mu^n                                           \\
+                       & = -\sqrt{2} + \frac{1}{\sqrt{2}}\bigg(\lambda^n+\mu^n\bigg) + \lambda^n - \mu^n                                  \\
+                       & = -\sqrt{2} + \frac{1}{\sqrt{2}}\bigg(\lambda^n+\mu^n + \sqrt{2}\lambda^n - \sqrt{2}\mu^n\bigg)                  \\
+                       & = -\sqrt{2} + \frac{1}{\sqrt{2}}\bigg(\left(1+\sqrt{2}\right)\lambda^n + \left(1-\sqrt{2}\right)\mu^n\bigg)      \\
+                       & = -\sqrt{2} + \frac{1}{\sqrt{2}}\bigg(\lambda\lambda^n + \mu\mu^n\bigg)                                          \\
+                       & = -\sqrt{2} + \frac{1}{\sqrt{2}}\bigg(\lambda^{n+1} + \mu^{n+1}\bigg)                                            \\
+                       & = -\sqrt{2} + \frac{1}{\sqrt{2}}a_{n+1} \qquad \square
+\end{align*}
+
+Now, we may do the same for the sum of $a_r$.
+\begin{align*}
+    \sum_{r=0}^{n} a_r & = \sum_{r=0}^{n} \lambda^r + \sum_{r=0}^{n} \mu^r                                            \\
+                       & = \frac{1-\lambda^n}{1-\lambda} + \frac{1-\mu^n}{1-\mu} + \lambda^n + \mu^n                  \\
+                       & = \frac{(1-\lambda^n)(1-\mu) + (1-\mu^n)(1-\lambda)}{(1-\lambda)(1-\mu)} + \lambda^n + \mu^n \\
+                       & = \frac{\sqrt{2}(1-\lambda^n) - \sqrt{2}(1-\mu^n)}{-2} + \lambda^n + \mu^n                   \\
+\end{align*}
+\end{document}
