@@ -71,8 +71,9 @@ The initial term for both sums is 1 ($\lambda^0=\mu^0=1$), and the common ratios
     \sum_{i=0}^{n} \lambda^i = \sum_{i=1}^{n} \lambda^{i-1} = \frac{1-\lambda^n}{1-\lambda} + \lambda^n \\
     \sum_{i=0}^{n} \mu^i = \sum_{i=1}^{n} \mu^{i-1} = \frac{1-\mu^n}{1-\mu} + \mu^n
 \end{align}
+
 With these, we can find the sum of $b_r$.
-It is better not write $\lambda$ and $\mu$ as the expressions they were given as for the sake of keeping our work simple.
+It is better to not write $\lambda$ and $\mu$ as the expressions they were given as for the sake of keeping our work simple.
 Those definitions will be utilised to simplify when possible.
 \begin{align*}
     \sum_{r=0}^{n} b_r & = \frac{1-\lambda^n}{1-\lambda} - \frac{1-\mu^n}{1-\mu} + \lambda^n - \mu^n                                      \\
@@ -91,9 +92,77 @@ Those definitions will be utilised to simplify when possible.
 
 Now, we may do the same for the sum of $a_r$.
 \begin{align*}
-    \sum_{r=0}^{n} a_r & = \sum_{r=0}^{n} \lambda^r + \sum_{r=0}^{n} \mu^r                                            \\
-                       & = \frac{1-\lambda^n}{1-\lambda} + \frac{1-\mu^n}{1-\mu} + \lambda^n + \mu^n                  \\
-                       & = \frac{(1-\lambda^n)(1-\mu) + (1-\mu^n)(1-\lambda)}{(1-\lambda)(1-\mu)} + \lambda^n + \mu^n \\
-                       & = \frac{\sqrt{2}(1-\lambda^n) - \sqrt{2}(1-\mu^n)}{-2} + \lambda^n + \mu^n                   \\
+    \sum_{r=0}^{n} a_r & = \sum_{r=0}^{n} \lambda^r + \sum_{r=0}^{n} \mu^r                                                \\
+                       & = \frac{1-\lambda^n}{1-\lambda} + \frac{1-\mu^n}{1-\mu} + \lambda^n + \mu^n                      \\
+                       & = \frac{(1-\lambda^n)(1-\mu) + (1-\mu^n)(1-\lambda)}{(1-\lambda)(1-\mu)} + \lambda^n + \mu^n     \\
+                       & = \frac{\sqrt{2}(1-\lambda^n) - \sqrt{2}(1-\mu^n)}{-2} + \lambda^n + \mu^n                       \\
+                       & = -\frac{\sqrt{2}}{2}\bigg(1-\lambda^n - 1 + \mu^n\bigg) + \lambda^n + \mu^n                     \\
+                       & = \frac{1}{\sqrt{2}}\bigg(\lambda^n - \mu^n\bigg) + \lambda^n + \mu^n                            \\
+                       & = \frac{1}{\sqrt{2}}\bigg(\lambda^n - \mu^n + \sqrt{2}\lambda^n + \sqrt{2}\mu^n \bigg)           \\
+                       & = \frac{1}{\sqrt{2}}\bigg(\left(1+\sqrt{2}\right)\lambda^n - \left(1-\sqrt{2}\right)\mu^n \bigg) \\
+                       & = \frac{1}{\sqrt{2}}\bigg(\lambda^{n+1} - \mu^{n+1} \bigg)                                       \\
+                       & = \frac{1}{\sqrt{2}}b_{n+1}
 \end{align*}
+
+So far, the most difficult part of the problem has been figuring out how to start it.
+I needed to realize that I could write my sum as the difference between two geometric series, and the algebra that followed was relatively simple.
+Additionally, I had to not make the mistake of expanding $\lambda$ and $\mu$; this would have made everything much more tedious.
+As is characteristic of many STEP questions, I was provided with the result and told to show that it is true.
+This allowed me to work backwards, which was a crucial strategy to figure out how to manipulate my expression to obtain the given result.
+
+Finding the sum of $a_r$ was much simpler, as we already knew what to do and had the knowledge to simplify as was needed.
+Our result allows us to complete the next part of the problem, which would be daunting otherwise.
+Part (ii) requires the evaluation of a double summation.
+A result is given for odd values of $n$.
+\begin{equation}
+    \sum_{m=0}^{2n} \left(\sum_{r=0}^{m} a_r\right) = \frac{1}{2} b^2_{n+1}
+\end{equation}
+The double sum can be turned into a single sum very easily -- just by substituting our result from part (i).
+The rest of it is just algebraic manipulation, except for one thing.
+We were told to find a result for the sum specifically for odd values of $n$.
+This suggests that the parity of $n$ will be involved at some stage of our solution.
+It was fairly easy to recognize where this was.
+
+My simplification caused a $-1$ term to appear in the expression, which I rewrote as $\lambda\mu$.
+This was something that was just natural to me.
+I had already factorized terms to simplify my expression in part (i), and it is something I do fairly often in maths problems.
+From that perspective, $\lambda\mu$ is much more useful to me than some constant term (when none of of my other terms are constants).
+When raising $\lambda\mu$ to the power of $n$, the parity of $n$ is important.
+\begin{equation}
+    \lambda\mu^n = (-1)^n =
+    \begin{cases}
+        -1 = \phantom{-} \lambda\mu  & \text{if } x \text{ is odd}  \\
+        \phantom{-}1  =  -\lambda\mu & \text{if } x \text{ is even}
+    \end{cases}
+\end{equation}
+
+This is all we need to complete part (ii).
+\begin{align*}
+    \sum_{m=0}^{2n} \left(\sum_{r=0}^{m} a_r\right) & = \frac{1}{\sqrt{2}} \sum_{m=0}^{2n} b_{m+1}                                                                                                                                                   \\
+                                                    & = \frac{1}{\sqrt{2}} \sum_{m=0}^{2n} (\lambda^m - \mu^m) + \sqrt{2} (\lambda^m + \mu^m)                                                                                                        \\
+                                                    & = \frac{1}{\sqrt{2}} \sum_{m=0}^{2n} b_m + \sqrt{2} a_m                                                                                                                                        \\
+                                                    & = \frac{1}{\sqrt{2}} \left( -\sqrt{2} + \frac{1}{\sqrt{2}} a_{2n+1} + \sqrt{2} \left(\frac{1}{\sqrt{2}} b_{2n+1} \right) \right)                                                               \\
+                                                    & = -1 + \frac{1}{2} a_{2n+1} + \frac{1}{\sqrt{2}} b_{2n+1}                                                                                                                                      \\
+                                                    & = -1 + \frac{1}{2} \lambda^{2n+1} + \frac{1}{2} \mu^{2n+1} + \frac{1}{\sqrt{2}} \lambda^{2n+1} - \frac{1}{\sqrt{2}} \mu^{2n+1}                                                                 \\
+                                                    & = \lambda\mu + \frac{1}{2} \lambda\lambda^{2n} + \frac{1}{2} \mu\mu^{2n} + \frac{1}{\sqrt{2}} \lambda\lambda^{2n} - \frac{1}{\sqrt{2}} \mu\mu^{2n}                                             \\
+                                                    & = \lambda\mu + \frac{1}{2} \lambda^{2n} + \frac{1}{2} \mu^{2n} + \frac{1}{\sqrt{2}} \lambda^{2n} - \frac{1}{\sqrt{2}} \mu^{2n} + \frac{1}{\sqrt{2}} \lambda^{2n} - \frac{1}{\sqrt{2}} \mu^{2n} \\
+                                                    & \phantom{++}\quad + \lambda^{2n} + \mu^{2n}                                                                                                                                                    \\
+                                                    & = \lambda\mu + \frac{1}{2} \bigg(\lambda^n - \mu^n \bigg)^2 + \lambda^n\mu^n + \frac{1}{\sqrt{2}} \bigg(\lambda^n + \mu^n \bigg) \bigg(\lambda^n - \mu^n \bigg)                                \\
+                                                    & \phantom{++}\quad + \frac{1}{\sqrt{2}} \bigg(\lambda^n + \mu^n \bigg) \bigg(\lambda^n - \mu^n \bigg) + (\lambda^n + \mu^n)^2 - 2\lambda^n\mu^n                                                 \\
+                                                    & = \lambda\mu - \lambda^n\mu^n + \frac{1}{2} \bigg(\lambda^n - \mu^n \bigg)^2 + \sqrt{2} (\lambda^n + \mu^n)(\lambda^n - \mu^n)                                                                 \\
+                                                    & \phantom{++}\quad + (\lambda^n + \mu^n)^2                                                                                                                                                      \\
+                                                    & = \lambda\mu - \lambda^n\mu^n + \frac{1}{2} b^2_n + \sqrt{2} a_n b_n + a^2_n                                                                                                                   \\
+                                                    & = \frac{1}{2} b^2_n + \sqrt{2} a_n b_n + a^2_n                                                                                                                                                 \\
+                                                    & = \frac{1}{2} \bigg(b^2_n + 2\sqrt{2} a_n b_n + 2a^2_n \bigg)                                                                                                                                  \\
+                                                    & = \frac{1}{2} \bigg(b_n + \sqrt{2} a_n \bigg)^2                                                                                                                                                \\
+                                                    & = \frac{1}{2} b^2_{n+1}, \text{ if $n$ is odd}. \qquad \square
+\end{align*}
+
+We can do this for even values of $n$, and most of our work can be reused.
+\begin{align*}
+    \sum_{m=0}^{2n} \left(\sum_{r=0}^{m} a_r\right) & = \lambda\mu - \lambda^n\mu^n + \frac{1}{2} b^2_n + \sqrt{2} a_n b_n + a^2_n \\
+                                                    & = \frac{1}{2} b^2_n + \sqrt{2} a_n b_n + a^2_n + 2\lambda^n\mu^n             \\
+                                                    & = \frac{1}{2} b^2_{n+1} - 2, \text{ if $n$ is even}.
+\end{align*}
+
 \end{document}
