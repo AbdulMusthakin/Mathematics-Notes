@@ -11,7 +11,7 @@
 
 \begin{titlepage}
 \title{STEP Notes (2011.02.07)}
-\author{The Melon Man}
+\author{Abdul Musthakin}
 \date{\today}
 \end{titlepage}
 
@@ -161,8 +161,78 @@ This is all we need to complete part (ii).
 We can do this for even values of $n$, and most of our work can be reused.
 \begin{align*}
     \sum_{m=0}^{2n} \left(\sum_{r=0}^{m} a_r\right) & = \lambda\mu - \lambda^n\mu^n + \frac{1}{2} b^2_n + \sqrt{2} a_n b_n + a^2_n \\
-                                                    & = \frac{1}{2} b^2_n + \sqrt{2} a_n b_n + a^2_n + 2\lambda^n\mu^n             \\
+                                                    & = \frac{1}{2} b^2_n + \sqrt{2} a_n b_n + a^2_n + 2\lambda\mu                 \\
                                                     & = \frac{1}{2} b^2_{n+1} - 2, \text{ if $n$ is even}.
 \end{align*}
+
+A case could be made for part (ii) being easier than part (i).
+The main difficulty in the problem is being able to start it.
+There certainly is a lot of algebraic manipulation that needs to be done -- to the extent that one may get lost in it.
+However, with the aid of being given the final result, the problem is fairly simpler conceptually.
+Initially, when I was trying to see how I would obtain the final result, I expanded $b^2_{n+1}$.
+This showed me how to factor the terms I had in my expression.
+A goal to work towards is very useful with problems, and being able to work backwards was an essential strategy of mine.
+
+Once I evaluated the sum for odd values of $n$, obtaining a result for even values was trivial.
+I could see where the parity of $n$ would cause my work to diverge, with everything before it beign reusable.
+Part (iii) follows the same formula as the first two parts in this regard.
+We are asked to show that a result is true for odd values of $n$.
+\begin{equation}
+    \left(\sum_{r=0}^{n} a_r \right)^2 - \sum_{r=0}^{n} a_{2r+1} = 2
+\end{equation}
+I -- almost instantly -- thought of a method way to approach this.
+The first term can easily be evaluated, as we have already found out what the sum is; squaring it is easy.
+Then, we only have one sum to evaluate.
+My idea was to use the given result to try and reverse-engineer the solution.
+This was unnsuccessful, as I could not find a way to evaluate the sum just using the results that I had already obtained.
+
+This was the only part of the problem that I obtained aid with.
+I looked at part of the solution for this, just to see that the geometric series formula was to be used.
+With knowledge, I evaluated some sum pretty easily.
+\begin{align*}
+    \sum_{i=0}^{n} a_{2i+1} & = \sum_{i=0}^{n} \lambda^{2i+1} + \sum_{i=0}^{n} \mu^{2i+1}                                                                                                                                        \\
+                            & = \sum_{i=0}^{n} \lambda\left(\lambda^2\right)^i + \sum_{i=0}^{n} \mu\left(\mu^2\right)^i                                                                                                          \\
+                            & = \sum_{i=1}^{n} \lambda\left(\lambda^2\right)^{i-1} + \sum_{i=1}^{n} \mu\left(\mu^2\right)^{i-1} + \lambda^{2n+1} + \mu^{2n+1}                                                                    \\
+                            & = \frac{\lambda\left(1-\lambda^{2n}\right)}{1-\lambda^2} + \frac{\mu\left(1-\mu^{2n}\right)}{1-\mu^2} + \lambda^{2n+1} + \mu^{2n+1}                                                                \\
+                            & = \frac{\lambda-\lambda^{2n+1}}{1-\lambda^2} + \frac{\mu-\mu^{2n+1}}{1-\mu^2} + \lambda^{2n+1} + \mu^{2n+1}                                                                                        \\
+                            & = \frac{\left(\lambda-\lambda^{2n+1}\right)\left(1-\mu^2\right) + \left(\mu-\mu^{2n+1}\right)\left(1-\lambda^2\right)}{\left(1-\lambda^2\right)\left(1-\mu^2\right)} + \lambda^{2n+1} + \mu^{2n+1} \\
+                            & = \frac{\left(\lambda-\lambda^{2n+1}\right)\left(2\sqrt{2}-2\right) + \left(\mu-\mu^{2n+1}\right)\left(-2\sqrt{2}-2\right)}{\left(-2\sqrt{2}-2\right)\left(2\sqrt{2}-2\right)}                     \\
+                            & \phantom{=}+ \lambda^{2n+1} + \mu^{2n+1}                                                                                                                                                           \\
+                            & = \frac{-2\mu\left(\lambda-\lambda^{2n+1}\right) - 2\lambda\left(\mu-\mu^{2n+1}\right)}{4\lambda\mu} + \lambda^{2n+1} + \mu^{2n+1}                                                                 \\
+                            & = -\frac{1}{2}\bigg(1 - \lambda^{2n}\bigg) - \frac{1}{2}\bigg(1 - \mu^{2n}\bigg) + \lambda^{2n+1} + \mu^{2n+1}                                                                                     \\
+                            & = -1 + \frac{1}{2} \lambda^{2n} + \frac{1}{2} \mu^{2n} + \lambda\lambda^{2n} + \mu\mu^{2n}                                                                                                         \\
+                            & = \lambda\mu + \frac{1}{2} \lambda^{2n} + \frac{1}{2} \mu^{2n} + \sqrt{2}\lambda^{2n} - \sqrt{2}\mu^{2n} + \lambda^{2n} + \mu^{2n}                                                                 \\
+                            & = \frac{1}{2} b^2_n + \sqrt{2} a_n b_n + a^2_n - \lambda^n\mu^n + \lambda\mu                                                                                                                       \\
+                            & =
+    \begin{cases}
+        \frac{1}{2} b^2_{n+1}    & \text{if } x \text{ is odd}  \\
+        \frac{1}{2} b^2_{n+1} -2 & \text{if } x \text{ is even}
+    \end{cases}
+\end{align*}
+
+There is no difficulty in completing the problem after this result is obtained.
+For even values of $n$:
+\begin{align*}
+    \left(\sum_{r=0}^{n} a_r \right)^2 - \sum_{r=0}^{n} a_{2r+1} & = \left(\frac{1}{\sqrt{2}} b_{n+1}\right)^2 - \left(\frac{1}{2} b^2_{n+1} - 2\right) \\
+                                                                 & = \frac{1}{2} b^2_{n+1} - \frac{1}{2} b^2_{n+1} + 2                                  \\
+                                                                 & = 2 \qquad \square
+\end{align*}
+For odd $n$:
+\begin{equation*}
+    \left(\sum_{r=0}^{n} a_r \right)^2 - \sum_{r=0}^{n} a_{2r+1}  = \frac{1}{2} b^2_{n+1} - \frac{1}{2} b^2_{n+1} = 0
+\end{equation*}
+
+Overall, this is not a very difficult problem conceputally.
+The algebraic manipulations are not incredibly difficult to perform, though it is a step above A-level.
+The important thing is to realize how everything is interconnected.
+With the same general method of evaluating geometric series, we can do everything we were asked to do.
+There was the aspect of utilising the parity of a vairable to simplify our expression, though spotting is not difficult with prior experience of dealing with such problems.
+
+Just as any other other problem I could have done, completing this and explaining my methadology, has improved my ability in general.
+The way I did things is not exactly the same as the solutions I have seen.
+It is not the most optimal way, and one can obtain the same results with less lines of work.
+However, what I did was what made sense to me -- what came to my mind first.
+My notes display my reasoning and the way I do things.
+Whilst I will always attempt to improve them, being able to succeed with what I know and how I already think is a good sign.
 
 \end{document}
