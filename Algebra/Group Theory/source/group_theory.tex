@@ -1,0 +1,57 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage[style=iso]{datetime2}
+\usepackage[explicit]{titlesec}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{mathtools} % Provides \mathrlap command
+\usepackage{float}
+\usepackage[skip=1em,indent]{parskip}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{tocloft}
+\usepackage{mathtools}
+
+\graphicspath{ {./Images/} }
+
+\makeatletter
+\def\th@plain{%
+  \thm@notefont{}% same as heading font
+  \itshape % body font
+}
+\def\th@definition{%
+  \thm@notefont{}% same as heading font
+  \normalfont % body font
+}
+\makeatother
+
+\newcommand*\diff{\mathop{}\!d} % for the differential in integrals
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+\begin{titlepage}
+\title{Group Theory}
+\author{Abdul Musthakin}
+\date{\today}
+\end{titlepage}
+
+
+\allowdisplaybreaks
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\maketitle
+
+\end{document}

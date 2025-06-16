@@ -1,3 +1,5 @@
+# NOTE - DEPRECATED
+
 # Calculus I
 
 This will contain my notes for Calculus I. I will mainly be using the Calculus I notes by Paul Dawkins, found on [Lamar University's website](https://tutorial.math.lamar.edu/Classes/CalcI/CalcI.aspx). There, Dawkins has the notes for quite a few of the courses he teaches, as well as practice problems and useful resources. The expected prerequisite knowledge for Calculus I is a good understanding of algebra and trigonometry, as well as a basic understanding of functions and graphs, though some of this will be covered in the review section.

@@ -1,0 +1,181 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage[style=iso]{datetime2}
+\usepackage[explicit]{titlesec}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{mathtools} % Provides \mathrlap command
+\usepackage{float}
+\usepackage[skip=1em,indent]{parskip}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{tocloft}
+\usepackage{mathtools}
+\usepackage{dsfont}
+
+% \usepackage{tikz}
+% \tikzset{>=latex} % for LaTeX arrow head
+% \usepackage{pgfplots} % for the axis environment
+% \usetikzlibrary{calc,decorations.markings}
+
+% \pgfplotsset{compat=1.18, every tick label/.append style={font=\footnotesize}}
+
+\graphicspath{ {./Images/} }
+
+\makeatletter
+\def\th@plain{%
+  \thm@notefont{}% same as heading font
+  \itshape % body font
+}
+\def\th@definition{%
+  \thm@notefont{}% same as heading font
+  \normalfont % body font
+}
+\makeatother
+
+\newcommand*\diff{\mathop{}\!d} % for the differential in integrals
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem*{example}{Example}
+
+% \setlength{\cftsecnumwidth}{3em}
+
+\begin{titlepage}
+\title{Arithmetic Functions}
+\author{Abdul Musthakin}
+\date{\today}
+\end{titlepage}
+
+% \renewcommand{\thesection}{\Roman{section}}
+
+\allowdisplaybreaks
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+\begin{definition}[Arithmetic Function]
+    A function $f: X \to Y$ is an arithmetic function iff its domain is the set of positive integers: $X = \mathbb{N} \coloneq \mathbb{Z}_{>0}$.
+\end{definition}
+These functions are a major subject of study in number theory, and are often referred to as \textbf{number-theoretic} functions, though that may also be used to refer to any function that has use within number theory.
+First, we will define some properties that an arithemtic function can have.
+\begin{definition}
+    An arithemtic function $f$ is additive if $f(mn) = f(m) + f(n)$ for all $m, n \in \mathbb{N}$ such that $\gcd(m,n)=1$.
+    Furthermore, it is completely additive if $f(mn) = f(m) + f(n)$ for all $m, n \in \mathbb{N}$.
+\end{definition}
+\begin{definition}
+    An arithemtic function $f$ is multiplicative if $f(mn) = f(m)f(n)$ for all $m, n \in \mathbb{N}$ such that $\gcd(m,n)=1$.
+    Furthermore, it is completely multiplicative if $f(mn) = f(m)f(n)$ for all $m, n \in \mathbb{N}$.
+\end{definition}
+
+\section{Divisor Functions}
+
+The first arithmetic functions that we will discuss are the divisor functions, which are an infinite family of functions (though two are of particular importance).
+\begin{definition}[Divisor Function]
+    The sum of divisors functions, $\sigma_z: \mathbb{N} \to \mathbb{R}$, for some $z \in \mathbb{R}$, are arithemtic functions given by
+    \begin{equation}
+        \sigma_z(n) \coloneq \sum_{d \mid n} d^z.
+    \end{equation}
+    In particular, $\tau(n) \coloneq \sigma_0(n)$ and $\sigma(n) \coloneq \sigma_1(n)$.
+\end{definition}
+We can see that $\tau(n)$ counts the divisors/factors of $n$, whilst $\sigma(n)$ sums them.
+\begin{example} \leavevmode
+    \begin{itemize}
+        \item Since the factors of 6 are 1, 2, 3, and 6, $\tau(6) = 4$ and $\sigma(6) = 12$.
+        \item For any prime $p$, $\tau(p)$ = 2 and $\sigma(p) = p + 1$.
+    \end{itemize}
+\end{example}
+It turns out that the divisor functions are multiplicative, but not completely multiplicative.
+The latter can be shown rather easily via counterexamples.
+We will prove the former result for $\tau$ and $\sigma$ specifically.
+\begin{proposition} \label{thm:Prop 1}
+    The function $\tau$ is multiplicative.
+\end{proposition}
+\begin{proof}
+    Let $m,n \in \mathbb{N}$ such that $\gcd(m,n) = 1$.
+    Let the function $D: \mathbb{N} \to \mathcal{P}(\mathbb{N})$ be given by $D(n) \coloneq \{x \in \mathbb{N} \mathrel{:} x \mid n\}$. Here, $D(n)$ is the set of all divisors of $n$, meaning that $\tau(n) = |D(n)|$.
+    Proving that $\tau$ is multiplicative is equivalent to proving that there is a bijection between $D(m) \times D(n)$ and $D(mn)$, which will be shown at the end.
+
+    Let $p \in D(m)$ and $q \in D(n)$.
+    Consider the function $f: D(m) \times D(n) \to D(mn)$ given by $f(p,q) \coloneq pq$.
+    To show that this actually is a function, we must prove that $pq \in D(mn)$.
+    We have the implications $p \in D(m) \iff (\exists k \in \mathbb{N})(m = kp)$ and $q \in D(n) \iff (\exists l \in \mathbb{N})(n = lq)$.
+    Hence, $mn = klpq$, where $kl \in \mathbb{N}$.
+    Thus, $pq \mid mn$, so $pq \in D(mn)$.
+
+    Now, we have to show that $f$ is injective.
+    Let $a,c \in D(m)$ and $b,d \in D(n)$ such that $f(a,b) = f(c,d)$.
+    That means $ab = cd$, giving $a \mid cd$ and $c \mid ab$.
+    Since $\gcd(m,n) = 1$, we get $\gcd(a,d) = \gcd(b,c) = 1$.
+    By \textbf{Euclid's Lemma}, since $a \mid cd$ and $\gcd(a,d)=1$, we get $a \mid c$.
+    Similarly, $c \mid a$, but that must mean that $a=c$, and hence $b=d$.
+    Thus, $f(a,b) = f(c,d) \implies (a,b) = (c,d)$.
+
+    It remains to be proved that $f$ is surjective.
+    Let $d \in D(mn)$, $x \coloneq \gcd(d,m)$ and $y \coloneq \gcd(d,n)$.
+    It follows that $x \in D(m)$ and $y \in D(n)$.
+    Then,
+    \begin{align*}
+        xy & = \gcd(d,m) \gcd(d,n)                              \\
+           & = \gcd(mn, dm, dn, dd)   & (\text{gcd laws})       \\
+           & = \gcd(mn, \gcd(m,n,d)d) & (\text{distributivity}) \\
+           & = \gcd(mn, d)            & \because \gcd (m,n)=1   \\
+           & = d.
+    \end{align*}
+    As the function $f$ is injective and surjective, $f$ is bijective.
+    We thus get $f: D(m) \times D(n) \leftrightarrow D(mn) \implies |D(m) \times D(n)| = |D(mn)|$.
+    Therefore, $\tau(mn) = |D(mn)| = |D(m) \times D(n)| = |D(m)||D(n)| = \tau(m)\tau(n)$.
+\end{proof}
+\begin{proposition}
+    The function $\sigma$ is multiplicative.
+\end{proposition}
+\begin{proof}
+    Consider the proof of Proposition~\ref{thm:Prop 1} and all of its definitions.
+    The main fact to note is that there is a bijection between $D(m) \times D(n)$ and $D(mn)$.
+    It thus follows that
+    \begin{equation*}
+        \sigma(m)\sigma(n) = \left( \sum_{d_1 \mid m} d_1 \right) \left( \sum_{d_2 \mid n} d_2 \right) = \sum_{\substack{d_1 \mid m \\ d_2 \mid n}} d_1 d_2 = \sum_{k \mid mn} k = \sigma(mn).
+    \end{equation*}
+\end{proof}
+By the \textbf{fundamental theorem of arithmetic}, we can express a number $n \in \mathbb{N}$ as a product of primes, which is unique up to the order of the factors.
+\begin{equation*}
+    n = \prod_{i=1}^r p_i^{a_i},
+\end{equation*}
+where $r$ is the number of distinct prime factors of $n$, $p_i$ is the $i$-th prime factor, and $a_i = \max \{x \in \mathbb{N} \mathrel{:} p_i^x \mid n \}$.
+Since $\tau$ is multiplicative,
+\begin{equation}
+    \tau(n) = \tau \left( \prod_{i=1}^r p_i^{a_i} \right) = \prod_{i=1}^r \tau (p_i^{a_i}) = \prod_{i=1}^r (a_i + 1).
+\end{equation}
+Similarly, as $\sigma$ is multiplicative,
+\begin{align*}
+    \sigma(n) & = \sigma \left( \prod_{i=1}^r p_i^{a_i} \right)                                           \\
+              & = \prod_{i=1}^r \sigma (p_i^{a_i})                                                        \\
+              & = \prod_{i=1}^r \sum_{j=0}^{a_i} p_i^j                                                    \\
+              & = \prod_{i=1}^r \frac{p_i^{a_i+1} - 1}{p_i - 1}, \stepcounter{equation}\tag{\theequation}
+\end{align*}
+with the final result being obtained using the formula for a finite geometric series.
+
+\section{Prime Counting Function}
+
+\begin{definition}[Prime Counting Function]
+    The function $\pi: \mathbb{R}_{>0} \to \mathbb{N}$ is a number-theoretic (but not arithemtic) function given by
+    \begin{equation*}
+        \pi(x) \coloneq \sum_{n \leq x} \mathds{1}_\mathbb{P},
+    \end{equation*}
+    where $x, n \in \mathbb{R}_{>0}$ and $\mathds{1}_\mathbb{P}$ is the characteristic function for the set of prime numbers.
+\end{definition}
+\end{document}
