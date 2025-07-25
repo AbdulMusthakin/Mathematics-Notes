@@ -13,7 +13,7 @@
 \usepackage{float}
 \usepackage[skip=1em,indent]{parskip}
 \usepackage{caption}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{tocloft}
 \usepackage{mathtools}
 
@@ -232,7 +232,7 @@ It turns out $\mathcal{I}$ does converge, but only conditionally.
     \begin{equation}
         \mathscr{L} \{f(t)\}(s) \coloneq \int_{0}^{\infty} e^{-st} f(t) \diff t \coloneq \lim_{\varepsilon \to 0^+} \int_{\varepsilon}^{\infty} e^{-st} f(t) \diff t,
     \end{equation}
-    if the integral converges.
+    wherever this integral converges.
     Note that this is specifically the definition of the Laplace transform of a function with a discontinuity at $x=0$, as that is what we are working with.
 \end{definition}
 Now, let us derive a property of the Laplace transform that we will use to evaluate the Dirichlet Integral.
@@ -522,7 +522,7 @@ However, note that
 as the latter integral does not converge due to the singularity at $z=0$.
 We will create a complex contour which avoids this singularity.
 Let $\Gamma$ be the arc of radius $R$ centered at the origin connecting $R$ and $-R$ anticlockwise, and let $\gamma$ be the arc of radius $\varepsilon$ centered at the origin connecting $-\varepsilon$ and $\varepsilon$ anticlockwise.
-Now, let $C \coloneq \Gamma \cup [-R, -\varepsilon] \cup [-\varepsilon, \varepsilon] \cup [\varepsilon, R]$.
+Now, let $C \coloneq \Gamma \cup [-R, -\varepsilon] \cup \gamma \cup [\varepsilon, R]$.
 This is a closed semicircular keyhole contour, as shown in Figure~\ref{fig:fig2}.
 
 \begin{figure}[H]
@@ -630,13 +630,11 @@ We interchanged the limit and integral above, which we will justify.
                  & = \left|e^{-i\varepsilon_n (\cos t - i\sin t)}\right|                             \\
                  & = \left|e^{-i\varepsilon_n \cos t} e^{-\varepsilon_n \sin t}\right|               \\
                  & = \left|e^{-i\varepsilon_n \cos t}\right|  \left|e^{-\varepsilon_n \sin t}\right| \\
-                 & = e^{-\varepsilon_n \sin t}                                                       \\
-                 & \leq e^{\varepsilon_n}
+                 & = e^{-\varepsilon_n \sin t}
     \end{align*}
-    Let $\max \{\varepsilon_n\} = 1$.
-    Then,
+    Since $\epsilon_n > 0$ and $\sin t \geq 0$ for $t \in [0,\pi]$,
     \begin{equation*}
-        |z_n(t)| \leq e
+        |z_n(t)| \leq 1
     \end{equation*}
     for all $t \in [0, \pi]$ and for all $n \in \mathbb{N}$.
     This shows that $(z_n)$ is uniformly bounded.
