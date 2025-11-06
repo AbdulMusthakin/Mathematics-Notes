@@ -1,0 +1,1082 @@
+\documentclass[12pt]{beamer}
+\usetheme{moloch}
+
+% ========== Packages ==========
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+% ========== TikZ Configuration ==========
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{
+    arrows, 
+    calligraphy, 
+    decorations.pathreplacing,
+    patterns,
+    calc,
+    arrows.meta,
+    positioning
+}
+
+% ========== Plot Marks for Dots ==========
+\pgfplotsset{
+    holdot/.style={color=red, fill=white, only marks, mark=*},
+    soldot/.style={color=red, fill=red, only marks, mark=*}
+}
+
+% ========== Beamer Color Customization ==========
+\setbeamercolor{progress bar}{fg=purple!60!white, bg=black!20!white}
+\setbeamercolor{section in toc}{fg=black}
+\setbeamercolor{subsection in toc}{fg=black!70}
+\setbeamercolor{section title}{fg=white}
+\setbeamercolor{alerted text}{fg=purple!60!white}
+
+% ========== Progress Bar Line Widths ==========
+\makeatletter
+\setlength{\moloch@titleseparator@linewidth}{1pt}
+\setlength{\moloch@progressonsectionpage@linewidth}{1pt}
+\setlength{\moloch@progressinheadfoot@linewidth}{1pt}
+\makeatother
+
+% ========== Section Slides ==========
+\AtBeginSection[]{
+    \begin{frame}[standout]
+        \sectionpage
+    \end{frame}
+}
+
+% ========== Page Layout ==========
+\setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
+\setbeamertemplate{footline}{}
+
+% ========== Table of Contents as List ==========
+\setbeamertemplate{section in toc}{%
+    \leavevmode\leftskip=2em%
+    \llap{\raisebox{0.2ex}{\textbullet}\kern1em}%
+    \inserttocsection\par
+}
+
+% ========== Document Metadata ==========
+\title{The Formal Definition of the Limit}
+\subtitle{}
+\author{Maths Society}
+\date{2025-11-06}
+\institute{}
+
+% ========== Document Begin ==========
+\begin{document}
+
+\maketitle
+
+\begin{frame}{Overview}
+    \tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{Motivation}
+
+\begin{frame}{Creating an Informal Definition}
+    Limits capture the idea of closeness.
+
+    \vspace{0.3cm}
+
+    The limit of a function tells you what number that function `approaches' at a particular point.
+
+    \vspace{0.6cm}
+
+    \textbf{Informal Definition:} $\lim_{x \to a} f(x) = L$ if, as $x$ approaches $a$, $f(x)$ approaches $L$.
+
+    \vspace{0.6cm}
+
+    To put this in other words, we can make $f(x)$ as close to $L$ as we want by making $x$ close enough to $a$.
+\end{frame}
+
+\begin{frame}{When the Informal Definition Fails}
+    \textbf{Pathological Function:} $f(x) = \sin\left(\dfrac{1}{x}\right)$
+
+    \vspace{0.3cm}
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{axis}[
+                axis lines=center,
+                xlabel={$x$},
+                ylabel={$y$},
+                xmin=-6.5, xmax=6.5,
+                ymin=-1.5, ymax=1.5,
+                ytick={-1,0,1},
+                width=11.5cm,
+                height=5.5cm,
+                xlabel style={at={(axis description cs:1.0,0.48)}, anchor=west},
+                ylabel style={at={(axis description cs:0.48,1.0)}, anchor=south},
+            ]
+            
+            % Function plot
+            \addplot[blue!70!black, domain=-1/6:-1/0.02, samples=300, smooth] 
+                ({1/(\x)}, {sin(\x r)});
+            \addplot[blue!70!black, domain=1/0.02:1/6, samples=300, smooth] 
+                ({1/(\x)}, {sin(\x r)});
+            
+            \end{axis}
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Ambiguities \& Questions}
+    \begin{itemize}
+        \item \textbf{``Arbitrarily close'':} How close exactly? Does it matter?
+        \vspace{0.3cm}
+        \item \textbf{``Gets close'':} Do we just need one value of $x$ that makes it close, or many?
+        \vspace{0.3cm}
+        \item \textbf{Oscillatory functions:} $\sin(1/x)$ gets close to every value in $[-1,1]$ as $x \to 0$.
+        \vspace{0.3cm}
+        \item \textbf{Proof requirements:} We need proper logical statements in order to write proper proofs.
+    \end{itemize}
+\end{frame}
+
+\section{Building the Definition}
+
+\begin{frame}
+    We need to turn our intuition about limits into a proper, formal definition.
+
+    \vspace{0.3cm}
+
+    It makes sense that, the closer $x$ gets to $a$, the closer $f(x)$ gets to $L$.
+
+    \vspace{0.6cm}
+
+    \uncover<2>{
+        \textbf{First step forwards:}
+
+        \begin{center}
+            \large
+            $x$ is `close enough' to $a \implies f(x)$ is `close enough' to $L$
+        \end{center}
+
+        \vspace{0.6cm}
+
+        If we can define `close enough', we are done.
+    }
+\end{frame}
+
+\begin{frame}{Defining Closeness}
+    The difference between two numbers tells you how close they are.
+
+    \vspace{0.3cm}
+
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[very thick, {latex}-{latex}] (0,0) -- (6,0);
+            \foreach \x/\l in {1,...,5}
+                \draw (\x,3pt) -- (\x,-3pt) node[below]{$\l$};
+            \draw[decorate, decoration={brace, amplitude=5pt, mirror, raise=4ex}]
+                (2,0) -- (5,0) node[midway, yshift=-3em]{$5-2$};
+        \end{tikzpicture}
+    \end{center}
+
+    But both $a-b$ and $b-a$ tell us how close $a$ and $b$ are to each other. The sign does not matter.
+
+    \vspace{0.3cm}
+
+    We use the absolute value, $|a-b|$.
+
+    \begin{equation*}
+        |x| \coloneqq \begin{cases}
+            \phantom{-}x & \text{if } x \geq 0 \\
+            -x & \text{if } x < 0
+        \end{cases}
+    \end{equation*}
+\end{frame}
+
+\begin{frame}
+    We have two distances we are concerned with, which we can now quantify:
+
+    \begin{itemize}
+        \item $|x-a|$
+        \vspace{0.3cm}
+        \item $|f(x)-L|$
+    \end{itemize}
+    
+    \vspace{0.3cm}
+
+    Suppose we have to make $f(x)$ be within 0.1 of $L$.
+    This means we need $|f(x)-L| < 0.1$.
+
+    \vspace{0.3cm}
+
+    If $x$ being 0.01 within $a$ guaranteed this is true, then we would write:
+
+    \begin{equation*}
+        |x-a| < 0.01 \implies |f(x)-L| < 0.1
+    \end{equation*}
+
+    \vspace{0.3cm}
+
+    That statement means: if the first inequality is true, the second equality \alert{must} be true.
+\end{frame}
+
+\begin{frame}{Introducing Symbols}
+    The distances we have are pretty important, and we need a better way to talk about them than just making up numbers.
+
+    \vspace{0.3cm}
+
+    \begin{itemize}
+        \item \textbf{$\varepsilon$ (epsilon):} Represents some distance from $L$
+       
+        \vspace{0.3cm}
+
+        Think of $\varepsilon$ as the ``tolerance'' or ``error margin''
+
+        \vspace{0.3cm}
+        
+        \item \textbf{$\delta$ (delta):} Represents some distance from $a$
+        
+        \vspace{0.3cm}
+
+        We choose this to be as small as we need
+    \end{itemize}
+
+    \vspace{0.5cm}
+
+    Now we have $|x-a| < \delta$ and $|f(x)-L| < \varepsilon$.
+    These are not new ideas, just labels for pre-existing ones.
+\end{frame}
+
+% Define custom function for visualization
+\pgfmathdeclarefunction{myfunct}{1}{%
+    \pgfmathparse{2*tan(deg(#1))+1}%
+}
+
+\begin{frame}{Visualizing $\boldsymbol{\varepsilon}$-$\boldsymbol{\delta}$}
+    \begin{center}
+        \begin{tikzpicture}[>=stealth]
+            \begin{axis}[
+                black,
+                axis x line=middle,
+                axis y line=center,
+                every axis x label/.style={
+                    at={(current axis.right of origin)}, 
+                    anchor=north
+                },
+                every axis y label/.style={
+                    at={(current axis.above origin)}, 
+                    anchor=east
+                },
+                xmin=-1, xmax=1.3,
+                ymin=-1, ymax=5,
+                xtick=\empty,
+                ytick=\empty,
+                xlabel={$x$},
+                ylabel={$y$},
+                width=10cm,
+            ]
+
+            % Draw the plot
+            \addplot[red, samples=100, domain=-1:1.3] {myfunct(x)};
+
+            % Define coordinates
+            \def\xb{0.75}
+            \pgfmathsetmacro{\yb}{myfunct(\xb)}
+            \path (axis cs:\xb, \yb) coordinate (1);
+            
+            % Define epsilon
+            \pgfmathsetmacro{\eps}{0.8}
+            \pgfmathsetmacro{\yLower}{\yb - \eps}
+            \pgfmathsetmacro{\yUpper}{\yb + \eps}
+            
+            % Solve for x-values where f(x) = L ± epsilon
+            \pgfmathsetmacro{\xa}{rad(atan((\yLower - 1) / 2))}
+            \pgfmathsetmacro{\xc}{rad(atan((\yUpper - 1) / 2))}
+            
+            % Define points on curve
+            \pgfmathsetmacro{\yaOnCurve}{myfunct(\xa)}
+            \pgfmathsetmacro{\ycOnCurve}{myfunct(\xc)}
+            
+            \path (axis cs:\xa, \yaOnCurve) coordinate (0);
+            \path (axis cs:\xc, \ycOnCurve) coordinate (2);
+            \path (axis cs:0, 0) coordinate (origin);
+            \end{axis}
+
+            % Draw vertical and horizontal lines
+            \tikzset{marker/.style={shorten <=-3pt, shorten >=-3pt}}
+            \draw[marker, dashed, blue] (origin-|0) -- (0);
+            \draw[marker, dashed, blue] (origin-|1) -- (1);
+            \draw[marker, dashed, blue] (origin-|2) -- (2);
+            \draw[marker, dashed, blue] (origin|-0) -- (0);
+            \draw[marker, dashed, blue] (origin|-1) -- (1);
+            \draw[marker, dashed, blue] (origin|-2) -- (2);
+
+            % δ, ε labels
+            \path (origin) ++(10pt,10pt) coordinate (offset);
+
+            % Epsilon: symmetric distances on y-axis
+            \draw[<->, black!50!blue] (offset|-0) -- node[right] {$\varepsilon$} (offset|-1);
+            \draw[<->, black!50!blue] (offset|-1) -- node[right] {$\varepsilon$} (offset|-2);
+            \node at (origin|-1) [left, xshift=-3pt, black!50!blue] {$L$};
+
+            % Delta: asymmetric distances on x-axis
+            \draw[<->, red!50!blue] (offset-|0) -- node[above] {$\delta_1$} (offset-|1);
+            \draw[<->, red!50!blue] (offset-|1) -- node[above] {$\delta_2$} (offset-|2);
+            \node at (origin-|1) [below, yshift=-3pt, red!50!blue] {$a$};
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    From the previous graph, we can see that if $x$ is within the $\delta$-band around $a$, $f(x)$ will be in the $\varepsilon$-band around $L$.
+
+    \vspace{0.3cm}
+
+    Formally, $|x-a| < \delta \implies |f(x)-L| < \varepsilon$.
+
+    \vspace{0.3cm}
+
+    But our graph had two different distances from $a$, $\delta_1$ and $\delta_2$.
+    We pick the smaller one to be $\delta$.
+    This gives a stricter band around $a$, but that is fine.
+
+    \vspace{0.3cm}
+
+    \begin{equation*}
+        \delta = \min(\delta_1, \delta_2)
+    \end{equation*}
+
+    \vspace{0.3cm}
+
+    If it works ($|f(x)-L| < \varepsilon$) for one band, it will work for a less strict band.
+\end{frame}
+
+\begin{frame}
+    The inequalities we had on the previous slide are not complete.
+    They require $|f(x)-L| < \varepsilon$ to be true when $|x-a| = 0$, or $x=a$.
+
+    \vspace{0.3cm}
+
+    Remember that limits tell you about what a function approaches as $x$ approaches a certain number.
+    It does not matter what happens when $x=a$.
+    So, the first inequality is actually $0 < |x-a| < \delta$.
+
+    \vspace{0.3cm}
+
+    \begin{center}
+        \begin{minipage}[c]{0.48\textwidth}
+            \begin{tikzpicture}[>=stealth]
+                \begin{axis}[
+                    black,
+                    axis x line=middle,
+                    axis y line=center,
+                    every axis x label/.style={
+                        at={(current axis.right of origin)}, 
+                        anchor=north
+                    },
+                    every axis y label/.style={
+                        at={(current axis.above origin)}, 
+                        anchor=east
+                    },
+                    xmin=-0.7, xmax=1.3,
+                    ymin=-0.8, ymax=1.5,
+                    xtick=\empty,
+                    ytick=\empty,
+                    xlabel={$x$},
+                    ylabel={$y$},
+                    width=7cm,
+                ]
+
+                % Draw the plot
+                \addplot[red, samples=100, domain=-0.5:1.3] {x};
+                
+                % Add hole at x = a (on the line)
+                \addplot[holdot] coordinates{(0.75,0.75)};
+                
+                % Add solid dot below x-axis
+                \addplot[soldot] coordinates{(0.75,-0.5)};
+                
+                % Add label for f(a)
+                \node at (axis cs:0.75,-0.5) [right, xshift=3pt, black!50!blue] {$f(a)$};
+
+                % Define coordinates
+                \def\xb{0.75}
+                \pgfmathsetmacro{\yb}{\xb}
+                \path (axis cs:\xb, \yb) coordinate (1);
+                
+                % Define epsilon
+                \pgfmathsetmacro{\eps}{0.4}
+                \pgfmathsetmacro{\yLower}{\yb - \eps}
+                \pgfmathsetmacro{\yUpper}{\yb + \eps}
+                
+                % For f(x) = x, we have x = y directly
+                \pgfmathsetmacro{\xa}{\yLower}
+                \pgfmathsetmacro{\xc}{\yUpper}
+                
+                % Points on curve
+                \pgfmathsetmacro{\yaOnCurve}{\xa}
+                \pgfmathsetmacro{\ycOnCurve}{\xc}
+                
+                \path (axis cs:\xa, \yaOnCurve) coordinate (0);
+                \path (axis cs:\xc, \ycOnCurve) coordinate (2);
+                \path (axis cs:0, 0) coordinate (origin);
+                \end{axis}
+
+                % Draw vertical and horizontal lines
+                \tikzset{marker/.style={shorten <=-3pt, shorten >=-3pt}}
+                \draw[marker, dashed, blue] (origin-|0) -- (0);
+                \draw[marker, dashed, blue] (origin-|1) -- (1);
+                \draw[marker, dashed, blue] (origin-|2) -- (2);
+                \draw[marker, dashed, blue] (origin|-0) -- (0);
+                \draw[marker, dashed, blue] (origin|-1) -- (1);
+                \draw[marker, dashed, blue] (origin|-2) -- (2);
+
+                % δ, ε labels
+                \path (origin) ++(10pt,10pt) coordinate (offset);
+
+                % Epsilon: symmetric distances on y-axis
+                \draw[<->, black!50!blue] (offset|-0) -- node[right] {$\varepsilon$} (offset|-1);
+                \draw[<->, black!50!blue] (offset|-1) -- node[right] {$\varepsilon$} (offset|-2);
+                \node at (origin|-1) [left, xshift=-3pt, black!50!blue] {$L$};
+
+                % Delta: asymmetric distances on x-axis
+                \draw[<->, red!50!blue] (offset-|0) -- node[above] {$\delta_1$} (offset-|1);
+                \draw[<->, red!50!blue] (offset-|1) -- node[above] {$\delta_2$} (offset-|2);
+                \node at (origin-|1) [below, yshift=-3pt, red!50!blue] {$a$};
+            \end{tikzpicture}
+        \end{minipage}\hspace{0.6cm}\begin{minipage}[c]{0.38\textwidth}
+            \[
+                f(x) = \begin{cases}
+                    x & \text{if } x \neq a \\
+                    -0.5 & \text{if } x = a
+                \end{cases}
+            \]
+        \end{minipage}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Quantifiers}
+    We have the main part of our definition, but we have not put any conditions on $\varepsilon$ and $\delta$ yet.
+    
+    \vspace{0.3cm}
+    
+    We want to get as close to $L$ as we can with $f(x)$, so we want to make $\varepsilon$ as small as possible.
+    Thus, the statement should be true for \alert{all} possible values of $\varepsilon$.
+    Distances can only be positive, so we consider all $\varepsilon > 0$.
+
+    \vspace{0.3cm}
+
+    Given some value of $\varepsilon$, we need one value of $\delta$ which makes the aforementioned implication true.
+    Just one is enough, so our condition is that a suitable $\delta$ \alert{exists}.
+    It is a distance, so $\delta > 0$.
+
+    \vspace{0.3cm}
+
+    Technically, distances are nonnegative, but we can show that either $\varepsilon \geq 0$ or $\delta \geq 0$ is either unnecessary or gives a nonsense definition.
+\end{frame}
+
+\begin{frame}{The Formal Definition}
+    \begin{block}{Definition (Limit of a Function)}
+        Let $f: D \to \mathbb{R}$ be some function.
+        Let $a$ and $x$ be real numbers within the domain $D$.
+        Then,
+        $$\lim_{x \to a} f(x) = L$$
+        if and only if:
+        \vspace{0.2cm}
+
+        \textit{For all $\varepsilon > 0$, there exists a $\delta > 0$ such that for all $x$ in $D$,}
+        $$0 < |x - a| < \delta \implies |f(x) - L| < \varepsilon$$
+    \end{block}
+
+    \vspace{0.3cm}
+
+    \textbf{In plain English:} No matter how small the value of $\varepsilon$, we can find a value of $\delta$ that guarantees $f(x)$ stays within $\varepsilon$ of $L$.
+\end{frame}
+
+\begin{frame}{Quantifier Notation}
+    Our definition is complete, but we can introduce some symbols to make it easier to work with.
+        
+    \vspace{0.5cm}
+
+    \begin{itemize}
+        \item \textbf{$\forall$ (``for all''):} Universal quantifier
+        
+        \vspace{0.3cm}
+        $\forall \varepsilon > 0$ means ``for every $\varepsilon$ greater than zero''
+        
+        \vspace{0.3cm}
+        
+        \item \textbf{$\exists$ (``there exists''):} Existential quantifier
+        
+        \vspace{0.3cm}
+        $\exists \delta > 0$ means ``there exists a $\delta$ greater than zero''
+    \end{itemize}
+
+    \vspace{0.5cm}
+
+    \textbf{Compact Definition (but equivalent):}
+    $$\forall \varepsilon > 0 \;\; \exists \delta > 0 \;\; \forall x \in D: \quad 0 < |x - a| < \delta \implies |f(x) - L| < \varepsilon$$
+\end{frame}
+
+\begin{frame}{Why Quantifier Order Matters}
+    The order of $\forall$ and $\exists$ \textbf{matters}.
+
+    \vspace{0.6cm}
+
+    \textbf{Correct:} $\forall \varepsilon > 0 \;\; \exists \delta > 0$ \quad (For every $\varepsilon$, find $\delta$)
+
+    \begin{itemize}
+        \item $\delta$ can depend on $\varepsilon$, and typically does
+        \item Different $\varepsilon$ values may need different $\delta$ values
+        \item This is what we need for limits
+    \end{itemize}
+
+    \vspace{0.6cm}
+
+    \textbf{Wrong:} $\exists \delta > 0 \;\; \forall \varepsilon > 0$ \quad (Find one $\delta$ for all $\varepsilon$)
+
+    \begin{itemize}
+        \item Would require a single $\delta$ to work for \textit{every} $\varepsilon$
+        \item Generally impossible for non-constant functions
+        \item This is a much stronger condition
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Logical Structure}
+    \begin{center}
+        \begin{tikzpicture}[
+            node distance=1.1cm,
+            every node/.style={align=center},
+            boxstyle/.style={
+                draw, 
+                rounded corners, 
+                minimum width=3.5cm, 
+                minimum height=0.75cm, 
+                font=\large
+            },
+        ]
+
+        % Nodes
+        \node[boxstyle, fill=blue!10] (forall) {$\forall \varepsilon > 0$};
+        \node[boxstyle, fill=green!10, below=of forall] (exists) {$\exists \delta > 0$};
+        \node[boxstyle, fill=orange!10, below=of exists] (forallx) {$\forall x \in D$};
+        \node[boxstyle, fill=red!10, minimum width=5.5cm, below=of forallx] (implies) 
+            {$0 < |x-a| < \delta \implies |f(x) - L| < \varepsilon$};
+
+        % Arrows
+        \draw[-{Latex}, thick] (forall) -- (exists);
+        \draw[-{Latex}, thick] (exists) -- (forallx);
+        \draw[-{Latex}, thick] (forallx) -- (implies);
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\section{Applying the Definition}
+
+\begin{frame}{Strategy for Proving Limits}
+    \textbf{To prove $\lim_{x \to a} f(x) = L$:}
+
+    \vspace{0.5cm}
+
+    \begin{enumerate}
+        \item \textbf{Let $\varepsilon > 0$ be arbitrary}
+        
+        Start by assuming we're given some unspecified positive $\varepsilon$
+        
+        \vspace{0.3cm}
+        
+        \item \textbf{Work backwards (scratch work)}
+        
+        Start from $|f(x) - L| < \varepsilon$ and manipulate to find $|x - a| < $ something, which will be in terms of $\varepsilon$
+        
+        \vspace{0.3cm}
+        
+        \item \textbf{Choose $\delta$}
+        
+        Define $\delta$ based on your scratch work.
+        It can be whatever you want, as long as it works out in the end.
+        
+        \vspace{0.3cm}
+        
+        \item \textbf{Complete the proof}
+        
+        Show that $0 < |x - a| < \delta$ implies $|f(x) - L| < \varepsilon$
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Example 1: Linear Function}
+    \textbf{Proposition:} $\displaystyle\lim_{x \to 2} (3x + 1) = 7$
+
+    \vspace{0.4cm}
+    
+    \uncover<2>{
+        \textbf{Proof.} Let $\varepsilon > 0$ be arbitrary. 
+
+        \vspace{0.3cm}
+        
+        \textit{Scratch work.} We need:
+        \begin{align*}
+            |(3x + 1) - 7| < \varepsilon 
+            &\iff |3x - 6| < \varepsilon \\
+            &\iff 3|x - 2| < \varepsilon \\
+            &\iff |x - 2| < \frac{\varepsilon}{3}
+        \end{align*}
+
+        \textit{Choice of $\delta$.} Define $\delta \coloneqq \dfrac{\varepsilon}{3}$.
+
+        \vspace{0.3cm}
+        
+        \textit{Verification.} Suppose $0 < |x - 2| < \delta$. Then:
+        \begin{equation*}
+            |(3x+1) - 7| = 3|x-2| < 3 \cdot \frac{\varepsilon}{3} = \varepsilon
+        \end{equation*}
+    }
+\end{frame}
+
+\begin{frame}{Example 2: Quadratic Function}
+    \textbf{Proposition:} $\displaystyle\lim_{x \to 3} x^2 = 9$
+
+    \vspace{0.3cm}
+
+    \uncover<2>{
+        \textbf{Proof.} Let $\varepsilon > 0$ be arbitrary.
+
+        \vspace{0.4cm}
+        
+        \textit{Scratch work.} We have $|x^2 - 9| = |x - 3| \cdot |x + 3|$, but the factor $|x + 3|$ varies with $x$.
+
+        \vspace{0.3cm}
+
+        We bound the variable factor.
+        If $|x - 3| < 1$, then $|x + 3| < 7$.
+        Thus, $|x^2 - 9| < 7|x - 3|$, so we need $|x - 3| < \varepsilon/7$.
+
+        \vspace{0.3cm}
+        
+        \textit{Choice of $\delta$.} Let $\delta \coloneqq \min\left\{1, \dfrac{\varepsilon}{7}\right\}$.
+
+        \vspace{0.3cm}
+        
+        \textit{Verification.} If $0 < |x-3| < \delta$, then $|x-3| < 1$ and $|x-3| < \varepsilon/7$, so 
+        \[
+            |x^2 - 9| < 7 \cdot \frac{\varepsilon}{7} = \varepsilon.
+        \]
+    }
+\end{frame}
+
+\begin{frame}{Key Observations}
+    \textbf{From the examples:}
+
+    \vspace{0.6cm}
+
+    \begin{itemize}
+        \item $\delta$ typically depends on $\varepsilon$ (e.g., $\delta = \varepsilon/3$)
+        
+        \vspace{0.4cm}
+        
+        \item You can have $\delta$ be the minimum of multiple different expressions if needed
+        
+        \vspace{0.4cm}
+        
+        \item Sometimes need to bound variable expressions (linked to using minimums)
+        
+        \vspace{0.4cm}
+        
+        \item The choice of $\delta$ isn't unique, and just one is good enough
+        
+        \vspace{0.4cm}
+        
+        \item Finding the right value of $\delta$ involves working backwards from the desired conclusion
+    \end{itemize}
+\end{frame}
+
+\section{When Limits Fail to Exist}
+
+\begin{frame}{Negating the Definition}
+    To negate a logical statement, we `peel back' the layers.
+
+    \vspace{0.3cm}
+
+    The opposite of a `there exists \ldots\ is true' statement is a `for all \ldots\ is false' statement, and vice versa.
+    We can go through and reverse each part.
+
+    \vspace{0.5cm}
+
+    \begin{block}{Non-Existence}
+        $\displaystyle\lim_{x \to a} f(x) \neq L$ if and only if:
+
+        \vspace{0.2cm}
+
+        There exists $\varepsilon_0 > 0$ such that for all $\delta > 0$, there exists $x \in D$ with $0 < |x - a| < \delta$ and $|f(x) - L| \geq \varepsilon_0$
+    \end{block}
+
+    \vspace{0.3cm}
+
+    \textbf{Compact Version:} 
+    $\exists \varepsilon_0 > 0 \;\; \forall \delta > 0 \;\; \exists x \in D: \;\; 0 < |x - a| < \delta \;\wedge\; |f(x) - L| \geq \varepsilon_0$
+\end{frame}
+
+\begin{frame}{Strategy for Disproving Limits}
+    \textbf{To show $\lim_{x \to a} f(x)$ does not exist (by contradiction):}
+
+    \vspace{0.5cm}
+
+    \begin{enumerate}
+        \item \textbf{Assume the limit exists}
+        
+        Suppose $\lim_{x \to a} f(x) = L$ for some $L \in \mathbb{R}$
+        
+        \vspace{0.3cm}
+        
+        \item \textbf{Find a problematic $\varepsilon$}
+        
+        Choose $\varepsilon=\varepsilon_0$ such that $f$ behaves `badly' irrespective of $\delta$
+        
+        \vspace{0.3cm}
+        
+        \item \textbf{Show the definition fails}
+        
+        Demonstrate that no matter what $\delta$ is chosen, there exist points $x$ near $a$ where $|f(x) - L| \geq \varepsilon_0$
+        
+        \vspace{0.3cm}
+        
+        \item \textbf{Complete disproof:}
+        
+        State that there is a contradiction and thus the original assumption (of existence) is false
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Pathological Case I: Unbounded Oscillation}
+    \textbf{Function:} $f(x) = \sin\left(\dfrac{1}{x}\right)$
+
+    \vspace{0.3cm}
+
+    What is the behaviour of the function as $x \to 0$?
+    We know that $1/x \to \infty$, but $\sin x$ does not approach anything as $x \to \infty$.
+    The graph of $f(x)$ shown before suggests it has no limit.
+
+    \vspace{0.3cm}
+
+    How can we prove that?
+
+    \vspace{0.3cm}
+
+    \uncover<2>{
+        Suppose the limit exists and equals some real number $L$.
+        This means that 
+        \begin{equation*}
+            \forall \varepsilon > 0 \;\; \exists \delta > 0 \;\; \forall x \in \mathbb{R}^* \colon \;\; 0 < |x| < \delta \implies |\sin(1/x) - L| < \varepsilon
+        \end{equation*}
+
+        \textbf{Note:} $\mathbb{R}^* = \mathbb{R} \setminus \{0\}$ is the domain of $f$.
+    }
+\end{frame}
+
+\begin{frame}{Pathological Case I: Proof}
+    Let $\varepsilon = 1/2$, and let $\delta > 0$ satisfy the previous implication.
+
+    \vspace{0.3cm}
+    
+    Let $x_1 = \frac{1}{2\pi n + \frac{\pi}{2}}$ and $x_2 = \frac{1}{2\pi n + \frac{3\pi}{2}}$ with $n \in \mathbb{Z}^+$.
+    It follows that $0 < x_2 < x_1$.
+    We want $\frac{1}{2\pi n + \frac{\pi}{2}} < \delta$ which requires $n > \frac{1}{2\delta \pi} - \frac{1}{4}$.
+
+    \vspace{0.3cm}
+
+    Let $n$ satisfy that inequality, so $0 < |x_1| < \delta \implies |\sin(1/x_1) - L| < 1/2 \iff |1 - L| < 1/2$, and 
+
+    \vspace{0.2cm}
+
+    $0 < |x_2| < \delta \implies |\sin(1/x_2) - L| < 1/2 \iff |-1 - L| < 1/2 \iff |1 + L| < 1/2$.
+
+    \vspace{0.3cm}
+
+    Adding these inequalities gives $|1 - L| + |1 + L| < 1$.
+
+    Also, $2 = |(1-L) + (1+L)| \leq |1-L| + |1+L|$ by the triangle inequality.
+    This implies that $2 < 1$, which is a contradiction.
+
+    \vspace{0.3cm}
+
+    Therefore, the limit does not exist.
+    Since $L$ was arbitrary, the function has no limit as $x \to 0$.
+\end{frame}
+
+\begin{frame}{Pathological Case II: Jump Discontinuity}
+    \textbf{Function (Heaviside Step):} 
+    $H(x) = \begin{cases} 0 & \text{if } x < 0 \\ 1 & \text{if } x \geq 0 \end{cases}$ 
+    at $x = 0$
+
+    \vspace{0.2cm}
+
+    \begin{center}
+        \begin{minipage}[c]{0.50\textwidth}
+            \small
+            \uncover<2>{
+                Assume the limit as $x \to 0$ is $L \in \mathbb{R}$.
+                Let $\varepsilon = 1/2$, and follow the procedure of the previous example.
+
+                \vspace{0.3cm}
+
+                Let $x_1 = \delta/2$ and $x_2 = -\delta/2$.
+                Summing and using the triangle inequality gives you $1 < 1$ as your contradiction.
+
+                \vspace{0.3cm}
+
+                Since $L$ is arbitrary, the limit doesn't exist.
+            }
+        \end{minipage}\hspace{0.4cm}\begin{minipage}[c]{0.46\textwidth}
+            \begin{tikzpicture}[>=stealth]
+                \begin{axis}[
+                    black,
+                    axis x line=middle,
+                    axis y line=center,
+                    every axis x label/.style={
+                        at={(current axis.right of origin)}, 
+                        anchor=north
+                    },
+                    every axis y label/.style={
+                        at={(current axis.above origin)}, 
+                        anchor=east
+                    },
+                    xmin=-1.5, xmax=1.5,
+                    ymin=-0.3, ymax=1.3,
+                    ytick={1},
+                    yticklabels={$1$},
+                    xtick={-1,1},
+                    xticklabels={$-1$,$1$},
+                    xlabel={$x$},
+                    ylabel={$y$},
+                    width=6.5cm,
+                ]
+                
+                % Piecewise function
+                \addplot[red, line width=1.4pt, domain=-1.5:-0.01] {0};
+                \addplot[red, line width=1.4pt, domain=0:1.5] {1};
+                
+                % Points at discontinuity
+                \addplot[soldot] coordinates{(0,1)};
+                \addplot[holdot] coordinates{(0,0)};
+                \end{axis}
+            \end{tikzpicture}
+        \end{minipage}
+    \end{center}
+\end{frame}
+
+\section{Extensions and Exercises}
+
+\begin{frame}{One-Sided Limits}
+    It makes sense to talk about what a function approaches from just the left or right sides, and we can formalize this as well.
+    They might approach the same number, or they might not.
+
+    \vspace{0.3cm}
+
+    \begin{block}{Right-Hand Limit}
+        $\displaystyle\lim_{x \to a^+} f(x) = L$ 
+        
+        \vspace{0.1cm}
+        
+        means: For every $\varepsilon > 0$, there exists $\delta > 0$ such that
+        $0 < x - a < \delta \implies |f(x) - L| < \varepsilon$
+    \end{block}
+
+    \vspace{0.2cm}
+
+    \begin{block}{Left-Hand Limit}
+        $\displaystyle\lim_{x \to a^-} f(x) = L$ 
+        
+        \vspace{0.1cm}
+        
+        means: For every $\varepsilon > 0$, there exists $\delta > 0$ such that
+        $0 < a - x < \delta \implies |f(x) - L| < \varepsilon$
+    \end{block}
+
+    \vspace{0.3cm}
+
+    The changes to the original definition are very minor.
+\end{frame}
+
+\begin{frame}{Relationship Between Limits}
+    A limit will only exist if and only if both the one-sided limits exist and are equal.
+
+    \begin{equation*}
+        \lim_{x \to a} f(x) = L \iff \lim_{x \to a^+} f(x) = L = \lim_{x \to a^-} f(x)
+    \end{equation*}
+
+    \vspace{0.3cm}
+
+    Intuitively, this makes sense.
+    A function needs to approach the same number from the left and right if we are to say it definitively approaches anything at all.
+
+    \vspace{0.3cm}
+
+    \textbf{Application to Heaviside function:}
+
+    \vspace{0.2cm}
+
+    For $H(x)$:
+
+    \vspace{0.2cm}
+
+    \begin{itemize}
+        \item $\lim_{x \to 0^-} H(x) = 0$ (approaching from left)
+        
+        \vspace{0.1cm}
+
+        \item $\lim_{x \to 0^+} H(x) = 1$ (approaching from right)
+        
+        \vspace{0.1cm}
+
+        \item Since $0 \neq 1$, the two-sided limit $\lim_{x \to 0} H(x)$ does not exist
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Connection to Other Concepts}
+    \begin{center}
+        \begin{tikzpicture}[
+            concept/.style={
+                rectangle, 
+                rounded corners, 
+                draw, 
+                thick, 
+                fill=blue!20, 
+                minimum width=2.8cm, 
+                minimum height=1cm, 
+                align=center, 
+                font=\small
+            },
+            arrow/.style={{Latex}-, thick, blue!60!black},
+        ]
+
+        % Central node
+        \node[concept, fill=red!30, minimum width=3.2cm, minimum height=1.2cm, font=\normalsize] (limit) at (0,0) {
+            {$\boldsymbol{\varepsilon}$-$\boldsymbol{\delta}$}\\
+            \textbf{Limit Definition}
+        };
+
+        % Top concepts
+        \node[concept] (continuity) at (-3,2.6) {
+            \textbf{Continuity}\\[0.1cm]
+            Continuous if limit exists
+        };
+
+        \node[concept] (derivative) at (3,2.6) {
+            \textbf{Derivatives}\\[0.1cm]
+            Defined by a limit
+        };
+
+        % Bottom concepts
+        \node[concept] (sequences) at (-0.2,-3.2) {
+            \textbf{Sequences}\\[0.1cm]
+            $\lim_{n \to \infty} a_n = L$\\
+            (analogous definition)
+        };
+
+        \node[concept] (integrals) at (-4.1,-2.5) {
+            \textbf{Integrals}\\[0.1cm]
+            Limit of\\
+            Riemann sums
+        };
+
+        \node[concept] (series) at (4.1,-2.3) {
+            \textbf{Series}\\[0.1cm]
+            Limit of\\
+            partial sums
+        };
+
+        % Arrows from central concept
+        \draw[arrow] (continuity.south) -- (limit.north west);
+        \draw[arrow] (derivative.south) -- (limit.north east);
+        \draw[{Latex}-{Latex}, thick, blue!60!black] (sequences.north) -- (limit.south);
+        \draw[arrow] (integrals.north east) -- (limit.south west);
+        \draw[arrow] (series.north west) -- (limit.south east);
+
+        % Additional connections
+        \draw[{Latex}-, dashed, thick, black] (derivative.west) -- (continuity.east);
+        \draw[{Latex}-, dashed, thick, black] (series.west) -- (sequences.east);
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Exercises I}
+    \textbf{Prove using the $\varepsilon$-$\delta$ definition:}
+
+    \begin{enumerate}
+        \item $\displaystyle\lim_{x \to 1} (x^2 + 2x - 1) = 2$
+        \vspace{0.2cm}
+
+        \item $\displaystyle\lim_{x \to 9} (\sqrt{x}) = 3$
+        \vspace{0.2cm}
+        
+        \item $\displaystyle\lim_{x \to 2} \frac{x^2 - 4}{x - 2} = 4$
+        \vspace{0.2cm}
+        
+        \item $\displaystyle\lim_{x \to 0} x^2 \sin\left(\frac{1}{x}\right) = 0$
+    \end{enumerate}
+
+    \vspace{0.4cm}
+
+    \textbf{Prove:} $\displaystyle\lim_{x \to 0} \frac{1}{x}$ does not exist
+
+    \vspace{0.4cm}
+
+    \textbf{Prove the sum rule:} If $\lim_{x \to a} f(x) = L$ and $\lim_{x \to a} g(x) = M$, then $\lim_{x \to a} [f(x) + g(x)] = L + M$.
+\end{frame}
+
+\begin{frame}{Exercises II}
+    \textbf{Definition (Continuity):} A function $f$ is continuous at a point $x=a$ if $\lim_{x \to a} f(x) = f(a)$.
+    
+    \vspace{0.3cm}
+
+    \textbf{Prove:}
+
+    \begin{enumerate}
+        \item $f(x) = c$ is continuous for all $x \in \mathbb{R}$ ($c \in \mathbb{R}$)
+        
+        \vspace{0.1cm}
+
+        \item $f(x) = x^2$ is continuous for all $x \in \mathbb{R}$
+        
+        \vspace{0.1cm}
+
+        \item $f(x) = e^x$ is continuous for all $x \in \mathbb{R}$
+    \end{enumerate}
+
+    \vspace{0.3cm}
+
+    \textbf{Prove:} $\displaystyle\lim_{x \to 0} \frac{\sin x}{x} = 1$
+
+    \vspace{0.3cm}
+
+    You are given that $\sin x \geq x - \frac{x^2}{2}$ for all $x \in [0,\pi]$.
+\end{frame}
+
+\begin{frame}{Summary}
+    \begin{center}
+        \begin{tikzpicture}
+            \node[
+                draw, 
+                rounded corners, 
+                fill=blue!15, 
+                align=center, 
+                minimum height=1.5cm, 
+                inner sep=12pt
+            ] (def) {
+                \textbf{The $\varepsilon$-$\delta$ Definition of the Limit}\\[0.15cm]
+                $\displaystyle\lim_{x \to a} f(x) = L$ means:\\[0.1cm]
+                For all $\varepsilon > 0$, there exists a $\delta > 0$ such that for all $x$,\\[0.05cm]
+                $0 < |x - a| < \delta \implies |f(x) - L| < \varepsilon$\\[0.05cm]
+                OR\\[0.05cm]
+                $\forall \varepsilon > 0 \;\; \exists \delta > 0 \;\; \forall x \colon \;\; 0 < |x - a| < \delta \implies |f(x) - L| < \varepsilon$
+            };
+
+            \node[below=0.3cm of def, text width=10.5cm] (principles) {
+                \textbf{Key principles:}
+                \begin{itemize}
+                    \item Quantifier order is important: find $\delta$ for given $\varepsilon$
+                    \item Work backwards: start from $|f(x) - L| < \varepsilon$
+                    \item Pathological cases show why rigour is necessary
+                    \item Foundation for all of calculus and real analysis
+                \end{itemize}
+            };
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\end{document}
