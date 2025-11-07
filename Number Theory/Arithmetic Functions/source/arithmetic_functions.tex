@@ -1,4 +1,6 @@
-\documentclass[a4paper]{article}
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[left=30mm, right=30mm, top=25mm, bottom=25mm]{geometry}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -23,6 +25,11 @@
 
 \DeclareMathOperator{\lcm}{lcm}
 \DeclareMathOperator{\im}{im}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
 
 % \usepackage{tikz}
 % \tikzset{>=latex} % for LaTeX arrow head
@@ -75,24 +82,24 @@
 \section{Introduction}
 
 \begin{definition}[Arithmetic Function]
-    A function $f\colon X \to Y$ is an arithmetic function iff its domain is the set of positive integers: $X = \mathbb{N} \coloneq \mathbb{Z}_{>0}$.
+    A function $f\colon X \to Y$ is an arithmetic function iff its domain is the set of positive integers: $X = \N \coloneq \mathbb{Z}_{>0}$.
 \end{definition}
-These functions are a major subject of study in number theory, and are often referred to as \textbf{number-theoretic} functions, though that may also be used to refer to any function that has use within number theory.
+These functions are a major subject of study in number theory, and are often referred to as \emph{number-theoretic} functions, though that may also be used to refer to any function that has use within number theory.
 First, we will define some properties that an arithemtic function can have.
 \begin{definition}
-    An arithemtic function $f$ is additive if $f(mn) = f(m) + f(n)$ for all $m, n \in \mathbb{N}$ such that $\gcd(m,n)=1$.
-    Furthermore, it is completely additive if $f(mn) = f(m) + f(n)$ for all $m, n \in \mathbb{N}$.
+    An arithemtic function $f$ is additive if $f(mn) = f(m) + f(n)$ for all $m, n \in \N$ such that $\gcd(m,n)=1$.
+    Furthermore, it is completely additive if $f(mn) = f(m) + f(n)$ for all $m, n \in \N$.
 \end{definition}
 \begin{definition}
-    An arithemtic function $f$ is multiplicative if $f(mn) = f(m)f(n)$ for all $m, n \in \mathbb{N}$ such that $\gcd(m,n)=1$.
-    Furthermore, it is completely multiplicative if $f(mn) = f(m)f(n)$ for all $m, n \in \mathbb{N}$.
+    An arithemtic function $f$ is multiplicative if $f(mn) = f(m)f(n)$ for all $m, n \in \N$ such that $\gcd(m,n)=1$.
+    Furthermore, it is completely multiplicative if $f(mn) = f(m)f(n)$ for all $m, n \in \N$.
 \end{definition}
 
 \section{Divisor Functions}
 
 The first arithmetic functions that we will discuss are the divisor functions, which are an infinite family of functions (though two are of particular importance).
 \begin{definition}[Divisor Function]
-    The sum of divisors functions, $\sigma_z\colon \mathbb{N} \to \mathbb{R}$, for some $z \in \mathbb{R}$, are arithemtic functions given by
+    The sum of divisors functions, $\sigma_z\colon \N \to \mathbb{R}$, for some $z \in \mathbb{R}$, are arithemtic functions given by
     \begin{equation}
         \sigma_z(n) \coloneq \sum_{d \mid n} d^z.
     \end{equation}
@@ -112,22 +119,22 @@ We will prove the former result for $\tau$ and $\sigma$ specifically.
     The function $\tau$ is multiplicative.
 \end{proposition}
 \begin{proof}
-    Let $m,n \in \mathbb{N}$ such that $\gcd(m,n) = 1$.
-    Let the function $D\colon \mathbb{N} \to \mathcal{P}(\mathbb{N})$ be given by $D(n) \coloneq \{x \in \mathbb{N} : x \mid n\}$. Here, $D(n)$ is the set of all divisors of $n$, meaning that $\tau(n) = |D(n)|$.
+    Let $m,n \in \N$ such that $\gcd(m,n) = 1$.
+    Let the function $D\colon \N \to \mathcal{P}(\N)$ be given by $D(n) \coloneq \{x \in \N : x \mid n\}$. Here, $D(n)$ is the set of all divisors of $n$, meaning that $\tau(n) = |D(n)|$.
     Proving that $\tau$ is multiplicative is equivalent to proving that there is a bijection between $D(m) \times D(n)$ and $D(mn)$, which will be shown at the end.
 
     Let $p \in D(m)$ and $q \in D(n)$.
     Consider the function $f\colon D(m) \times D(n) \to D(mn)$ given by $f(p,q) \coloneq pq$.
     To show that this actually is a function, we must prove that $pq \in D(mn)$.
-    We have the implications $p \in D(m) \iff (\exists k \in \mathbb{N})(m = kp)$ and $q \in D(n) \iff (\exists l \in \mathbb{N})(n = lq)$.
-    Hence, $mn = klpq$, where $kl \in \mathbb{N}$.
+    We have the implications $p \in D(m) \iff (\exists k \in \N)(m = kp)$ and $q \in D(n) \iff (\exists l \in \N)(n = lq)$.
+    Hence, $mn = klpq$, where $kl \in \N$.
     Thus, $pq \mid mn$, so $pq \in D(mn)$.
 
     Now, we have to show that $f$ is injective.
     Let $a,c \in D(m)$ and $b,d \in D(n)$ such that $f(a,b) = f(c,d)$.
     That means $ab = cd$, giving $a \mid cd$ and $c \mid ab$.
     Since $\gcd(m,n) = 1$, we get $\gcd(a,d) = \gcd(b,c) = 1$.
-    By \textbf{Euclid's Lemma}, since $a \mid cd$ and $\gcd(a,d)=1$, we get $a \mid c$.
+    By \emph{Euclid's Lemma}, since $a \mid cd$ and $\gcd(a,d)=1$, we get $a \mid c$.
     Similarly, $c \mid a$, but that must mean that $a=c$, and hence $b=d$.
     Thus, $f(a,b) = f(c,d) \implies (a,b) = (c,d)$.
 
@@ -157,11 +164,11 @@ We will prove the former result for $\tau$ and $\sigma$ specifically.
         \sigma(m)\sigma(n) = \left( \sum_{d_1 \mid m} d_1 \right) \left( \sum_{d_2 \mid n} d_2 \right) = \sum_{\substack{d_1 \mid m \\ d_2 \mid n}} d_1 d_2 = \sum_{k \mid mn} k = \sigma(mn).
     \end{equation*}
 \end{proof}
-By the \textbf{fundamental theorem of arithmetic}, we can express a number $n \in \mathbb{N}$ as a product of primes, which is unique up to the order of the factors.
+By the \emph{fundamental theorem of arithmetic}, we can express a number $n \in \N$ as a product of primes, which is unique up to the order of the factors.
 \begin{equation*}
     n = \prod_{i=1}^r p_i^{a_i},
 \end{equation*}
-where $r$ is the number of distinct prime factors of $n$, $p_i$ is the $i$-th prime factor, and $a_i = \max \{x \in \mathbb{N} : p_i^x \mid n \}$.
+where $r$ is the number of distinct prime factors of $n$, $p_i$ is the $i$-th prime factor, and $a_i = \max \{x \in \N : p_i^x \mid n \}$.
 Since $\tau$ is multiplicative,
 \begin{equation}
     \tau(n) = \tau \left( \prod_{i=1}^r p_i^{a_i} \right) = \prod_{i=1}^r \tau (p_i^{a_i}) = \prod_{i=1}^r (a_i + 1).
@@ -178,7 +185,7 @@ with the final result being obtained using the formula for a finite geometric se
 \section{Prime Counting Function}
 
 \begin{definition}[Prime Counting Function]
-    The function $\pi\colon \mathbb{R}_{>0} \to \mathbb{N}$ is a number-theoretic (but not arithemtic) function given by
+    The function $\pi\colon \mathbb{R}_{>0} \to \N$ is a number-theoretic (but not arithemtic) function given by
     \begin{equation}
         \pi(x) \coloneq \sum_{n \leq x} \bbone_\mathbb{P} (n),
     \end{equation}
@@ -188,7 +195,7 @@ with the final result being obtained using the formula for a finite geometric se
 \section{M\"obius Function}
 
 \begin{definition}[M\"obius Function]
-    The function $\mu\colon \mathbb{N} \to \{-1, 0, 1\}$ is a arithemtic function given by
+    The function $\mu\colon \N \to \{-1, 0, 1\}$ is a arithemtic function given by
     \begin{equation}
         \mu(n) \coloneq
         \begin{cases}
@@ -204,7 +211,7 @@ First, we will show that it is a multiplicative function.
     The M\"obius function is multiplicative.
 \end{proposition}
 \begin{proof}
-    Let $m,n \in \mathbb{N}$ such that $\gcd(m,n) = 1$ and, without loss of generality, $m \geq n$.
+    Let $m,n \in \N$ such that $\gcd(m,n) = 1$ and, without loss of generality, $m \geq n$.
     Additionally, let $m$ and $n$ have the following prime factorisations.
     \begin{equation*}
         m \coloneq \prod_{i=1}^r p_i^{a_i} \qquad n \coloneq \prod_{j=1}^s q_j^{b_j}
@@ -218,8 +225,8 @@ First, we will show that it is a multiplicative function.
     Then, $\mu(mn) = (-1)^{r+s} = (-1)^r \cdot (-1)^s = \mu(m)\mu(n)$.
 \end{proof}
 There is another property of the M\"obius function worth noting, which has to do with summing the function evaluated at the factors of some number.
-\begin{proposition}
-    For all $n \in \mathbb{N}$,
+\begin{proposition} \label{thm:mobius sum}
+    For all $n \in \N$,
     \begin{equation}
         \sum_{d \mid n} \mu (d) = \begin{cases}
             1 & \text{if } n = 1, \\
@@ -228,7 +235,7 @@ There is another property of the M\"obius function worth noting, which has to do
     \end{equation}
 \end{proposition}
 \begin{proof}
-    Let $n \in \mathbb{N}$ with the following prime factorisation.
+    Let $n \in \N$ with the following prime factorisation.
     \begin{equation*}
         n \coloneq \prod_{i=1}^r p_i^{a_i}
     \end{equation*}
@@ -248,22 +255,81 @@ There is another property of the M\"obius function worth noting, which has to do
     \end{equation*}
     as this is the binomial expansion of $(1 + x)^i$ for $x=-1$.
 \end{proof}
+This leads us to an important result regarding the M\"obius function, which relates pairs of arithmetic functions.
+\begin{theorem}[M\"obius Inversion Formula]
+    Let $f, g \colon \N \to \N$ be arithemtic functions satisfying
+    \begin{equation*}
+        g(n) \coloneq \sum_{d \mid n} f(d).
+    \end{equation*}
+    Then,
+    \begin{equation}
+        f(n) = \sum_{d \mid n} \mu(d) g\left(\frac{n}{d}\right).
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    Let $f, g \colon \N \to \N$ be arithemtic functions satisfying
+    \begin{equation*}
+        g(n) \coloneq \sum_{d \mid n} f(d).
+    \end{equation*}
+    We may rewrite our sum as follows by simply applying our definition of $g$.
+    \begin{align*}
+        \sum_{d \mid n} \mu(d) g\left(\frac{n}{d}\right) &= \sum_{d \mid n} \mu(d) \sum_{k \mid \frac{n}{d}} f(k) \\
+        &= \sum_{d \mid n} \sum_{k \mid \frac{n}{d}} \mu(d) f(k)
+    \end{align*}
+    Consider $d, k, n \in \N$ such that $d \mid b$ and $k \mid (n/d)$.
+    This is true if and only if $n = dp$ and $n/d = kq$ for some $p, q \in \N$.
+    We have
+    \begin{align*}
+        \frac{n}{d} = kq &\iff n = dkq \\
+        &\iff \frac{n}{k} = dq \\
+        &\iff k \mid n.
+    \end{align*}
+    Also,
+    \begin{equation*}
+        \frac{n}{k} = dq \iff d \mid \frac{n}{k}.
+    \end{equation*}
+    Therefore, $d \mid b$ and $k \mid (n/d)$ if and only if $k \mid n$ and $d \mid (n/k)$.
+    With this, we can change the index of the sum we are working with.
+    \begin{align*}
+        \sum_{d \mid n} \sum_{k \mid \frac{n}{d}} \mu(d) f(k) &= \sum_{k \mid n} \sum_{d \mid \frac{n}{k}} \mu(d) f(k) \\
+        &= \sum_{k \mid n} f(k) \sum_{d \mid \frac{n}{k}} \mu(d)
+    \end{align*}
+    By Proposition~\ref{thm:mobius sum}, the inner sum will evaluate to 0 unless $n/k = 1$, which is when $n = k$.
+    In that case, it evaluates to 1.
+    Whenever the inner the sum is 0, the whole sum is 0.
+    Consequently, the double sum simplifies to just the value of $f(k)$ when $n = k$.
+    Therefore,
+    \begin{equation*}
+        \sum_{d \mid n} \mu(d) g\left(\frac{n}{d}\right) = f(n). \qedhere
+    \end{equation*}
+\end{proof}
+For full convincing (for myself) on the validity of the second-to-last step of the proof, consider that
+\begin{equation*}
+    \sum_{i \in A} \sum_{j \in B} P(i, j) = \sum_{i \in C} \sum_{j \in D} P(i, j)
+\end{equation*}
+is equivalent to
+\begin{equation*}
+    \sum_{(i, j) \in A \times B} P(i, j) = \sum_{(i, j) \in C \times D} P(i, j).
+\end{equation*}
+This statement is true given that $A \times B = C \times D$.
+Additionally, $(i, j) \in A \times B \iff (i \in A) \land (j \in B)$ and $(i, j) \in C \times D \iff (i \in C) \land (j \in D)$.
+Therefore, the original equation between the sums is equal given that $(i \in A) \land (j \in B) \iff (i \in C) \land (j \in D)$.
 
 \section{Euler's Totient Function}
 
 \begin{definition}[Euler's Totient Function]
-    The function $\varphi\colon \mathbb{N} \to \mathbb{N}$ is an arithemtic function given by
+    The function $\varphi\colon \N \to \N$ is an arithemtic function given by
     \begin{equation}
         \varphi(n) \coloneq \sum_{\mathclap{\substack{i=1;\\ \gcd(i,n)=1}}}^n \; 1.
     \end{equation}
 \end{definition}
-This function -- alternatively called Euler's phi function -- evaluated at $n \in \mathbb{N}$, counts the natural numbers up to $n$ that are coprime to $n$.
+This function -- alternatively called Euler's phi function -- evaluated at $n \in \N$, counts the natural numbers up to $n$ that are coprime to $n$.
 This function is multiplicative, which we will show in two different ways, though we need to prove a lemma first.
 \begin{lemma} \label{thm:gcd lemma}
-    For all $a,b,c \in \mathbb{N}$, we have $\gcd(a,bc) = 1 \iff \gcd(a,b) = \gcd(a,c) = 1$.
+    For all $a,b,c \in \N$, we have $\gcd(a,bc) = 1 \iff \gcd(a,b) = \gcd(a,c) = 1$.
 \end{lemma}
 \begin{proof}
-    Let $a,b,c \in \mathbb{N}$.
+    Let $a,b,c \in \N$.
     To prove the forwards implication, suppose that $\gcd(a,bc) \allowbreak = 1$.
     We know that $\gcd(a,b) \mid a$ and $\gcd(a,b) \mid b$, meaning that $\gcd(a,b) \mid bc$.
     Therefore, $\gcd(a,b) = 1$ since $\gcd(a,bc) = 1$.
@@ -282,7 +348,7 @@ This function is multiplicative, which we will show in two different ways, thoug
     Euler's Totient function is multiplicative.
 \end{proposition}
 \begin{proof}
-    Let $m,n \in \mathbb{N}$ such that $\gcd(m,n) = 1$.
+    Let $m,n \in \N$ such that $\gcd(m,n) = 1$.
     If $m = 1$ or $n = 1$, then $\varphi(mn) = \varphi(n) = \varphi(m)\varphi(n)$ or $\varphi(mn) = \varphi(m) = \varphi(m)\varphi(n)$ since $\varphi(1) = 1$.
     Otherwise, $m > 1$ and $n > 1$.
     Consider the following table of the natural numbers from 1 to n arranged in $n$ rows of $m$ columns.
@@ -307,14 +373,14 @@ This function is multiplicative, which we will show in two different ways, thoug
     \end{center}
     The $q$-th column is the list of numbers less than or equal to $mn$ that are congruent to $q$ modulo $m$.
     Consider the number $mp + q$ (the entry in the $(p+1)$-th row and $q$-th column).
-    Note that for some $d \in \mathbb{N}$, if $d \mid m$ then $d \mid (mp + q) \iff d \mid q$.
+    Note that for some $d \in \N$, if $d \mid m$ then $d \mid (mp + q) \iff d \mid q$.
     That means that the set of common divisors of $m$ and $mp + q$, and the set of common divisors of $m$ and $q$, are the same.
     Hence, $\gcd(m, mp+q) = \gcd(m, q)$.
     Thus, all the entries in the $q$-th column are coprime to $m$ iff $q$ is coprime to $m$.
     There are $\varphi(m)$ such columns.
 
     Consider the map $p \mapsto m(p-1) + q \pmod n$ for some fixed $q$.
-    By \textbf{Bez\'out's identity}, there exists $x,y \in \mathbb{Z}$ such that $mx + ny = \gcd(m,n) = 1$.
+    By \emph{Bez\'out's identity}, there exists $x,y \in \mathbb{Z}$ such that $mx + ny = \gcd(m,n) = 1$.
     Thus, $mx = 1 - ny \equiv 1 \pmod n$, so $m$ has a multiplicative inverse modulo $n$.
     That means that the map is injective, and since the domain and codomain are of the same size, it is surjective.
     Therefore, the entries of any given column cover all the residue classes modulo $n$ exactly once, so each column has $\varphi(n)$ entries coprime to $n$.
@@ -324,10 +390,10 @@ This function is multiplicative, which we will show in two different ways, thoug
     Therefore, $\varphi(mn) = \varphi(m)\varphi(n)$.
 \end{proof}
 \begin{proof}[Alternative Proof using Group Theory]
-    Let $m,n \in \mathbb{N}$ such that $\gcd(m,n) = 1$.
+    Let $m,n \in \N$ such that $\gcd(m,n) = 1$.
     Note that, in general, $\mathbb{Z}/n\mathbb{Z} \cong C_n$.
     Therefore, $\mathbb{Z}/(mn)\mathbb{Z} \cong \mathbb{Z}/m\mathbb{Z} \times \mathbb{Z}/n\mathbb{Z}$ as $C_m \times C_n \cong C_{mn} \iff \gcd(m,n) = 1$.
-    This is essentially the \textbf{Chinese remainder theorem} for two coprime numbers.
+    This is essentially the \emph{Chinese remainder theorem} for two coprime numbers.
 
     If $c_1 \in C_1$ is a generator of $C_1$, and $c_2 \in C_2$ is a generator of $C_2$, then $(c_1, c_2)$ is a generator of $C_1 \times C_2$.
     Now, $\varphi(n)$ is the number of elements in $\mathbb{Z}/n\mathbb{Z}$ that are generators.
