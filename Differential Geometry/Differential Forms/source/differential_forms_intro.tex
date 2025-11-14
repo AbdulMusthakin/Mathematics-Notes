@@ -674,7 +674,6 @@ WIP
 
 WIP %TODO MOTIVATE TANGENT SPACES
 %TODO GO THROUGH MATRICES SECTION AND ADD A BIT ON IDENTITY MATRIX AND DETERMINENTS AND INVERSES
-%TODO GO THROUGH DEF OF VECTORS SECTION AND ADD A BIT ON BASIS AND DIMENSION OF VECTOR
 
 \begin{appendices}
 
@@ -744,6 +743,40 @@ Another way to write a vector is $\mathbf{v} = \langle a, b \rangle$.
 This might be preferred due to avoiding confusion with coordinates.
 Additionally, given that $\ihat = \langle 1, 0 \rangle$ and $\jhat = \langle 0, 1 \rangle$, you can write a vector as $\mathbf{v} = v_x\ihat + v_y\jhat$, where $v_x$ and $v_y$ are the components of the vector.
 Note that these examples were given for $\R^2$, but they extend to general vectors in $\R^n$.
+
+\subsubsection*{Basis and Dimension}
+
+To fully understand vector spaces, it is important to discuss the concepts of basis and dimension.
+These ideas allow us to systematically describe and work with any vector in a given space.
+
+First, we need the concept of linear independence.
+A set of vectors $\{\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_k\}$ in a vector space is said to be \emph{linearly independent} if the only solution to the equation
+\begin{equation*}
+    \lambda_1\mathbf{v}_1 + \lambda_2\mathbf{v}_2 + \cdots + \lambda_k\mathbf{v}_k = \mathbf{0}
+\end{equation*}
+is $\lambda_1 = \lambda_2 = \cdots = \lambda_k = 0$.
+In other words, no vector in the set can be written as a linear combination of the others.
+If the vectors are not linearly independent, they are called \emph{linearly dependent}.
+
+A \emph{basis} for a vector space is a set of vectors that satisfies two properties:
+\begin{enumerate}
+    \item The vectors are linearly independent.
+    \item The vectors span the entire space (every vector can be expressed as a linear combination of the basis vectors).
+\end{enumerate}
+The standard basis for $\R^n$ consists of the vectors $\ehat_1, \ehat_2, \ldots, \ehat_n$, where $\ehat_i$ has a 1 in the $i$-th position and 0 everywhere else.
+For example, in $\R^2$, the standard basis is $\{\ihat, \jhat\} = \{\langle 1, 0 \rangle, \langle 0, 1 \rangle\}$, and any vector $\mathbf{v} = \langle a, b \rangle$ can be written as $\mathbf{v} = a\ihat + b\jhat$.
+Similarly, in $\R^3$, the standard basis is $\{\ihat, \jhat, \khat\} = \{\langle 1, 0, 0 \rangle, \langle 0, 1, 0 \rangle, \langle 0, 0, 1 \rangle\}$.
+
+It is important to note that a basis is not unique.
+Many different sets of vectors can form a basis for the same vector space.
+For instance, $\{\langle 1, 1 \rangle, \langle 1, -1 \rangle\}$ is also a basis for $\R^2$.
+However, all bases for a given vector space contain the same number of vectors, and this number is called the \emph{dimension} of the vector space.
+
+The dimension of a vector space is the number of vectors in any basis for that space.
+For $\R^n$, the dimension is simply $n$.
+The space $\R^2$ has dimension 2, $\R^3$ has dimension 3, and so on.
+The dimension tells us the minimum number of coordinates needed to uniquely specify any vector in the space.
+It is a fundamental property that characterizes the `size' or `degrees of freedom' of a vector space.
 
 Another point to make is that vector addition is a binary operation.
 It takes two vectors as an input and outputs another vector.
