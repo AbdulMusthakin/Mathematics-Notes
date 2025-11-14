@@ -674,7 +674,6 @@ WIP
 
 WIP %TODO MOTIVATE TANGENT SPACES
 %TODO GO THROUGH MATRICES SECTION AND ADD A BIT ON IDENTITY MATRIX AND DETERMINENTS AND INVERSES
-%TODO GO THROUGH DEF OF VECTORS SECTION AND ADD A BIT ON BASIS AND DIMENSION OF VECTOR
 
 \begin{appendices}
 
@@ -718,6 +717,23 @@ More precisely, the third and fourth statements say that an identity vector (tha
 These statements are known as the vector space axioms.
 Note that choosing those specific axioms to define a vector space is just that: a choice.\footnote{It is not an arbitrary choice, however. Vectors are an incredibly useful concept both in pure maths and in other subjects -- where they are applied (along with linear algebra in general) perhaps more than any other topic in maths.}
 We can explore sets with different strucutres, obtains objects like groups and rings instead.
+
+\subsubsection*{Basis and Dimension}
+
+Two fundamental properties of vector spaces are their basis and dimension.
+A \emph{basis} of a vector space $V$ is a set of vectors in $V$ that satisfies two key properties: the vectors are linearly independent, and they span the entire space.
+Linear independence means that no vector in the set can be written as a linear combination of the others.
+Spanning means that every vector in $V$ can be expressed as a linear combination of the basis vectors.
+
+For example, in $\R^2$, the standard basis consists of $\ihat = (1, 0)$ and $\jhat = (0, 1)$.
+Any vector $(a, b)$ in $\R^2$ can be written as $a\ihat + b\jhat$, showing that these vectors span $\R^2$.
+They are also linearly independent, since neither can be written as a scalar multiple of the other.
+Another basis for $\R^2$ could be $\{(1, 1), (1, -1)\}$, demonstrating that bases are not unique.
+
+The \emph{dimension} of a vector space is the number of vectors in any basis for that space.
+A remarkable theorem in linear algebra states that all bases of a given vector space have the same number of elements, making dimension well-defined.
+For $\R^n$, the dimension is $n$, as the standard basis $\{\ehat_1, \ehat_2, \ldots, \ehat_n\}$ contains $n$ vectors, where $\ehat_i$ has a 1 in the $i$-th position and 0 elsewhere.
+The dimension provides a measure of the ``size'' or ``degrees of freedom'' of the vector space.
 
 A common notation for vectors is boldface letters, and that is what will be used in this document.
 Regular real numbers are never in boldface, though they might use either the Latin or Greek alphabet.
