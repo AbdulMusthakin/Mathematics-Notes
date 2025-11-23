@@ -1,0 +1,328 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[left=25mm, right=25mm, top=25mm, bottom=25mm]{geometry}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage[style=iso]{datetime2}
+\usepackage[explicit]{titlesec}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{mathtools} % Provides \mathrlap command
+\usepackage{xparse}
+\usepackage{float}
+\usepackage{fixdif}
+\usepackage[skip=1em,indent]{parskip}
+\usepackage{caption}
+
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage[toc, page]{appendix}
+\usepackage{accents}
+\usepackage[perpage, symbol*]{footmisc} % for dagger footnotes
+\DefineFNsymbols{sym}{\textdagger \textdaggerdbl \textsection \textparagraph %
+{\textdagger\textdagger} {\textdaggerdbl\textdaggerdbl} %
+{\textsection\textsection} {\textparagraph\textparagraph}}
+\setfnsymbol{sym}
+\interfootnotelinepenalty=10000
+
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\tikzset{>=latex} % for LaTeX arrow head
+\usepackage{pgfplots} % for the axis environment
+\usetikzlibrary{calc,decorations.markings}
+
+\pgfplotsset{compat=1.18, every tick label/.append style={font=\footnotesize}}
+
+\graphicspath{ {./Images/} }
+
+
+% ---------------- %
+\usepackage{etoolbox}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[linkcolor=black]{hyperref}
+\usepackage[nameinlink]{cleveref}
+
+% Configure cleveref for appendix sections
+\crefname{appsec}{Appendix}{appendices}
+\Crefname{appsec}{Appendix}{Appendices}
+
+\definecolor{RoyalRed}{RGB}{157, 16, 45}
+\definecolor{RoyalOrange}{RGB}{249, 146, 69}
+
+\makeatletter %* Creates a footnote colour option
+\def\@footnotecolor{black}
+\define@key{Hyp}{footnotecolor}{%
+ \HyColor@HyperrefColor{#1}\@footnotecolor%
+}
+\patchcmd{\@footnotemark}{\hyper@linkstart{link}}{\hyper@linkstart{footnote}}{}{}
+\makeatother
+
+\hypersetup{
+  colorlinks = true,
+  linkcolor = RoyalRed,
+  citecolor = RoyalOrange,
+  footnotecolor = black,
+}
+% ---------------- %
+\makeatletter
+\def\th@plain{%
+  \thm@notefont{}% same as heading font
+  \itshape % body font
+}
+\def\th@definition{%
+  \thm@notefont{}% same as heading font
+  \normalfont % body font
+}
+\makeatother
+
+\newcommand*\diff{\mathop{}\!d} % for the differential in integrals
+% ---------------- %
+\ExplSyntaxOn %* This command is for row vectors; unstarred version has no delimiter scaling for inline; starred version has delimiter scaling for display
+\seq_new:N \l_user_rvec_seq
+
+% expl3 worker (does the splitting/formatting)
+\cs_new_protected:Npn \dbacc_rvec:n #1
+ {
+  \seq_clear:N \l_user_rvec_seq
+  \seq_set_split:Nnn \l_user_rvec_seq { , } { #1 }
+  \seq_use:Nn \l_user_rvec_seq { \enspace }
+ }
+
+% plain-name wrapper (no ':' in its name) — safe to call outside ExplSyntaxOn
+\cs_new_protected:Npn \dbaccrvec #1 { \dbacc_rvec:n { #1 } }
+
+% user-level \rvec interface (star + optional size + mandatory arg)
+\NewDocumentCommand \rvec { s o m }
+ {
+  \IfBooleanTF{#1}
+    { \left[\,\dbaccrvec{#3}\,\right] } % starred -> automatic \left...\right
+    { \IfValueTF{#2}
+        { \mathopen{#2[}\,\dbaccrvec{#3}\,\mathclose{#2]} } % sized optional arg
+        { [\,\dbaccrvec{#3}\,] } % default small delimiters
+    }
+ }
+\ExplSyntaxOff
+% ---------------- %
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\NewCommandCopy{\oldIm}{\Im}
+\renewcommand{\Im}{\mathop{\oldIm\mathfrak{m}}}
+\NewCommandCopy{\oldRe}{\Re}
+\renewcommand{\Re}{\mathop{\oldRe\mathfrak{e}}}
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+\DeclareMathOperator{\Res}{Res}
+
+\DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{#1}
+\DeclarePairedDelimiterX{\abs}[1]{\lvert}{\rvert}{#1}
+\NewDocumentCommand{\eval}{smm}{%
+  \IfBooleanTF{#1}
+    {#2\rvert_{#3}}
+    {\left.#2\right\rvert_{#3}}%
+}
+% ---------------- %
+\newcommand{\ihat}{\boldsymbol{\hat{\imath}}}
+\newcommand{\jhat}{\boldsymbol{\hat{\jmath}}}
+\newcommand{\khat}{\boldsymbol{\hat{k}}}
+\newcommand{\ehat}{\mathbf{\hat{e}}}
+\newcommand{\T}{\mathrm{T}}
+% ---------------- %
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+% \setlength{\cftsecnumwidth}{3em}
+
+\begin{titlepage}
+\title{Differential Forms Prerequisites (ROUGH)}
+\author{Abdul Musthakin}
+\date{November 2025}
+\end{titlepage}
+
+% \renewcommand{\thesection}{\Roman{section}}
+
+\allowdisplaybreaks
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\maketitle
+
+\section{Definition of a Vector} \label{appendix:vector_def}
+
+An introduction to the concept of vectors usually involve giving examples of vectors -- such as arrows in a plane -- without giving a proper definition of what a vector is in general.
+That makes sense, since such a definition is (relatively) technical and unnecessary for simply working with vectors.
+The technical definition is that a vector is an element of a vector space, but that alone simply replaces one question with another.
+It follows that a definition of a vector space is now required.
+
+To come up with it, we will follow a method of generalization that can be readily applied to other situations as well.
+We know that ordered pairs of real numbers are examples of vectors, so the set containing all such pairs is an example of a vector space.\footnote{This is technically an abuse of language. A vector space is a set with additional structure -- the ability to add and scale its elements in a certain way. However, this distinction is not very useful until we actually define a vector space properly.}
+This set is denoted by $\R \times \R$, and $\R^2$ is a useful shorthand.
+We will examine the properties of this set in order to obtain a general definition of a vector space.
+
+Two things we can do with our vectors is add them together and scale them.
+For the example we are working with, this is done component-wise: $(a, b) + (b, c) = (a + b, c + d)$ and $c \cdot (a, b) = (ac, bc)$.
+Since we can use real numbers to scale vectors, they are also referred to as scalars in this context.
+Both of those functions have geometric interpretations if the vectors are viewed as arrows on a plane.
+Vector addition involves connecting two vectors tip-to-tail and the sum is the third side of a triangle (or the diagonal of a parallelogram).
+Scalar multiplication involved literally scaling the length of a vector by some number, where multiplication by a negative number reverses direction.
+
+Whilst vectors in general are not arrows, the way they add and scale is fundamental to them.
+If we try to extract all the properties of addition and scalar multiplication, we get the following list.
+Note that the boldface letters are elements of $\R^2$, whilst the greek letters are real numbers.
+Also, the boldface zero represents (0, 0).
+\begin{enumerate}
+\item $\mathbf{u} + \mathbf{v} = \mathbf{v} + \mathbf{u}$
+\item $\mathbf{u} + (\mathbf{v} + \mathbf{w}) = (\mathbf{u} + \mathbf{v}) + \mathbf{w}$
+\item $\mathbf{0} + \mathbf{v} = \mathbf{v}$
+\item $-\mathbf{v} + \mathbf{v} = \mathbf{0}$
+\item $\lambda(\mu\mathbf{v}) = (\lambda\mu)\mathbf{v}$
+\item $1\mathbf{v} = \mathbf{v}$
+\item $\lambda(\mathbf{v} + \mathbf{w}) = \lambda\mathbf{v} + \lambda\mathbf{w}$
+\item $(\lambda + \mu)\mathbf{v} = \lambda\mathbf{v} + \mu\mathbf{v}$
+\end{enumerate}
+That leads to our definition of a vector space -- a set, together with vector addition and scalar multiplication, that satisfies the above statements.\footnote{Addition and scalar multiplication must be closed, but this is within their definitions, rather than being a part of the axioms.}
+More precisely, the third and fourth statements say that an identity vector (that works for all vectors) and inverse vectors (that each work for a specific vector) exist.
+These statements are known as the vector space axioms.
+Note that choosing those specific axioms to define a vector space is just that: a choice.\footnote{It is not an arbitrary choice, however. Vectors are an incredibly useful concept both in pure maths and in other subjects -- where they are applied (along with linear algebra in general) perhaps more than any other topic in maths.}
+We can explore sets with different strucutres, obtains objects like groups and rings instead.
+
+A common notation for vectors is boldface letters, and that is what will be used in this document.
+Regular real numbers are never in boldface, though they might use either the Latin or Greek alphabet.
+Additionally, whilst there are many different objects that classify as vectors, the only ones that will be considered by us are in fact lists of real numbers.
+An ordered listed of $n$ real numbers is an element of $\R^n$.
+In this context, $n$ is always interpreted as being a positive integer.
+
+The above contains sufficient information to define vectors and work with them on a basic level.
+What follows are some additional points of discussion.
+Firstly, there are many different notations that exist for vectors.
+Arrows, particularly in physics, can also be used to denote vectors, e.g. $\vec{F} = m\vec{a}$.
+It is not easy to write boldface symbols in handwriting, so another alternative is underlining the vector, $\underline{v}$, or putting a tilde beneath it, $\underaccent{\sim}{v}$.
+For the actual value of the vector, you can write it as a coordinate, as was shown before.
+Another common way is to write it as a column of numbers.
+\begin{equation*}
+    \mathbf{v} = \begin{bmatrix}
+        a \\
+        b
+    \end{bmatrix}
+\end{equation*}
+It can be written also be written like as $\mathbf{v} = \rvec{a,b}$. Note that the former is called a column vector, whilst the latter is a row vector.
+Technically, they are different objects, but this distinction only matters when dealing with matrices.
+Another way to write a vector is $\mathbf{v} = \langle a, b \rangle$.
+This might be preferred due to avoiding confusion with coordinates, though writing $\mathbf{v} = (a,b)$ is pretty common.
+Additionally, given that $\ihat = \langle 1, 0 \rangle$ and $\jhat = \langle 0, 1 \rangle$, you can write a vector as $\mathbf{v} = v_x\ihat + v_y\jhat$, where $v_x$ and $v_y$ are the components of the vector.
+Note that these examples were given for $\R^2$, but they extend to general vectors in $\R^n$.
+
+Another point to make is that vector addition is a binary operation.
+It takes two vectors as an input and outputs another vector.
+On the other hand, scalar multiplication is a binary function.
+It takes a vector and a scalar as an input and outputs a vector.
+All operations are functions, but the converse is not true in general.
+An operation is a function whose domain is some power of the codomain.
+For example, vector addition -- in reference to elements of $\R^n$ -- may be written as $+\colon \R^{2n} \to \R^n$.
+This is a matter of semantics and using the word operation loosely is both common and unharmful.
+
+\section{Matrices} \label{appendix:matrices}
+
+Matrices, unlike vectors, are relatively easy to define.
+An $m \times n$ matrix is a rectangular array of objects with $m$ rows and $n$ columns.
+Each object in the matrix is a particular entry in, or component of the matrix.
+The usual notation for a variable that is a matrix is boldface upper-case letters, e.g. $\mathbf{A}$.
+Below is an example of a matrix containing real numbers.
+\begin{equation*}
+    \mathbf{A} = \begin{bmatrix}
+        1 & 3 & 0.4 \\
+        2 & 9 & 0
+    \end{bmatrix}
+\end{equation*}
+In this case, the size or order of $\mathbf{A}$ is $2 \times 3$.
+We may use either round or square brackets for a matrix.
+The entry in the $i$-th row and $j$-th column may be referenced as $A_{ij}$, $\mathbf{A}_{ij}$, or $a_{ij}$, with or without a comma separating $i$ and $j$.
+This means that we can write a general $m \times n$ matrix as
+\begin{equation*}
+    \mathbf{A} = \begin{bmatrix}
+        A_{11} & A_{12} & \cdots & A_{1n} \\
+        A_{21} & A_{22} & \cdots & A_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        A_{m1} & A_{m2} & \cdots & A_{mn}
+    \end{bmatrix}.
+\end{equation*}
+The entry $A_{ij}$ may also be called the $(i, j)$ entry of the matrix.
+A matrix is uniquely determined by its order and a formula for a generic term.
+We may specify a matrix $\mathbf{A}$ with its generic entry by writing $\mathbf{A} = (A_{ij})$, and possibly specifying the range of $i$ and $j$.
+If $m = n$, the matrix is called a square matrix.
+If $m = 1$ or $n = 1$, then the matrix is called a column or row matrix/vector respectively.
+
+The actual purpose of matrices only comes when we introduce the operations we can perform on them.
+We can add two matrices by adding their components: $(\mathbf{A} + \mathbf{B})_{ij} = A_{ij} + B_{ij}$.
+Also, we can scale matrices by multiplying their components by some number: $(c\mathbf{A})_{ij} = cA_{ij}$.
+In this way, matrices work similarly to vectors.
+However, we are also able to multiply matrices together.
+Simply providing a formula would not be very enlightening, so we will first introduce the notion that matrices are linear maps.
+
+Consider the $n$-dimensional vector $\mathbf{x}$.
+We can express the vector a sequence of scalars and construct an $n \times 1$ matrix with them.
+This can be done for any vector in a finite-dimensional vector space.
+We can multiply a general matrix by this vector as follows.
+\begin{equation*}
+    \mathbf{Ax} = \begin{bmatrix}
+        A_{11} & A_{12} & \cdots & A_{1n} \\
+        A_{21} & A_{22} & \cdots & A_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        A_{m1} & A_{m2} & \cdots & A_{mn}
+    \end{bmatrix}
+    \begin{bmatrix}
+        x_1 \\
+        x_2 \\
+        \vdots \\
+        x_n
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        A_{11}x_1 + A_{12}x_2 + \cdots + A_{1n}x_n \\
+        A_{21}x_1 + A_{22}x_2 + \cdots + A_{2n}x_n \\
+        \vdots \\
+        A_{m1}x_1 + A_{m2}x_2 + \cdots + A_{mn}x_n \\
+    \end{bmatrix}
+\end{equation*}
+This is transforming each component of the vector by taking the dot product of the corresponding row of the matrix with the vector.
+It can thus be seen that a matrix maps one vector to another vector.
+The linear part comes from the fact that $\mathbf{A}(\lambda\mathbf{x} + \mu\mathbf{y}) = \lambda\mathbf{Ax} + \mu\mathbf{Ay}$, which follows from the way matrices add and scale.
+Then, the interpretation of multiplying two matrices $\mathbf{A}$ and $\mathbf{B}$ together is creating a composite transformation, similar to how two functions can be composed.
+The general formula for this is stil not particularly enlightening, but it is given below.
+\begin{equation*}
+    (\mathbf{AB})_{ij} = A_{i1}B_{1j} + A_{i2}B_{2j} + \cdots + A_{in}B_{nj} = \sum_{k=1}^n A_{ik}B_{kj}
+\end{equation*}
+Here, $n$ is the number of columns of the first matrix and the number of rows of the second.
+Multiplying two matrices (in this way) is only defined when these two numbers are equal.
+If you multiply an $m \times n$ matrix by a $p \times q$ matrix, the order of the product will be $m \times q$.
+
+From the fact that matrix multiplication represents composing transformations, it follows that matrix multiplication is associative: $(\mathbf{AB})\mathbf{C} = \mathbf{A}(\mathbf{BC}) = \mathbf{ABC}$.
+It is not commutatve however, meaning that $\mathbf{AB} \neq \mathbf{BA}$.
+In general, the order in which transformations are applied matter -- rotating then reflecting an object is not the same thing as reflecting and then rotating it.
+The order in which transformations are applied is right to left (from our definition).
+
+An $m \times 1$ matrix (row vector) and a $1 \times n$ matrix (column vector) can be associated with each other, and they can both be associated with an $n$-dimensional vector.
+Their difference comes from the way they multiply with other matrices.
+This can be seen from the definition and the various rules that come out of it.
+We developed matrix multiplication by treating a vector as a $m \times 1$ matrix and multiplying by a matrix on the left.
+Treating it instead as a $1 \times n$ matrix and multiplying by a matrix on the right would have given the same transformation (but for a row vector).
+
+Multiplying a column vector by a row vector will yield a $1 \times 1$ matrix.
+In general, one can associate any $1 \times 1$ matrix with a scalar; note that they are different objects, though (just as matrices with a single row or column are technically different from vectors).
+This association allows for one to define the dot product of two vectors as the product of a row vector and a column vector.
+When doing so, the column vector is written as the transpose of a row vector: $\mathbf{x} \cdot \mathbf{y} = \mathbf{x}\mathbf{y}^\T$.
+The transpose of a matrix in general is defined by the simple rule $(\mathbf{A})_{ij} = A_{ji}$, meaning the rows and columns are swapped around.

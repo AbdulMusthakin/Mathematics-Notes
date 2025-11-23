@@ -229,6 +229,11 @@ pythontex-files-*/
 *.md5
 *.auxlock
 
+# TikZ externalized gnuplot artifacts
+Differential\ Geometry/Differential\ Forms/source/tikz/*.dat
+Differential\ Geometry/Differential\ Forms/source/tikz/*.script
+Differential\ Geometry/Differential\ Forms/source/tikz/*.dep
+
 # titletoc
 *.ptc
 

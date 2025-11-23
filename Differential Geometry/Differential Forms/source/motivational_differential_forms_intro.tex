@@ -14,9 +14,10 @@
 \usepackage{mathtools} % Provides \mathrlap command
 \usepackage{xparse}
 \usepackage{float}
+\usepackage{fixdif}
 \usepackage[skip=1em,indent]{parskip}
 \usepackage{caption}
-\usepackage[colorlinks=true, linkcolor=black]{hyperref}
+
 \usepackage{tocloft}
 \usepackage{enumitem}
 \usepackage[toc, page]{appendix}
@@ -26,16 +27,50 @@
 {\textdagger\textdagger} {\textdaggerdbl\textdaggerdbl} %
 {\textsection\textsection} {\textparagraph\textparagraph}}
 \setfnsymbol{sym}
+\interfootnotelinepenalty=10000
 
 \usepackage{tikz}
+\usepackage{tikz-3dplot}
 \tikzset{>=latex} % for LaTeX arrow head
 \usepackage{pgfplots} % for the axis environment
-\usetikzlibrary{calc,decorations.markings}
+\usetikzlibrary{calc,decorations.markings,external}
+\tikzexternalize[prefix=tikz/]
 
 \pgfplotsset{compat=1.18, every tick label/.append style={font=\footnotesize}}
 
 \graphicspath{ {./Images/} }
 
+\usepackage{biblatex}
+\addbibresource{motivational_differential_forms_intro.bib}
+
+% ---------------- %
+\usepackage{etoolbox}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[linkcolor=black]{hyperref}
+\usepackage[nameinlink]{cleveref}
+
+% Configure cleveref for appendix sections
+\crefname{appsec}{Appendix}{appendices}
+\Crefname{appsec}{Appendix}{Appendices}
+
+\definecolor{RoyalRed}{RGB}{157, 16, 45}
+\definecolor{RoyalOrange}{RGB}{249, 146, 69}
+
+\makeatletter %* Creates a footnote colour option
+\def\@footnotecolor{black}
+\define@key{Hyp}{footnotecolor}{%
+ \HyColor@HyperrefColor{#1}\@footnotecolor%
+}
+\patchcmd{\@footnotemark}{\hyper@linkstart{link}}{\hyper@linkstart{footnote}}{}{}
+\makeatother
+
+\hypersetup{
+  colorlinks = true,
+  linkcolor = RoyalRed,
+  citecolor = RoyalOrange,
+  footnotecolor = black,
+}
+% ---------------- %
 \makeatletter
 \def\th@plain{%
   \thm@notefont{}% same as heading font
@@ -90,6 +125,11 @@
 
 \DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{#1}
 \DeclarePairedDelimiterX{\abs}[1]{\lvert}{\rvert}{#1}
+\NewDocumentCommand{\eval}{smm}{%
+  \IfBooleanTF{#1}
+    {#2\rvert_{#3}}
+    {\left.#2\right\rvert_{#3}}%
+}
 % ---------------- %
 \newcommand{\ihat}{\boldsymbol{\hat{\imath}}}
 \newcommand{\jhat}{\boldsymbol{\hat{\jmath}}}
@@ -110,9 +150,9 @@
 % \setlength{\cftsecnumwidth}{3em}
 
 \begin{titlepage}
-\title{Introduction to Differential Forms}
+\title{A Motivational Introduction to Differential Forms}
 \author{Abdul Musthakin}
-\date{October 2025}
+\date{November 2025}
 \end{titlepage}
 
 % \renewcommand{\thesection}{\Roman{section}}
@@ -130,10 +170,54 @@
 
 \section*{Prerequisites}
 
+This exposition aims to require as little prerequisite knowledge as possible in order for one be able to understand the presented concepts.
+However, there are still some topics that are absolutely essential.
+This includes concepts in single and multivariable calculus, as well introductory linear algebra.
+The rigorous underpinnings of these topics, such as the contents of a course on real analysis, are not required.
+If relevant, they will be attached as an appendix.
+
+\subsection*{1. Linear Algebra}
+Expertise in linear algebra is by no means necessary.
+A surface-level understanding of the main ideas should suffice.
 \begin{itemize}
-    \item Single-variable calculus
-    \item Vectors
+    \item the intuitive idea of vectors as ordered lists of numbers or arrows in a plane;
+    \item elements of $\R^n$ as vectors;
+    \item the concept of matrices being linear maps (linear maps in general are important) and representing transformations, as well as basic ideas relating to them;
+    \item vector and matrix operations: dot (scalar) product, matrix multiplication, determinents, transpose, inverse of matrix;
+    \item the idea of vectors being more general objects (elements of a vector space);
+    \item the basis and dimension of a vector space.
 \end{itemize}
+Besides general knowledge of vectors and linear algebra, the most important concept here to be aware of is that vectors are much more general than coordinates and arrows.
+We will encounter objects that are vectors, but are completely different from the afformentioned `typical' examples.
+See \cref{appendix:vector_space} for the definition of a vector space, but note that this is only intended to be a reference.
+
+\subsection*{2. Multivariable Calculus}
+Knowledge of some concepts in multivariable calculus is mandatory.
+Single-variable calculus is obviously a requirement by extension.
+Whilst the topic of differential geometry -- where differential forms usually found -- is quite a bit more advanced, this introductory exposition is supposed to be a natural part or extension to the concepts of multivariable calculus.
+Thus, full familiarity with the subject is not required; many ideas will be developed along the way.
+It assumed that one is aware of
+\begin{itemize}
+    \item functions of the type $\mathbb{R}^m \to \mathbb{R}^n$;
+    \item partial derivatives and the chain rule;
+    \item directional derivatives and their computation;
+    \item the ideas behind gradients, divergence, and curl, as well as how to compute them;
+    \item the Jacobian matrix of a multivariable function.
+\end{itemize}
+A formal introduction to vector calculus is presented in \cref{appendix:vector calculus}.
+This will include the definition of the limit of vectors-valued functions, and the derivation of the Jacobian matrix.
+Knoweldge of some concepts from real analysis are required to understand this, but they are not required for the main body of the exposition.
+The more experience one has with multivariable calculus, the easier it will be for them to understand this exposition.
+Just as importantly, it will better enable to appreciate the value of what is to be introduced.
+
+The last point holds true for any other topic in maths that may be related to differential forms.
+This comes both from the perspective of aquiring more knoweldge, as well as gaining experience and maturity.
+For instance, abstract algebra (e.g. group theory), is specifically not a prerequisite.
+However, knowledge of concepts from it will frequently be useful.
+These concepts are intuitive, so they can be mentioned whenever in an informal manner, avoiding the associated jargon.
+We encounter isomorphisms between spaces, describing thema as associating objects in a specific way, and so on.
+
+\pagebreak
 
 \section{Introduction \& Motivation}
 
@@ -241,7 +325,7 @@ Leibniz was the first to coin the term for that usage, although the idea of infi
 
 Early developments in calculus throughout the 17th and 18th centuries by the likes of Newton and Leibniz were noticeably reliant on the idea of infinitesimals.
 That itself was not a bad thing, but that the lack of rigour was.
-We would see the development of a more rigourous foundation of calculus by mathematicians in the 19th century, particularly Cauchy.
+We would see the development of a more rigorous foundation of calculus by mathematicians in the 19th century, particularly Cauchy.
 Infinitesimals would be left in favour of limits, and the latter is the formulation that is universally taught in schools.
 \begin{figure}[H]
 \centering
@@ -288,14 +372,14 @@ Infinitesimals would be left in favour of limits, and the latter is the formulat
 \label{fig:riemann_sum}
 \end{figure}
 This information about differentials allows us to view the one attached to every integral in way beyond just useful notation.
-Putting the formalism and rigourous defintions of integrals aside, they are fancy sums.
+Putting the formalism and rigorous definitions of integrals aside, they are fancy sums.
 The area under a graph can be approximated by rectangles, as is shown by the above figure.
 As the width of the rectangles decrease, the sums \href{https://commons.wikimedia.org/wiki/File:Riemann_sum_(leftbox).gif}{get closer} to the actual area under the curve.
 That is, the limit of this sum is an integral.
 
 Instead of thinking about it in terms of limits, we can imagine summing an infinite number of rectangles with infinitesimal width.
 The height of a rectangle at some value of $x$ can be given by $f(x)$, so if the integral sums over areas, the $dx$ is the infinitesimal width.
-This is all very impercise and non-technical language.
+This is all very imprecise and non-technical language.
 However, it is enough to give us an intuitive feel of what an integral is and what the differential that is always attached to it means.
 
 There is more to the peculiar symbol, though, and integrals are probably not the first place one would have spotted them.
@@ -306,7 +390,7 @@ It just looks like a fraction, and treating it like a fraction works out almost 
 
 The resemblence it has to a ratio between two quantities is no coincidence, as Leibniz intended it to be just that: a ratio of infinitesimals.
 The symbols $dx$ and $dy$ were used to represent infinitely small changes in $x$ and $y$ respectively.
-Whilst we have, for the most part, left these impercise notions behind, they will prove to be somewhat useful in understanding these symbols.\footnote{At the end of the day, the symbols mean whatever we want as long as it consistent with the rest of our maths. That is why I gave the easy way out at the beginning, saying that the differential symbol in the integral can just be considered a part of the notation. However, as is being demonstrated, we can go further.}
+Whilst we have, for the most part, left these imprecise notions behind, they will prove to be somewhat useful in understanding these symbols.\footnote{At the end of the day, the symbols mean whatever we want as long as it consistent with the rest of our maths. That is why I gave the easy way out at the beginning, saying that the differential symbol in the integral can just be considered a part of the notation. However, as is being demonstrated, we can go further.}
 
 \section{Differential of a Function}
 
@@ -324,7 +408,7 @@ Now, although the left-hand side is not a fraction, what if we rewrote the equat
 The right-hand side now looks exactly like an integrand.
 This looks promising, but we did say beforehand that $dy/dx$ is not a fraction.
 So, are we allowed to do that?
-No. The symbols $dx$ and $dy$ have not been given a meaning outside of when they appear in $dy/dx$, so it makes no sense to seperate them.
+No. The symbols $dx$ and $dy$ have not been given a meaning outside of when they appear in $dy/dx$, so it makes no sense to separate them.
 However, when something does not have meaning, we can always attempt to give it one and see where that leads us.
 
 First, let $\Delta x$ be some real number, just as $x$ is.
@@ -349,7 +433,7 @@ With this, and by letting $y = f(x)$, we can rewrite our equation as
 This looks exactly like what we already had, but now we have reached it by valid means.
 We see that the differential $dy$ is defined in terms of $x$ and $dx$, and the differential $dx$ is essentially just some real number.
 If we desired, we could go further to obtain $dy/dx = f'(x)$, but this can lead to confusion.
-By that equation, $f'(x)$ equals a ratio of differentials that have each been seperately defined.
+By that equation, $f'(x)$ equals a ratio of differentials that have each been separately defined.
 However, $f'(x)$ is can be expressed with Leibniz's notation as $dy/dx$ -- which is not a ratio.\footnote{We cannot redefine the derivative to be a ratio of our two differentials. Their definitions involve the derivative, so it would be circular. Instead, view it as evidence for the self-consistency of Leibniz's notation}
 This is just something to note.
 
@@ -443,7 +527,7 @@ We can illustrate the efficacy of this method with a diagram.
 We calculated $dy$, the increase in the tangent, as an approximation to $\Delta y$, the increase in the function.
 As can be seen from the figure, these are very similar values.
 Since $f'(x) \to 0$ as $x \to \infty$ (the curve flattens), this method of approximation gets better for larger square roots.
-That does not mean that this method is not useful for other functions, as it is generally applicable to functions that are sufficiently `nice' -- where a discussion on `niceness' is besides the point.
+That does not mean that this method is not useful for other functions, as it is generally applicable to functions that are sufficiently `nice' -- where a discussion on `niceness' is beside the point.
 
 Another example is approximating $\ln 3$.
 We know that $\ln e$ is 1, and $e \approx 3$.
@@ -481,7 +565,7 @@ Of course this is not a proof of the chain rule.
 It does not show that the fraction $dy/du$ is the same as the derivative of $y$ with respect to $u$, and it does not work when $u'(x) = 0$ wherever we are differentiating at.
 Regardless, it shows the chain rule to be intuitively very simple -- just `cancelling' fractions.
 
-Our definition of differentials can also be shown to be insightful with regard to integration by substitution and the method of solving differential equations by seperation of variables.
+Our definition of differentials can also be shown to be insightful with regard to integration by substitution and the method of solving differential equations by separation of variables.
 That would make sense, as they are both linked to the chain rule (with the former being an inverse to some degree).
 Given two functions $f$ and $g$, the integration by substitution formula states that
 \begin{equation*}
@@ -490,7 +574,7 @@ Given two functions $f$ and $g$, the integration by substitution formula states 
 By making the substitution $u = g(x)$, we know that the differential of $u$ is given by $du = g'(x) \diff x$.
 This suggests that the formula above is a literal substitution of one variable with another.
 The limits being transferred from $x=a$ and $x=b$ to $u=g(a)$ and $u=g(b)$ make sense as well.\footnote{We could have had the limits on the RHS integral be $x=a$ and $x=b$ if we really wanted. This shows that nothing `actually' changes between the two integrals.}
-Without the integral symbols, the equation would just be something that follows directly from the defintion of a differential.
+Without the integral symbols, the equation would just be something that follows directly from the definition of a differential.
 If it were possible to integrate a differential in the sense of it being the whole integrand -- not just integrating a function -- then the formula would be completely trivial.
 
 Now, on to the topic of differential equations.
@@ -499,7 +583,7 @@ Let $f$, $g$, and $h$ be functions that satisfy the differential equation
     \frac{dy}{dx} = g(x)h(y),
 \end{equation*}
 with $y=f(x)$.
-If we treat the $dy$ in $dy/dx$ as a differential (which is a bit awkward notationally but valid), then we have a fraction that can be seperated.
+If we treat the $dy$ in $dy/dx$ as a differential (which is a bit awkward notationally but valid), then we have a fraction that can be separated.
 Multiplying both sides by $dx$ and dividing by $h(y))$ gives
 \begin{equation*}
     \frac{dy}{h(y)} = g(x) \diff x.
@@ -519,8 +603,8 @@ Once again, if we could just integrate the differentials directly, things would 
 As was suggested at the end of the previous section, there is a different way to handle differentials that works well with integration.
 Before that, we will have to perform quite a bit of work to generalize the notion of a differential; our current definition only works for functions of the type $\R \to \R$.
 We will first cover higher-order differentials, which correspond to higher-order derivatives.
-This is technically not a `generalisation' in that it requires no new definitions.
-The second-order differenital, or second differential, of a function is given by finding the differential of the differential.
+This is technically not a `generalization' in that it requires no new definitions.
+The second-order differential, or second differential, of a function is given by finding the differential of the differential.
 \begin{equation*}
     d^2 y \coloneq d(dy) = d(f'(x)\diff x) = (df'(x)) \diff x = f''(x) (dx)^2
 \end{equation*}
@@ -598,7 +682,7 @@ Since our function $f$ takes a list of numbers, and a list of numbers can be rep
 This will not change anything about the above formula; we are now just considering the components of $\mathbf{x}$ and $d\mathbf{x}$.
 We can go a step further by consider functions that output vectors as well.
 Let $\mathbf{f}\colon \R^m \to \R^n$.
-The only thing that changes is that we are now differentiating vectors, which we do by differentiating their components seperately.
+The only thing that changes is that we are now differentiating vectors, which we do by differentiating their components separately.
 This gives us a slightly modified formula for the total differential.
 It is just a change of notation.
 \begin{equation*}
@@ -661,31 +745,514 @@ The other form may be better-suited for quick computations, however.
 
 We have now obtained an interpretation of the differential for a more general class of functions. 
 It is a function of $\mathbf{x}$ and $d\mathbf{x}$, representing the principal change in the function.
-This generalisation, and the work done to formalise the derivative of functions of type $\R^m \to \R^n$ falls under the concept of the \href{https://en.wikipedia.org/wiki/Fr%C3%A9chet_derivative}{Fre\'chet derivative}.
+This generalization, and the work done to formalize the derivative of functions of type $\R^m \to \R^n$, falls under the concept of the \href{https://en.wikipedia.org/wiki/Fr%C3%A9chet_derivative}{Fre\'chet derivative}.
 This derivative can be defined on even more general spaces, but that is beyond the scope of our discussion.
+
+A useful concept that is related to -- but distinct from -- our definition of the differential is the directional derivative.
+
+\begin{equation*}
+    \nabla_\mathbf{v}\mathbf{f}(\mathbf{x}) \coloneq \lim_{t \to 0} \frac{\mathbf{f}(\mathbf{x}+t\mathbf{v}) - \mathbf{f}(\mathbf{x})}{t}
+\end{equation*}
+Here, $\nabla_\mathbf{v}\mathbf{f}$ is the directional derivative of $\mathbf{f}$ along some vector $\mathbf{v}$ multiplied by $\norm{\mathbf{v}}$.
+This is a weaker concept of the derivative than what we were previously using.
+If function $\mathbf{f}$ is differentiable at a point $\mathbf{f}$ (the Jacobian exists), then all directional derivatives at that point will exist.
+The converse of this statement is not true.
+The relationship between the directional derivative and the Jacobian is that $\mathbf{J_f v} = \nabla_\mathbf{v}\mathbf{f}(\mathbf{x})$, meaning that $d\mathbf{f}(\mathbf{x}, d\mathbf{x}) = \nabla_\mathbf{v}\mathbf{f}(\mathbf{x})$.
+This will be useful later.
 
 \section{Tangent Spaces}
 
-WIP
+In order to move on to the next step (of developing a `differential' that works well with integration), we will have to shift our perspective and create new definitions.
+Previously, we have been considering $d\mathbf{f}$ as a function of two numbers, $\mathbf{x}$ and $\Delta\mathbf{x}$.\footnote{Henceforth, we will refrain from using $d\mathbf{x}$ in the context of the differential, as it will adopt a different meaning.}
+Another way to view it is to consider the differential at a specific point $\mathbf{x}$.
+We then have $d\mathbf{f_x}$ as a function of just $\Delta\mathbf{x}$.
+All we have done here is fix one of our variables.
 
-\section{Differential Forms}
+The next step will be to reinterpret $\Delta\mathbf{x}$.
+It currently just represents some number which can be thought of as a change from $\mathbf{x}$.
+Whilst it can be of any size, in practice, we want it to be small.
+The smaller it is, the close the principal change $d\mathbf{f}$ is to the total change $\Delta\mathbf{f}$.
+Although the following language is not precise, we can say that these changes would be equal if $\Delta\mathbf{x}$ was infinitely small.
+A point established near the start of this discussion was that the concept of infinitesimals is dated.
+However, instead of abandoning them completely, we will show one way in which they can be formalized.
 
-WIP %TODO MOTIVATE TANGENT SPACES
-%TODO GO THROUGH MATRICES SECTION AND ADD A BIT ON IDENTITY MATRIX AND DETERMINENTS AND INVERSES
-%TODO GO THROUGH DEF OF VECTORS SECTION AND ADD A BIT ON BASIS AND DIMENSION OF VECTOR
+Whilst the concept of an infinitesimal itself is vague (as is), it is closely related to tangents.
+Regardless of whether a derivative is interpreted as the ratio of infinitesimals, or as a limit, it can be thought of as the gradient of a tangent line.
+Quantities that are derivatives of other quantities are always tangent to them.
+For example, the instantaneous velocity vector $\mathbf{v} = \mathbf{\dot{x}}$ is tangent to the position vector $\mathbf{x}$.
+Also, in the definition of the derivative, the limit can be viewed as the gradient of a secent line approaching the gradient of a tangent line.
+With this information, we can reinterpret an infinitesimal change as a tangent.
+Thus, $\Delta\mathbf{x}$ can be considered a tangent vector.
+
+The differential $d\mathbf{f_x}$ can now be considered a function of tangent vectors.
+Its domain is the set of all such tangent vectors, and we will call this the tangent space.
+Specifically, it is the tangent space of $\R^m$ at the point $\mathbf{x}$, and we denote it by $T_\mathbf{x}\R^m$.
+What actually are the tangent vectors here?
+To see that, it would be helpful to simplify to the plane $\R^2$ first.
+Although all the elements of $\R^2$ line flat on the plane, they do not -- in general -- start at $\mathbf{x}$.
+There is, however, an assoication that can be made between $\R^2$ and $T_\mathbf{x}\R^2$; the tangent space can be thought of as a copy of $\R^2$ attached to a particular point.
+This generalizes to $\R^m$.
+
+It would seem that the notion of a tangent space is not particularly useful.
+That is the case if we look at nothing but $T_\mathbf{x}\R^n$.
+Tangent spaces work with a much more general class of objects called \emph{manifolds}.
+We will not get too technical with manifolds in this discussion.
+An informal definition of a manifold is an object that resembles Euclidean space ($\R^n$) near each point.
+For instance, a circle is a manifold.
+We denote the unit circle by $S^1$.
+The tangent space of $S^1$ at some point $p$, $T_pS^1$, is simply the space of all the vectors that lie on the line tangent to $p$.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.4]
+    % Draw the unit circle
+    \draw[black, thick] (0,0) circle (2cm);
+    
+    % Mark the point in the first quadrant (at 45 degrees)
+    \pgfmathsetmacro{\angle}{45}
+    \pgfmathsetmacro{\px}{2*cos(\angle)}
+    \pgfmathsetmacro{\py}{2*sin(\angle)}
+    
+    % Draw the tangent line
+    \draw[red, thick] ({\px - 1.5*sin(\angle)}, {\py + 1.5*cos(\angle)}) -- 
+                       ({\px + 1.5*sin(\angle)}, {\py - 1.5*cos(\angle)});
+    
+    % Draw the point
+    \filldraw (\px,\py) circle (2pt) node[above right] {$p$};
+    
+    % Draw axes
+    \draw[-latex] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[-latex] (0,-2.5) -- (0,2.5) node[above] {$y$};
+\end{tikzpicture}
+\caption{Tangent space of $S^1$ at point $p$}
+\label{fig:circle_tangent}
+\end{figure}
+Similarly, the tangent space of a sphere at $p$, $T_pS^2$ is the space of all the vectors that lie on the plane tangent to the sphere at $p$.
+An interesting thing to note, and the reason why a circle is $S^1$ and a sphere is $S^2$, is that these are one- and two-dimensional objects respectively.
+This is not what people are usually taught when they first learn about shapes, which is reasonable, but it is true.
+A way of seeing this is by noting that a circle resembles a line near a point, and a sphere resembles a plane near a point.
+\begin{figure}[H]
+\centering
+\tdplotsetmaincoords{70}{110}
+
+\begin{tikzpicture}[scale=1.2]
+    %--- 2D shaded "sphere" (visual only) ---
+    \def\R{2.5} % sphere radius
+    \shade[ball color=white!90!blue, opacity=0.85] (0,0) circle (\R);
+
+    %--- 3D drawing using tikz-3dplot ---
+    \begin{scope}[tdplot_main_coords]
+
+        % coordinates of point p on sphere: p = R * (1,1,1)/sqrt(3)
+        \pgfmathsetmacro{\pval}{\R/sqrt(3)}
+        \coordinate (O) at (0,0,0);
+        \coordinate (P) at (\pval,\pval,\pval);
+
+        % Build an orthonormal tangent basis at P:
+        % u = (1,-1,0)/sqrt(2)
+        \pgfmathsetmacro{\ux}{1/sqrt(2)}
+        \pgfmathsetmacro{\uy}{-1/sqrt(2)}
+        \pgfmathsetmacro{\uz}{0}
+
+        % n = (1,1,1)/sqrt(3)  (unit normal)
+        \pgfmathsetmacro{\nx}{1/sqrt(3)}
+        \pgfmathsetmacro{\ny}{1/sqrt(3)}
+        \pgfmathsetmacro{\nz}{1/sqrt(3)}
+
+        % v = n x u  (already unit length because n and u are unit & orthogonal)
+        \pgfmathsetmacro{\vx}{\ny*\uz - \nz*\uy} % = 1/sqrt(6)
+        \pgfmathsetmacro{\vy}{\nz*\ux - \nx*\uz} % = 1/sqrt(6)
+        \pgfmathsetmacro{\vz}{\nx*\uy - \ny*\ux} % = -2/sqrt(6)
+
+        % plane half-size (controls how large the drawn patch is)
+        \pgfmathsetmacro{\psize}{1.6}
+
+        % compute plane corners: P + s*(±u ± v)
+        \pgfmathsetmacro{\Ax}{\pval + \psize*(-\ux - \vx)}
+        \pgfmathsetmacro{\Ay}{\pval + \psize*(-\uy - \vy)}
+        \pgfmathsetmacro{\Az}{\pval + \psize*(-\uz - \vz)}
+        \coordinate (A) at (\Ax,\Ay,\Az);
+
+        \pgfmathsetmacro{\Bx}{\pval + \psize*( \ux - \vx)}
+        \pgfmathsetmacro{\By}{\pval + \psize*( \uy - \vy)}
+        \pgfmathsetmacro{\Bz}{\pval + \psize*( \uz - \vz)}
+        \coordinate (B) at (\Bx,\By,\Bz);
+
+        \pgfmathsetmacro{\Cx}{\pval + \psize*( \ux + \vx)}
+        \pgfmathsetmacro{\Cy}{\pval + \psize*( \uy + \vy)}
+        \pgfmathsetmacro{\Cz}{\pval + \psize*( \uz + \vz)}
+        \coordinate (C) at (\Cx,\Cy,\Cz);
+
+        \pgfmathsetmacro{\Dx}{\pval + \psize*(-\ux + \vx)}
+        \pgfmathsetmacro{\Dy}{\pval + \psize*(-\uy + \vy)}
+        \pgfmathsetmacro{\Dz}{\pval + \psize*(-\uz + \vz)}
+        \coordinate (D) at (\Dx,\Dy,\Dz);
+
+        % draw the tangent plane patch
+        \filldraw[fill=red!20,opacity=0.6,draw=red!60] (A) -- (B) -- (C) -- (D) -- cycle;
+
+        % optional: draw the plane edges a bit thicker and semi-transparent
+        \draw[red!60,very thick,opacity=0.6] (A) -- (B) -- (C) -- (D) -- cycle;
+
+        % draw the great circle (equator in z=0 plane)
+        % Front half (solid) - top half, y > 0
+        \draw[thick,domain=-75:100,samples=40,variable=\t]
+            plot ({\R*cos(\t)},{\R*sin(\t)},0);
+        % Back half (dashed) - bottom half, y < 0
+        \draw[dashed,thick,domain=90:290,samples=40,variable=\t]
+            plot ({\R*cos(\t)},{\R*sin(\t)},0);
+
+        % 3D axes
+        \draw[-latex] (0,0,0) -- (7,0,0) node[right] {$x$};
+        \draw[-latex] (0,0,0) -- (0,3.5,0) node[above] {$y$};
+        \draw[-latex] (0,0,0) -- (0,0,3.5) node[above] {$z$};
+
+        % mark P
+        \filldraw (P) circle (1.8pt) node[above right=2pt] {$p$};
+
+    \end{scope}
+
+    % outer sphere outline in 2D (to sit on top of the shading)
+    \draw[thick] (0,0) circle (\R);
+
+\end{tikzpicture}
+\caption{Tangent space of $S^2$ at point $p$}
+\label{fig:sphere_tangent}
+\end{figure}
+With these examples, we can see that a tangent space is generally distinct from the manifold.
+Now, we have found a way to describe the domain of the differential.
+What about the codomain?
+In all cases, $d\mathbf{f_x}$ represents a (very small) change in $\mathbf{f}(\mathbf{x})$.
+Using the same reasoning as before, an infinitesimal change can be formalized be considering $d\mathbf{f_x}$ to be a tangent vector.
+Thus, the codomain is the tangent space of $\R^2$ at the point $\mathbf{f}(\mathbf{x})$: $T_{\mathbf{f}(\mathbf{x})}\R^2$.
+Putting this together, we have the differential $D\mathbf{f_x} \colon T_\mathbf{x}\R^m \to T_{\mathbf{f}(\mathbf{x})}\R^n$ defined by $D\mathbf{f}(\Delta\mathbf{x}) = \mathbf{J_f} \Delta \mathbf{x}$.
+The change in notation from $d\mathbf{f_x}$ to $\mathrm{D}\mathbf{f_x}$ is to avoid confusion with other concepts later on.
+
+Another name for this map, especially in the context of $\R^m$ and $\R^n$ being replaced by manifolds $M$ and $N$, is the \emph{pushforward}.
+It pushes tangent vectors on $M$ forward to tangent vectors on $N$.
+This is a point where we can stop generalizing.
+Although we have focused on Euclidean spaces, the idea of the pushforward is applicable to manifolds in general.
+We have done this without straying from our initial intuition about the differential, instead simply introducing new definitions and reinterpreting ideas.
+
+Before we go on further, we will make another change in our notation.
+Normally, we denote the components of a vector $\mathbf{v}$ are denoted by $v_i$, with the index always on the bottom right.
+We will now denote some vector components like this, whilst denoting other vector components with their index on the top right, e.g. $v^i$.
+This is not random.
+The reason for this relates to how the components change under coordinate transformations (\emph{covariance} and \emph{contravariance}).
+However, this is not important for our discussion, so it can simply be taken as a fact that this is something we do.
+
+A formal definition of a tangent space can be given using directional derivatives.
+This makes sense, as the directional derivative (the map itself) gives you the change in a function tangent to some vector.
+Then, the tangent space is the space of all directional derivatives.
+Here, we have shifted our perspective from the function $f$ in $\mathbf{f}$ in $\nabla_\mathbf{v}\mathbf{f}$ to the vector $\mathbf{v}$.
+The directional derivative $\nabla_\mathbf{v}$ is a tangent vector, which only makes sense if one's idea of a vector is that its an element of a vector space (instead of a specific example of a vector).
+
+Given this definition, we can create a basis for the tangent space $T_\mathbf{x}\R^n$.
+We know that the standard basis for $\R^n$ is $\{\ehat^1, \ldots, \ehat^n\}$, and that the partial derivative operator $\partial_{x^i} = \nabla_{\ehat^i}$.
+The partial derivatives give us the change in the directions of $\ehat^i$, so a linear combination of them gives us the change the direction of any vector $\mathbf{v}$.
+This means that we have
+\begin{equation*}
+    \nabla_\mathbf{v} = \sum_{i=1}^{n} v^i \eval{\frac{\partial}{\partial x_i}}{p}.
+\end{equation*}
+Here, $\eval*{\partial/\partial x_i}{p}$ and $\eval*{\partial_{x_i}}{p}$ are the same thing; $\{\eval*{\partial_{x_1}}{p}, \ldots, \eval*{\partial_{x_n}}{p}\}$ is the standard basis for $T_p\R^n$
+Let us apply this to the simple example of the unit circle, $S^1$, though be aware of the fact that it will not be a formal proof.
+We can parameterize the circle by the function $\gamma \colon [0, 2\pi) \to S^1$ given by $\gamma(t) = (\cos t, \sin t)$.
+Suppose that our point $p$ on $S^1$ corresponds to $t = t_0$.
+The derivative of $\gamma(t)$ at $t = t_0$ is given by
+\begin{equation*}
+    \gamma'(t_0) = (-\sin t_0, \cos t_0).
+\end{equation*}
+This vector is tangent (in a geometric sense) to the circle, which can be verified by the fact that the dot product of $\gamma(t)$ with $\gamma'(t)$ equals zero.
+The derivative $\gamma'(t)$ can be intepreted both as a Euclidean vector and as a tangent vector -- there is a one-to-one association between these in this case.
+We can properly express it as a tangent vector by using the standard basis of $T_p \R^2$ stated above.
+\begin{equation*}
+    v = -\sin t_0 \eval{\frac{\partial}{\partial x}}{p} + \cos t_0 \eval{\frac{\partial}{\partial y}}{p}
+\end{equation*}
+Our tangent space will be a straight line, so any point on the line can be obtained by multiplying some tangent vector in $T_p S^1$ by some scalar.
+That is, our tangent vector spans the entire tangent space: $T_p S^1 = \operatorname{span}\{v\}$.
+A minor detail in the notation here is that we usually transition away from boldface symbols for vectors when our focus is no longer on Euclidean vectors (also meaning that we will now use $f$ instead of $\mathbf{f}$).
+This is just convention.
+
+More typically, the tangent space is defined using \emph{derivations}.
+A derivation is a linear map $D$ that satisfies $D(fg) = gD(f) + fD(g)$, which looks very similar to the product rule for derivatives.
+It can be shown that there is a one-to-one correspondence between directional derivatives and derivations, so the definitions of tangent vectors using them are equivalent.
+We can also define tagent spaces using curves and velocities; considering our intuition about tangent vectors, this is reasonable.
+The definition presented here has been chosen due to aligning the most with the previous content in our discussion.
+
+We have now introduced tangent spaces, which puts us in a good place to define the object (or rather, type of object) we have sought after.
+One last thing that is important to be aware of is the fact that, whilst the concepts in our generalizations apply to manifolds in general, the specific definitions do not.
+A manifold is generally not a vector space, so we deal with points $p$ on the manifold instead of vectors $\mathbf{x}$.
+Also, the Jacobian only works for Euclidean spaces, but the idea of the pushforward is the same.
+Finally, the definition of the directional derivative would have to be slightly altered to work on manifolds for our definition of the tangent space to be generally applicable.
+
+\section{Covectors}
+
+We have now formalized the idea of an infinitesimal quantity using tangent vectors.
+Specifically, a tangent vector $v$ represents an infinitesimal change, and it gives a rate of change (directional derivative) when it acts on a function.
+It is reasonable to think that one can now make sense of the $dx$ in an integral, but some immediate problems arise.
+Consider
+\begin{equation*}
+    \int_C f(x) \diff x,
+\end{equation*}
+where $C$ is a curve in $\R^2$ the function $f$ is of the type $C \to \R$.
+The integral is always, no matter the definition, some sort of sum.
+Here, we would be summing a scalar multiple of a tangent vector at every point on $C$.
+One thing we have to deal with is the fact that there are an infinite number of tangent vectors, which make up the tangent space, at every point.
+This is not actually a problem, as choosing a specific parameterization of $C$ will pick a tangent vector at each point. 
+The collection of these choices of tangent vectors is called a \emph{(tangent) vector field}.
+
+The actual problem relates to summing these vectors.
+In general, there is not a meaningful way to sum tangent vectors that come from different tangent spaces.
+A way to see this is by choosing a specific curve and drawing the tangent space at two points.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=12cm,
+    height=8cm,
+    axis lines=middle,
+    xlabel={$x$},
+    ylabel={$y$},
+    xmin=-2, xmax=5.5,
+    ymin=-2, ymax=2,
+    xtick=\empty,
+    ytick=\empty,
+    samples=100,
+    domain=-2:5,
+    enlargelimits=false,
+]
+
+% Draw the curve: (1/2)f(x) = 0.125x^3 - 0.625x^2 - 0.125x + 1.25
+\addplot[thick, blue, domain=-2:5] {0.125*x^3 - 0.625*x^2 - 0.125*x + 1.25};
+
+% Calculate tangent slopes: f'(x) = 0.375x^2 - 1.25x - 0.125
+% At x=-1: f(-1) = -0.125 - 0.625 + 0.125 + 1.25 = 0.625, slope = 0.375 + 1.25 - 0.125 = 1.5
+% At x=3: f(3) = 0.125*27 - 0.625*9 - 0.125*3 + 1.25 = 3.375 - 5.625 - 0.375 + 1.25 = -1.375, slope = 0.375*9 - 1.25*3 - 0.125 = 3.375 - 3.75 - 0.125 = -0.5
+
+% Draw tangent line at P1 (x=-1)
+\addplot[red, thick, domain=-1.5:-0.5] {0.625 + 1.5*(x-(-1))};
+
+% Draw tangent line at P2 (x=3)
+\addplot[red, thick, domain=2.2:3.8] {-1.375 - 0.5*(x-3)};
+
+% Mark points on top
+\addplot[only marks, mark=*, mark size=2pt, black] coordinates {(-1, 0.625)};
+\addplot[only marks, mark=*, mark size=2pt, black] coordinates {(3, -1.375)};
+
+% Labels
+\node[above left] at (axis cs:-1, 0.625) {$p_1$};
+\node[above right] at (axis cs:3, -1.375) {$p_2$};
+
+\end{axis}
+\end{tikzpicture}
+\caption{A curve $C$ with tangents at points $p_1$ and $p_2$}
+\label{fig:curve_tangents}
+\end{figure}
+How would we add a tangent vector of $p_1$ to a tangent vector of $p_2$?
+We can assign them to vectors in $\R^2$ using some basis and add them component-wise, but that is only possible because we have \emph{embedded} the curve $C$ in $\R^2$.
+Tangent vectors are \emph{instrinsic} to the manifold itself, so an operation with them should not depend on the manfiold being embedded within another manifold.
+Even if we accept it is valid, our resulting vector would not necessarily be tangent to either $p_1$ or $p_2$.
+Thus, our integral is not well-defined.
+
+If we found a way around it, such as (arbitrarily) introducing another function that the tangent vector acts on at each point to return a real number, we would run into another problem.
+Since the chosen tangent vectors depend on our parameterization, it follows that the value of our intergral would also depend on the parameterization.
+That is nonsensical.
+The integral of our function should tell us information that does not depend on the equations we use to describe the manifold.
+There are even more issues with this definition.
+This does not mean that our definition is not legitimate; it just does not represent what we mean by an integral well.
+
+This raises a question.
+Our naive formualtion of an integral with tangent vectors was based on the seemingly sound reasoning of what the $dx$ meant.
+Our idea about tangent vectors is correct, but we cannot directly use it in an integral due to the reasons previously stated.
+What we need is a way to measure a given tangent vector and output a real number.
+These numbers would then be summed in a `limiting' way to give us an integral.
+Thus, our task now is to find objects that input tangent vectors and output real numbers.
+
+If one is familiar with the concept of dual spaces in linear algebra, then the identity of such an object is obvious.
+It is an element of the \emph{cotangent space} $T^*_p M$, which is the dual of the tangent space $T_p M$.
+We call the elements \emph{cotangent vectors}.
+Each point in a manifold has its own cotangent space, and creating a collection of cotangent vectors by picking one for each point gives us a \emph{cotangent field}.
+The word `cotangent' denotes that the object is complementary to its tangent counterpart.
+Alternative names for all of these concepts involve replacing `cotangent' with `covector'; we will use them interchageably.
+
+Knoweldge of dual spaces, strictly speaking, is not needed to understand or formulate the idea of covectors.
+We would have arrived at the same concept by simply thinking of the properties our object needs to have -- being linear functionals.\footnote{A functional is an object that takes a function as input and returns a number. The linearity condition is required for covectors to measure tangent vectors in a `sensible way'. That is, they add and scale the way we want them to.}
+It has, however, been helpful to show that such a space containing these objects exists.
+Before we try to think of how covectors work with integration, it would be helpful to gain visual intuition on what they are.
+Consider the following plot of the function $f(x,y) = x\sin y + y\sin x$, where the colours represent the value of $f(x,y)$ at a particular point.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=10cm,
+    height=10cm,
+    view={0}{90},
+    colormap/jet,
+    xlabel={$x$},
+    ylabel={$y$},
+    colorbar,
+    xmin=-10, xmax=10,
+    ymin=-10, ymax=10,
+    domain=-10:10,
+    y domain=-10:10,
+]
+
+% Create heatmap with interpolated shading
+\addplot3[
+    surf,
+    shader=interp,
+    samples=50,
+] 
+{x*sin(deg(y)) + y*sin(deg(x))};
+
+% Overlay contour lines showing constant function values
+\addplot3[
+    contour gnuplot={
+        levels={-16,-14,-12,-10,-8,-6,-4,-2,0,2,4,6,8,10,12,14,16},
+        labels=false,
+    },
+    samples=90,
+    samples y=90,
+    thin,
+    contour/draw color=black,
+] {x*sin(deg(y)) + y*sin(deg(x))};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Plot of $f(x,y) = x\sin y + y\sin x$}
+\label{fig:heatmap}
+\end{figure}
+The important information here are the contour lines, which are level sets $\{(x,y) \mid f(x,y) = c\}$ for some constant $c$.
+In our diagram, they have been drawn for $c \in \{-16, -14, \ldots, 14, 16\}$.
+This is an arbitrary choice, and there are actually an infinite number of level sets (though that would be impossible to draw).
+They are close together where the function is steeper, and further apart where the function is less steep.
+If the plot represented a horizontal plane, where the elevation is given by $f(x,y)$, we could figure out high counting the number of contour lines we cross.
+When we say count, this includes crossing over one by a non-integer amount, e.g. we could be halfway between two lines.
+
+This is exactly how we will visualize covectors.
+The above plot can be interpreted as a cotangent field \cite{covector_visualization}.
+If we were too `zoom into' a particular point, the covector would be represented by a stack of -- equally spaced -- lines tangent to the contour line at that point.
+Then, we can place a tangent vector (tangent to some manifold, not to the function we are talking about) at that point and count the number of stack lines it crosses.
+We can see from the diagram below that the covector acts in a linear way, which is what we want.
+Also, note that the stack has an orientation (shown by the black line).
+This makes sense, since a function increases from one direction, and decreases from the opposite direction.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0]
+    % Diagonal stack lines (visualizing a covector)
+    \foreach \k in {-3.5,-3.0,...,3.5} {
+        \draw[thick,gray!65] (-3,\k-0.5) -- (3,\k+0.5);
+    }
+    % Orientation arrow
+    \draw[->,thick,black] (3.65862,-0.40344) -- (3.5,1.5);
+    % Reference point
+    \filldraw[black] (-1,-1) circle (1.5pt) node[below left] {$p$};
+    % Invisible path to extend bounding box
+    \path (3.65862,-0.40344) ++(0.3,0);
+    % Vector v
+    \draw[->,thick,blue] (-1,-1) -- (1.3,0.7) node[midway,below right] {$v$};
+    % Vector w
+    \draw[->,thick,teal] (-1,-1) -- (-0.2,1.5) node[midway,left] {$w$};
+    % Vector v + w
+    \draw[->,thick,purple] (-1,-1) -- (2.1,3.2) node[pos=0.6,right] {$v+w$};
+    % Endpoint markers
+    \filldraw[blue] (1.3,0.7) circle (1.5pt);
+    \filldraw[teal] (-0.2,1.5) circle (1.5pt);
+    \filldraw[purple] (2.1,3.2) circle (1.5pt);
+\end{tikzpicture}
+\caption{Covector acting on tangent vectors}
+\label{fig:parallel_stack_lines}
+\end{figure}
+We have shown that this diagram is a visualization of covectors in that it describes their behaviour of acting on tangent vectors, and representing linear functionals.
+However, it has not been explained why a stack of lines parallel to the contour line of a function at a particular point represents a covector.
+It turns out that this does not require anything that we have not covered before.
+Let $\omega$ be the covector field represented by the plot of $f(x,y)$, and let $\omega_p$ be the covector at some point $p$.
+This is, by our definition, a linear map from $T_p M$ to $\R$.
+We already know such a map: the differential $Df_p$ of a function $f\colon M \to \R$.
+
+Technically, the differential maps to $T_p \R$ not to $\R$.
+However, these two spaces can be associated with each other in a one-to-one way; the tangent space of $\R$ at $p$ can be seen as a copy of $\R$ anchored to that point.
+Due to this association, we can consider the differential to `effectively' map to $\R$.
+Since we already know that the differential is linear (from the linearity of derivatives), it follows that it is a covector.
+Thus, we already had objects that were covectors.
+Furthermore, we know that the differential measures something -- the change in a function due to the change in its inputs.
+In this context, we reinterpret it to measure the change of a tangent vector of some manifold instead.
+This is perfectly reasonable, since it is a function of tangent vectors.
+
+The reason that the stack lines are tangent to the contour lines, or level sets, is as follows.
+Moving along a level set will not change the value of the function, by definition.
+Thus, the differential will output zero in this direction.
+If a tangent vector is tangent to a stack line, it will not cross any of them; the covector will thus act on it to give zero.
+Since the differential is a covector, these two ideas combine to give us the information that the stack lines and level sets are in the same direction as each other.
+They are tangent.
+Again, note that the actual covector's direction is perpendicular to the stack lines.
+
+We have now developed intuition for covectors after motivating their formulation for the purpose of integration.
+It follows that we should now apply them to their intended purpose.
+The general idea of integrating covectors does not differ much at all from how integration of a $\R \to \R$ function works.
+At some point $p$ on a manifold $M$, the covector $\omega_p$ acts on the tangent vector $v \in T_p M$ to give $\omega_p(v)$.
+These measurements are accumulated to give us the result of an integral.
+Here, accumulating does not mean summing all the numbers we get together.
+In that case, almost no integral would have a finite value.
+
+Integration is always -- not just a sum, but a -- limiting process.
+To see how exactly this works, and how we can evaluate our integration, we introduce the concept of the \emph{pullback}.
+If we could transform our problem of integrating over a general manifold to (an interval of) the real line, our job is done.
+We know how to integrate over the latter.
+Suppose we have some function $\phi\colon \R \to M$.
+We can use this to `pull' the covector from $T_p M$ to $\R$.
+How is this done?
+We know that the differential $D\phi_p$ is a map from $T_p \R$ to $\T_p M$.
+Thus, precomposing it with $\omega_p$ gives us a function $\omega_p \circ D\phi_p \colon T_p \R \to \R$.
+
+The domain of the inner map and the codomain of the outer maps become the domain and codomain of our composite map.
+That is just how composing maps and functions work.
+A notation for the pullback we described above is $\phi^*$.
+Given its relation to the differential, it makes sense that an alternative notation for $D\phi$ is $\phi_*$.
+Now, putting this together, we can use some map $\phi$ to pull $\omega$ back to an interval of the real line, which we can integrate over.
+Our formula for the integral of $\omega$ over a manifold $M$ parameterized by $\gamma: [a,b] \to M$ is
+\begin{equation*}
+    \int_\gamma \omega \coloneq \int_{[a,b]} \gamma^* \omega.
+\end{equation*}
+As indicated by the special equality symbol, this is a definition.
+We initially developed the idea for the integral pretty easily as an accumulation of the measurements from covectors acting on tangent vectors.
+Then, to quantify this accumulation, we introduced the idea of pulling back a covector field from some manifold to an interval of $\R$.
+Afterwards, it is just applying already-developed theory to evaluate the integral.
+We have answered our initial question of what the $dx$ in the integral means, again.\footnote{This is our fourth and final interpretation of what it means.}
+Instead of being an infinitesimal quantity we sum over, it is an object that takes infinitesimals and measures them so that they can be summed.
+Precisely, it is a covector field.
+
+
+% MOVE ON TO THIS AFTER DEVELOPING INTEGRATION FOR ONE FORMS
+% We have got (a good portion of) the important part out of the way.
+% Now, we will discuss covectors in a more `concrete' manner.
+% Firstly, another word for a cotangent field is a \emph{differential 1-form}.
+% This is just a name, but it does suggest that there are more types of differential forms.
+
+%TODO EXPLICITLY MENTION THAT THE DIFFERENTIAL IS THE BEST LINEAR APPROXIMATION OF A FUNCTION AT A POINT, FOR A CURVE ITS A LINE, FOR A SURFACE ITS A PLANE, ETC.
+
+\section{Resources}
+
+\textsc{Tensor Calculus 6: Differential Forms are Covectors by eigenchris} \, \url{https://www.youtube.com/watch?v=XGL-vpk-8dU}
+
+\textsc{Differential Forms by Michael Penn} \, \url{https://youtube.com/playlist?list=PL22w63XsKjqzQZtDZO_9s2HEMRJnaOTX7}
+
+
+\printbibliography
 
 \begin{appendices}
+\crefalias{section}{appsec}
+\crefalias{subsection}{appsec}
 
-\section{Vectors \& Matrices} \label{appendix:vectors_and_matrices}
+\section{Vectors} \label{appendix:vectors}
 
-\subsection{Definition of a Vector} \label{appendix:vector_def}
+\subsection{Definition of a Vector} \label{appendix:vector_space}
 
 An introduction to the concept of vectors usually involve giving examples of vectors -- such as arrows in a plane -- without giving a proper definition of what a vector is in general.
-That makes sense, since such a definition is (relatively) technical and unecessary for simply working with vectors.
+That makes sense, since such a definition is (relatively) technical and unnecessary for simply working with vectors.
 The technical definition is that a vector is an element of a vector space, but that alone simply replaces one question with another.
 It follows that a definition of a vector space is now required.
 
-To come up with it, we will follow a method of generalisation that can be readily applied to other situations as well.
+To come up with it, we will follow a method of generalization that can be readily applied to other situations as well.
 We know that ordered pairs of real numbers are examples of vectors, so the set containing all such pairs is an example of a vector space.\footnote{This is technically an abuse of language. A vector space is a set with additional structure -- the ability to add and scale its elements in a certain way. However, this distinction is not very useful until we actually define a vector space properly.}
 This set is denoted by $\R \times \R$, and $\R^2$ is a useful shorthand.
 We will examine the properties of this set in order to obtain a general definition of a vector space.
@@ -739,7 +1306,7 @@ Another common way is to write it as a column of numbers.
 It can be written also be written like as $\mathbf{v} = \rvec{a,b}$. Note that the former is called a column vector, whilst the latter is a row vector.
 Technically, they are different objects, but this distinction only matters when dealing with matrices.
 Another way to write a vector is $\mathbf{v} = \langle a, b \rangle$.
-This might be preferred due to avoiding confusion with coordinates.
+This might be preferred due to avoiding confusion with coordinates, though writing $\mathbf{v} = (a,b)$ is pretty common.
 Additionally, given that $\ihat = \langle 1, 0 \rangle$ and $\jhat = \langle 0, 1 \rangle$, you can write a vector as $\mathbf{v} = v_x\ihat + v_y\jhat$, where $v_x$ and $v_y$ are the components of the vector.
 Note that these examples were given for $\R^2$, but they extend to general vectors in $\R^n$.
 
@@ -752,101 +1319,9 @@ An operation is a function whose domain is some power of the codomain.
 For example, vector addition -- in reference to elements of $\R^n$ -- may be written as $+\colon \R^{2n} \to \R^n$.
 This is a matter of semantics and using the word operation loosely is both common and unharmful.
 
-\subsection{Matrices} \label{appendix:matrices}
-
-Matrices, unlike vectors, are relatively easy to define.
-An $m \times n$ matrix is a rectangular array of objects with $m$ rows and $n$ columns.
-Each object in the matrix is a particular entry in, or component of the matrix.
-The usual notation for a variable that is a matrix is boldface upper-case letters, e.g. $\mathbf{A}$.
-Below is an example of a matrix containing real numbers.
-\begin{equation*}
-    \mathbf{A} = \begin{bmatrix}
-        1 & 3 & 0.4 \\
-        2 & 9 & 0
-    \end{bmatrix}
-\end{equation*}
-In this case, the size or order of $\mathbf{A}$ is $2 \times 3$.
-We may use either round or square brackets for a matrix.
-The entry in the $i$-th row and $j$-th column may be referenced as $A_{ij}$, $\mathbf{A}_{ij}$, or $a_{ij}$, with or without a comma seperating $i$ and $j$.
-This means that we can write a general $m \times n$ matrix as
-\begin{equation*}
-    \mathbf{A} = \begin{bmatrix}
-        A_{11} & A_{12} & \cdots & A_{1n} \\
-        A_{21} & A_{22} & \cdots & A_{2n} \\
-        \vdots & \vdots & \ddots & \vdots \\
-        A_{m1} & A_{m2} & \cdots & A_{mn}
-    \end{bmatrix}.
-\end{equation*}
-The entry $A_{ij}$ may also be called the $(i, j)$ entry of the matrix.
-A matrix is uniquely determined by its order and a formula for a generic term.
-We may specify a matrix $\mathbf{A}$ with its generic entry by writing $\mathbf{A} = (A_{ij})$, and possibly specifying the range of $i$ and $j$.
-If $m = n$, the matrix is called a square matrix.
-If $m = 1$ or $n = 1$, then the matrix is called a column or row matrix/vector respectively.
-
-The actual purpose of matrices only comes when we introduce the operations we can perform on them.
-We can add two matrices by adding their components: $(\mathbf{A} + \mathbf{B})_{ij} = A_{ij} + B_{ij}$.
-Also, we can scale matrices by multiplying their components by some number: $(c\mathbf{A})_{ij} = cA_{ij}$.
-In this way, matrices work similarly to vectors.
-However, we are also able to multiply matrices together.
-Simply providing a formula would not be very enlightening, so we will first introduce the notion that matrices are linear maps.
-
-Consider the $n$-dimensional vector $\mathbf{x}$.
-We can express the vector a sequence of scalars and construct an $n \times 1$ matrix with them.
-This can be done for any vector in a finite-dimensional vector space.
-We can multiply a general matrix by this vector as follows.
-\begin{equation*}
-    \mathbf{Ax} = \begin{bmatrix}
-        A_{11} & A_{12} & \cdots & A_{1n} \\
-        A_{21} & A_{22} & \cdots & A_{2n} \\
-        \vdots & \vdots & \ddots & \vdots \\
-        A_{m1} & A_{m2} & \cdots & A_{mn}
-    \end{bmatrix}
-    \begin{bmatrix}
-        x_1 \\
-        x_2 \\
-        \vdots \\
-        x_n
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-        A_{11}x_1 + A_{12}x_2 + \cdots + A_{1n}x_n \\
-        A_{21}x_1 + A_{22}x_2 + \cdots + A_{2n}x_n \\
-        \vdots \\
-        A_{m1}x_1 + A_{m2}x_2 + \cdots + A_{mn}x_n \\
-    \end{bmatrix}
-\end{equation*}
-This is transforming each component of the vector by taking the dot product of the corresponding row of the matrix with the vector.
-It can thus be seen that a matrix maps one vector to another vector.
-The linear part comes from the fact that $\mathbf{A}(\lambda\mathbf{x} + \mu\mathbf{y}) = \lambda\mathbf{Ax} + \mu\mathbf{Ay}$, which follows from the way matrices add and scale.
-Then, the interpretation of multiplying two matrices $\mathbf{A}$ and $\mathbf{B}$ together is creating a composite transformation, similar to how two functions can be composed.
-The general formula for this is stil not particularly enlightening, but it is given below.
-\begin{equation*}
-    (\mathbf{AB})_{ij} = A_{i1}B_{1j} + A_{i2}B_{2j} + \cdots + A_{in}B_{nj} = \sum_{k=1}^n A_{ik}B_{kj}
-\end{equation*}
-Here, $n$ is the number of columns of the first matrix and the number of rows of the second.
-Multiplying two matrices (in this way) is only defined when these two numbers are equal.
-If you multiply an $m \times n$ matrix by a $p \times q$ matrix, the order of the product will be $m \times q$.
-
-From the fact that matrix multiplication represents composing transformations, it follows that matrix multiplication is associative: $(\mathbf{AB})\mathbf{C} = \mathbf{A}(\mathbf{BC}) = \mathbf{ABC}$.
-It is not commutatve however, meaning that $\mathbf{AB} \neq \mathbf{BA}$.
-In general, the order in which transformations are applied matter -- rotating then reflecting an object is not the same thing as reflecting and then rotating it.
-The order in which transformations are applied is right to left (from our defintion).
-
-An $m \times 1$ matrix (row vector) and a $1 \times n$ matrix (column vector) can be associated with each other, and they can both be associated with an $n$-dimensional vector.
-Their difference comes from the way they multiply with other matrices.
-This can be seen from the definition and the various rules that come out of it.
-We developed matrix multiplication by treating a vector as a $m \times 1$ matrix and multiplying by a matrix on the left.
-Treating it instead as a $1 \times n$ matrix and multiplying by a matrix on the right would have given the same transformation (but for a row vector).
-
-Multiplying a column vector by a row vector will yield a $1 \times 1$ matrix.
-In general, one can associate any $1 \times 1$ matrix with a scalar; note that they are different objects, though (just as matrices with a single row or column are technically different from vectors).
-This association allows for one to define the dot product of two vectors as the product of a row vector and a column vector.
-When doing so, the column vector is written as the transpose of a row vector: $\mathbf{x} \cdot \mathbf{y} = \mathbf{x}\mathbf{y}^\T$.
-The transpose of a matrix in general is defined by the simple rule $(\mathbf{A})_{ij} = A_{ji}$, meaning the rows and columns are swapped around.
-
 \subsection{Vector Calculus} \label{appendix:vector calculus}
 
-This subappendix assumes the knoweldge in Appendix~\ref{appendix:vector_def} and Appendix~\ref{appendix:matrices}.
+This subappendix assumes the knowledge in Appendix~\ref{appendix:vector_space} and Appendix~\ref{appendix:matrices}.
 Defining vectors is itself not the most fruitful task.
 A proper definition of real numbers is both motivated and immediately succeeded by a discussion on how to do calculus with them.
 We wish to extend those notions to vectors, and we will find that our definitions are not terribly different.
@@ -920,23 +1395,22 @@ If we treat $\mathbf{h}$ as a column vector, then $D$ is a row vector -- their p
 This makes it a matrix.
 The name for it is the \emph{Jacobian matrix}, or just the Jacobian, and notation for it includes $\mathbf{J_f}$ (the subscript represents the function it is for) and $\mathbf{J}$.
 
-Now that we have introduced matrices, we can use them to make the final generalisation to functions $\mathbf{f}$ that map from $\R^n$ to $\R^m$ (vectors to vectors).
+Now that we have introduced matrices, we can use them to make the final generalization to functions $\mathbf{f}$ that map from $\R^n$ to $\R^m$ (vectors to vectors).
 It follows from everything we have discussed so far that the derivative of $\mathbf{f}$ at $\mathbf{x}$ is an $m \times n$ matrix $\mathbf{J_f}$ if it satisfies
 \begin{equation*}
-    \lim_{\mathbf{h} \to \mathbf{0}} \frac{\mathbf{f}(\mathbf{x}+\mathbf{h}) - \mathbf{f}(\mathbf{x}) - \mathbf{Ah}}{\norm{\mathbf{h}}} = \mathbf{0}.
+    \lim_{\mathbf{h} \to \mathbf{0}} \frac{\mathbf{f}(\mathbf{x}+\mathbf{h}) - \mathbf{f}(\mathbf{x}) - \mathbf{J_f h}}{\norm{\mathbf{h}}} = \mathbf{0}.
 \end{equation*}
 An $m \times n$ matrix multiplied by a $n \times 1$ matrix gives a $m \times 1$ matrix or an $m$-dimensional column vector (the same as the rest of the numerator).
 Note that, since a derivative is a matrix, it is a linear map from $\R^n$ to $\R^m$.
 This is in-line with the one-dimensional case.
-We can then go on to develop familiar concepts with our generalised derivative.
-For example, a function is differentiable if there exists some value of $\mathbf{J_f}$ such that the above limit equals $\mathbf{0}$.
-A function being differentiable implies it is continuous.
+We can then go on to develop familiar concepts with our generalized derivative.
+For example, a function is differentiable if there exists some value of $\mathbf{J_f}$ such that the above limit equals $\mathbf{0}$; a function being differentiable implies it is continuous.
 
 One problem we have is that our definition of the derivative is not explicit.
 It states that $\mathbf{f}'(\mathbf{x}) = \mathbf{J_f}$ given that $\mathbf{J_f}$ satisfies some condition, but it does not tell us how we actually find $\mathbf{J_f}$.
 This in contrast to the case of $n=m=1$, where finding the derivative involves evaluating a limit -- with the function being differentiable if the limit exists.
 To find an explicit formula for the derivative, we will first introduce a new concept: the \emph{directional derivative}.
-Intuitively, it tells you the rate of change of a function in some particular direction.
+Intuitively, it tells you the rate of change of a function in some particular direction (multiplied by a number).
 
 First, we will start with a function $\mathbf{f}$ from $U$ to $\R^m$, with $U \subseteq \R^n$.
 Assume that $\mathbf{f}$ is differentiable at some point $\mathbf{x}$.
@@ -948,24 +1422,24 @@ Since $\mathbf{f}$ is differentiable, we have
 assuming $\mathbf{v} \neq \mathbf{0}$.
 This can be rewritten as
 \begin{equation*}
-    \lim_{t \to \mathbf{0}} \frac{\mathbf{f}(\mathbf{x}+t\mathbf{v}) - \mathbf{f}(\mathbf{x}) - t\mathbf{J_f v}}{\abs{t}\norm{\mathbf{v}}} = \mathbf{0}.
+    \lim_{t \to 0} \frac{\mathbf{f}(\mathbf{x}+t\mathbf{v}) - \mathbf{f}(\mathbf{x}) - t\mathbf{J_f v}}{\abs{t}\norm{\mathbf{v}}} = \mathbf{0}.
 \end{equation*}
 Since $\mathbf{v}$ is fixed (does not depend on $t$), we get
 \begin{equation*}
-    \lim_{t \to \mathbf{0}} \frac{\mathbf{f}(\mathbf{x}+t\mathbf{v}) - \mathbf{f}(\mathbf{x}) - t\mathbf{J_f v}}{\abs{t}} = \mathbf{0},
+    \lim_{t \to 0} \frac{\mathbf{f}(\mathbf{x}+t\mathbf{v}) - \mathbf{f}(\mathbf{x}) - t\mathbf{J_f v}}{\abs{t}} = \mathbf{0},
 \end{equation*}
 which is equivalent to
 \begin{equation*}
     \mathbf{J_f v} = \lim_{t \to 0} \frac{\mathbf{f}(\mathbf{x}+t\mathbf{v}) - \mathbf{f}(\mathbf{x})}{t}.
 \end{equation*}
 The final statement is also true for $\mathbf{v} = \mathbf{0}$, so it is true for all $\mathbf{v}$.
-This limit is of the same form as the derivative for $n=1$.
-However, since we had to assume that the function is differential to obtain this, the existence of this limit does not imply that the derivative $\mathbf{J_f}$ exists.
+This limit is of the same form as the derivative for $n=1$, as it gives an explicit value of the Jacobian applied to any vector $\mathbf{v}$.
+However, since we had to assume that the function is differentiable to obtain this, the existence of this limit does not imply that $\mathbf{J_f}$ exists.
 It is still a useful concept, and we call it the directional derivative of $\mathbf{f}$ along the vector $\mathbf{v}$.
-The notation for it is $\nabla_\mathbf{v}\mathbf{f}(\mathbf{x})$.
+The notation for it is $\nabla_\mathbf{v}\mathbf{f}$.
 Since $\nabla_\mathbf{v}\mathbf{f}(\mathbf{x}) = \mathbf{J_f v}$, we have
 \begin{equation*}
-    \left. \frac{d}{dt} \mathbf{f}(\mathbf{x+t\mathbf{v}}) \right\lvert_{t=0} = \left. \mathbf{f}'(\mathbf{x+t\mathbf{v}}) \right\lvert_{t=0} \mathbf{v} = \mathbf{f}'(\mathbf{x})\mathbf{v} = \nabla_\mathbf{v}\mathbf{f}(\mathbf{x}).
+    \eval{\frac{d}{dt} \mathbf{f}(\mathbf{x+t\mathbf{v}})}{t=0} = \eval{\mathbf{f}'(\mathbf{x+t\mathbf{v}})}{t=0} \mathbf{v} = \mathbf{f}'(\mathbf{x})\mathbf{v} = \nabla_\mathbf{v}\mathbf{f}(\mathbf{x}).
 \end{equation*}
 This just gives us as an alternative way to write the directional derivative.
 If we choose $\mathbf{v}$ to be $\ehat_i$, which is the $i$-th standard basis vector for $\R^n$ (for $\R^3$, we have $\ihat$, $\jhat$, and $\khat$),
@@ -995,7 +1469,7 @@ The formula for the generic entry $J_{ij}$ completely describes our matrix $\mat
     \end{bmatrix}.
 \end{equation*}
 This is the explicit form of the Jacobian matrix of $\mathbf{f}$ at $\mathbf{x}$.
-From our previous results, we know that differentiablity of $\mathbf{f}$ at $\mathbf{x}$ implies the existence of all directional derivatives at $\mathbf{x}$, and by extension, all partial derivatives.
+From our previous results, we know that differentiability of $\mathbf{f}$ at $\mathbf{x}$ implies the existence of all directional derivatives at $\mathbf{x}$, and by extension, all partial derivatives.
 This representation of the derivative $\mathbf{J_f}$ depends on what we choose as our coordinate system.
 To provide a coordinate-independent representation, we would have to use differential forms -- further motivating their study.
 
