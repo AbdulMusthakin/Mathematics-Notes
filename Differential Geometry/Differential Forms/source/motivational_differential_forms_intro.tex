@@ -17,7 +17,6 @@
 \usepackage{fixdif}
 \usepackage[skip=1em,indent]{parskip}
 \usepackage{caption}
-
 \usepackage{tocloft}
 \usepackage{enumitem}
 \usepackage[toc, page]{appendix}
@@ -40,7 +39,7 @@
 
 \graphicspath{ {./Images/} }
 
-\usepackage{biblatex}
+\usepackage[sorting=none]{biblatex}
 \addbibresource{motivational_differential_forms_intro.bib}
 
 % ---------------- %
@@ -49,9 +48,12 @@
 \usepackage[linkcolor=black]{hyperref}
 \usepackage[nameinlink]{cleveref}
 
-% Configure cleveref for appendix sections
+% Configure cleveref for appendix sections and figures
 \crefname{appsec}{Appendix}{appendices}
 \Crefname{appsec}{Appendix}{Appendices}
+\crefname{figure}{Figure}{Figures}
+\Crefname{figure}{Figure}{Figures}
+
 
 \definecolor{RoyalRed}{RGB}{157, 16, 45}
 \definecolor{RoyalOrange}{RGB}{249, 146, 69}
@@ -125,10 +127,18 @@
 
 \DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{#1}
 \DeclarePairedDelimiterX{\abs}[1]{\lvert}{\rvert}{#1}
-\NewDocumentCommand{\eval}{smm}{%
+\NewDocumentCommand{\eval}{s m m g}{%
   \IfBooleanTF{#1}
-    {#2\rvert_{#3}}
-    {\left.#2\right\rvert_{#3}}%
+    {% starred version - no scaling
+      #2 \vert%
+      _{#3}%
+      \IfNoValueTF{#4}{}{^{#4}}%
+    }
+    {% unstarred version - auto-scaled
+      \left. #2 \right|%
+      _{#3}%
+      \IfNoValueTF{#4}{}{^{#4}}%
+    }%
 }
 % ---------------- %
 \newcommand{\ihat}{\boldsymbol{\hat{\imath}}}
@@ -225,7 +235,8 @@ Understanding what an integral means, in a general sense, is not particularly di
 Given a function, it is pretty easy to draw it as a curve on a graph.
 By looking at its graph, and choosing some interval on the $x$-axis, we can see the area between the curve and the $x$-axis.
 This (signed) area is what is calculated by an integral.
-\begin{figure}[H]
+
+\begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -277,6 +288,7 @@ This (signed) area is what is calculated by an integral.
 \caption{A definite integral}
 \label{fig:definite_integral_sin}
 \end{figure}
+
 The area illustrated by the above figure is given by
 \begin{equation*}
     \int_{a}^{b} f(x) \diff x.
@@ -327,7 +339,8 @@ Early developments in calculus throughout the 17th and 18th centuries by the lik
 That itself was not a bad thing, but that the lack of rigour was.
 We would see the development of a more rigorous foundation of calculus by mathematicians in the 19th century, particularly Cauchy.
 Infinitesimals would be left in favour of limits, and the latter is the formulation that is universally taught in schools.
-\begin{figure}[H]
+
+\begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -371,6 +384,7 @@ Infinitesimals would be left in favour of limits, and the latter is the formulat
 \caption{Riemann sum approximation of an integral}
 \label{fig:riemann_sum}
 \end{figure}
+
 This information about differentials allows us to view the one attached to every integral in way beyond just useful notation.
 Putting the formalism and rigorous definitions of integrals aside, they are fancy sums.
 The area under a graph can be approximated by rectangles, as is shown by the above figure.
@@ -457,6 +471,7 @@ The change in $y$ is equal to a linear function of $\Delta x$, $dy$, plus a (gen
 Thus, $dy$ is the linear (or principal) part of $\Delta y$.
 As $\Delta x \to 0$, we require that $\varepsilon \Delta x / \Delta x = \varepsilon \to 0$, i.e. the error term shrinks to zero faster than $\Delta x$.
 This means that $\Delta y \to d y$, and $\Delta y \approx dy$ for small $\Delta x$.
+An equivalent way to view the differential is as the best linear approximation to a function at some point.
 
 Let us look at one use case of this: approximating the values of functions.
 What is the value of $\sqrt{90}$?
@@ -481,8 +496,9 @@ This is all we need for our approximation.
 \end{align*}
 The actual value of $\sqrt{90}$ is $9.47213595\ldots$, so we were just 0.62\% off.
 The computations were incredibly easy, which is the case as long as we have nice values of the function and its derivative to work with.
-We can illustrate the efficacy of this method with a diagram. 
-\begin{figure}[H]
+We can illustrate the efficacy of this method with a diagram.
+
+\begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -524,6 +540,7 @@ We can illustrate the efficacy of this method with a diagram.
 \caption{Linear approximation of $\sqrt{90}$}
 \label{fig:linaer_approximation}
 \end{figure}
+
 We calculated $dy$, the increase in the tangent, as an approximation to $\Delta y$, the increase in the function.
 As can be seen from the figure, these are very similar values.
 Since $f'(x) \to 0$ as $x \to \infty$ (the curve flattens), this method of approximation gets better for larger square roots.
@@ -749,15 +766,14 @@ This generalization, and the work done to formalize the derivative of functions 
 This derivative can be defined on even more general spaces, but that is beyond the scope of our discussion.
 
 A useful concept that is related to -- but distinct from -- our definition of the differential is the directional derivative.
-
 \begin{equation*}
     \nabla_\mathbf{v}\mathbf{f}(\mathbf{x}) \coloneq \lim_{t \to 0} \frac{\mathbf{f}(\mathbf{x}+t\mathbf{v}) - \mathbf{f}(\mathbf{x})}{t}
 \end{equation*}
-Here, $\nabla_\mathbf{v}\mathbf{f}$ is the directional derivative of $\mathbf{f}$ along some vector $\mathbf{v}$ multiplied by $\norm{\mathbf{v}}$.
+Here, $\nabla_\mathbf{v}\mathbf{f}$ is the directional derivative of $\mathbf{f}$ along some vector $\mathbf{v}$.
 This is a weaker concept of the derivative than what we were previously using.
-If function $\mathbf{f}$ is differentiable at a point $\mathbf{f}$ (the Jacobian exists), then all directional derivatives at that point will exist.
+If function $\mathbf{f}$ is differentiable at a point $\mathbf{x}$ (the Jacobian exists), then all directional derivatives at that point will exist.
 The converse of this statement is not true.
-The relationship between the directional derivative and the Jacobian is that $\mathbf{J_f v} = \nabla_\mathbf{v}\mathbf{f}(\mathbf{x})$, meaning that $d\mathbf{f}(\mathbf{x}, d\mathbf{x}) = \nabla_\mathbf{v}\mathbf{f}(\mathbf{x})$.
+The relationship between the directional derivative and the Jacobian is that $\mathbf{J_f v} = \nabla_\mathbf{v}\mathbf{f}(\mathbf{x})$, meaning that $d\mathbf{f}(\mathbf{x}, \mathbf{v}) = \nabla_\mathbf{v}\mathbf{f}(\mathbf{x})$.
 This will be useful later.
 
 \section{Tangent Spaces}
@@ -801,7 +817,8 @@ An informal definition of a manifold is an object that resembles Euclidean space
 For instance, a circle is a manifold.
 We denote the unit circle by $S^1$.
 The tangent space of $S^1$ at some point $p$, $T_pS^1$, is simply the space of all the vectors that lie on the line tangent to $p$.
-\begin{figure}[H]
+
+\begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}[scale=1.4]
     % Draw the unit circle
@@ -826,11 +843,15 @@ The tangent space of $S^1$ at some point $p$, $T_pS^1$, is simply the space of a
 \caption{Tangent space of $S^1$ at point $p$}
 \label{fig:circle_tangent}
 \end{figure}
+
 Similarly, the tangent space of a sphere at $p$, $T_pS^2$ is the space of all the vectors that lie on the plane tangent to the sphere at $p$.
+This is shown in \cref{fig:sphere_tangent}.
 An interesting thing to note, and the reason why a circle is $S^1$ and a sphere is $S^2$, is that these are one- and two-dimensional objects respectively.
-This is not what people are usually taught when they first learn about shapes, which is reasonable, but it is true.
 A way of seeing this is by noting that a circle resembles a line near a point, and a sphere resembles a plane near a point.
-\begin{figure}[H]
+This is not what people are usually taught when they first learn about shapes.
+Both interpretations are correct \cite{shape_dimension_convention} depending on the convention we have for what the dimension of a shape is.
+
+\begin{figure}[htbp]
 \centering
 \tdplotsetmaincoords{70}{110}
 
@@ -918,13 +939,14 @@ A way of seeing this is by noting that a circle resembles a line near a point, a
 \caption{Tangent space of $S^2$ at point $p$}
 \label{fig:sphere_tangent}
 \end{figure}
+
 With these examples, we can see that a tangent space is generally distinct from the manifold.
 Now, we have found a way to describe the domain of the differential.
 What about the codomain?
 In all cases, $d\mathbf{f_x}$ represents a (very small) change in $\mathbf{f}(\mathbf{x})$.
 Using the same reasoning as before, an infinitesimal change can be formalized be considering $d\mathbf{f_x}$ to be a tangent vector.
 Thus, the codomain is the tangent space of $\R^2$ at the point $\mathbf{f}(\mathbf{x})$: $T_{\mathbf{f}(\mathbf{x})}\R^2$.
-Putting this together, we have the differential $D\mathbf{f_x} \colon T_\mathbf{x}\R^m \to T_{\mathbf{f}(\mathbf{x})}\R^n$ defined by $D\mathbf{f}(\Delta\mathbf{x}) = \mathbf{J_f} \Delta \mathbf{x}$.
+Putting this together, we have the differential $D\mathbf{f_x} \colon T_\mathbf{x}\R^m \to T_{\mathbf{f}(\mathbf{x})}\R^n$ defined by $D\mathbf{f_x}(\Delta\mathbf{x}) = \mathbf{J_f} \Delta \mathbf{x}$.
 The change in notation from $d\mathbf{f_x}$ to $\mathrm{D}\mathbf{f_x}$ is to avoid confusion with other concepts later on.
 
 Another name for this map, especially in the context of $\R^m$ and $\R^n$ being replaced by manifolds $M$ and $N$, is the \emph{pushforward}.
@@ -940,21 +962,32 @@ This is not random.
 The reason for this relates to how the components change under coordinate transformations (\emph{covariance} and \emph{contravariance}).
 However, this is not important for our discussion, so it can simply be taken as a fact that this is something we do.
 
+Another minor change to our notation will be that we will now only use boldface letters for vectors that are explicitly denoted to be Euclidean.
+This means that tangent vectors will be written just like regular variables, also meaning that we will now use $f$ instead of $\mathbf{f}$ when concerned with functions of tangent vectors.
+This is all to align ourselves with the broader field that contains the topics we are discussing: \emph{differential geometry}.
+
 A formal definition of a tangent space can be given using directional derivatives.
 This makes sense, as the directional derivative (the map itself) gives you the change in a function tangent to some vector.
 Then, the tangent space is the space of all directional derivatives.
-Here, we have shifted our perspective from the function $f$ in $\mathbf{f}$ in $\nabla_\mathbf{v}\mathbf{f}$ to the vector $\mathbf{v}$.
+Here, we have shifted our perspective from the function $f$ in $\nabla_\mathbf{v} f$ to the vector $\mathbf{v}$.
 The directional derivative $\nabla_\mathbf{v}$ is a tangent vector, which only makes sense if one's idea of a vector is that its an element of a vector space (instead of a specific example of a vector).
 
-Given this definition, we can create a basis for the tangent space $T_\mathbf{x}\R^n$.
-We know that the standard basis for $\R^n$ is $\{\ehat^1, \ldots, \ehat^n\}$, and that the partial derivative operator $\partial_{x^i} = \nabla_{\ehat^i}$.
-The partial derivatives give us the change in the directions of $\ehat^i$, so a linear combination of them gives us the change the direction of any vector $\mathbf{v}$.
+Given this definition, we can create a basis for the tangent space $T_p\R^n$.
+We know that the standard basis for $\R^n$ is $\{\ehat_1, \ldots, \ehat_n\}$, and that the partial derivative operator $\partial_{x_i} = \nabla_{\ehat_i}$.
+The partial derivatives give us the change in the directions of $\ehat_i$, so a linear combination of them gives us the change the direction of any Euclidean vector $\mathbf{v}$.
 This means that we have
 \begin{equation*}
     \nabla_\mathbf{v} = \sum_{i=1}^{n} v^i \eval{\frac{\partial}{\partial x_i}}{p}.
 \end{equation*}
-Here, $\eval*{\partial/\partial x_i}{p}$ and $\eval*{\partial_{x_i}}{p}$ are the same thing; $\{\eval*{\partial_{x_1}}{p}, \ldots, \eval*{\partial_{x_n}}{p}\}$ is the standard basis for $T_p\R^n$
-Let us apply this to the simple example of the unit circle, $S^1$, though be aware of the fact that it will not be a formal proof.
+Here, $\eval*{\partial/\partial x_i}{p}$ and $\eval*{\partial_{x_i}}{p}$ are the same thing; $\{\eval*{\partial_{x_1}}{p}, \ldots, \eval*{\partial_{x_n}}{p}\}$ is the standard basis for $T_p\R^n$.
+Note that since there is a one-to-one association between a tangent vector and a directional derivative, we can make sense of $\nabla_v$, where $v$ is a tangent vector.
+This is not circular, because we have not made any new definitions.
+We can also define a tangent vector $v$ acting on a function $f$ by it taking its associated directional derivative: $v(f) \coloneq \nabla_v f$.
+The formula for the pushforward can be rewritten as $Df_p(v) = v(f(p))$.
+The purpose of all of this is to move away from needing to mention Euclidean vectors, which is helpful when we talk about manifolds in general.
+
+We can use the basis for the tangent space of $\R^n$ to find the tangent spaces of other manifolds.
+Let us apply what we have developed to the simple example of the unit circle, $S^1$, though be aware of the fact that it will not be a formal proof.
 We can parameterize the circle by the function $\gamma \colon [0, 2\pi) \to S^1$ given by $\gamma(t) = (\cos t, \sin t)$.
 Suppose that our point $p$ on $S^1$ corresponds to $t = t_0$.
 The derivative of $\gamma(t)$ at $t = t_0$ is given by
@@ -969,11 +1002,9 @@ We can properly express it as a tangent vector by using the standard basis of $T
 \end{equation*}
 Our tangent space will be a straight line, so any point on the line can be obtained by multiplying some tangent vector in $T_p S^1$ by some scalar.
 That is, our tangent vector spans the entire tangent space: $T_p S^1 = \operatorname{span}\{v\}$.
-A minor detail in the notation here is that we usually transition away from boldface symbols for vectors when our focus is no longer on Euclidean vectors (also meaning that we will now use $f$ instead of $\mathbf{f}$).
-This is just convention.
 
 More typically, the tangent space is defined using \emph{derivations}.
-A derivation is a linear map $D$ that satisfies $D(fg) = gD(f) + fD(g)$, which looks very similar to the product rule for derivatives.
+A derivation is a linear map $\mathcal{D}$ that satisfies $\mathcal{D}(fg) = g\mathcal{D}(f) + f\mathcal{D}(g)$, which looks very similar to the product rule for derivatives.
 It can be shown that there is a one-to-one correspondence between directional derivatives and derivations, so the definitions of tangent vectors using them are equivalent.
 We can also define tagent spaces using curves and velocities; considering our intuition about tangent vectors, this is reasonable.
 The definition presented here has been chosen due to aligning the most with the previous content in our discussion.
@@ -984,7 +1015,7 @@ A manifold is generally not a vector space, so we deal with points $p$ on the ma
 Also, the Jacobian only works for Euclidean spaces, but the idea of the pushforward is the same.
 Finally, the definition of the directional derivative would have to be slightly altered to work on manifolds for our definition of the tangent space to be generally applicable.
 
-\section{Covectors}
+\section{Cotangent Vectors}
 
 We have now formalized the idea of an infinitesimal quantity using tangent vectors.
 Specifically, a tangent vector $v$ represents an infinitesimal change, and it gives a rate of change (directional derivative) when it acts on a function.
@@ -993,7 +1024,7 @@ Consider
 \begin{equation*}
     \int_C f(x) \diff x,
 \end{equation*}
-where $C$ is a curve in $\R^2$ the function $f$ is of the type $C \to \R$.
+where $C$ is a curve in $\R^2$, and the function $f$ is of the type $C \to \R$.
 The integral is always, no matter the definition, some sort of sum.
 Here, we would be summing a scalar multiple of a tangent vector at every point on $C$.
 One thing we have to deal with is the fact that there are an infinite number of tangent vectors, which make up the tangent space, at every point.
@@ -1003,7 +1034,8 @@ The collection of these choices of tangent vectors is called a \emph{(tangent) v
 The actual problem relates to summing these vectors.
 In general, there is not a meaningful way to sum tangent vectors that come from different tangent spaces.
 A way to see this is by choosing a specific curve and drawing the tangent space at two points.
-\begin{figure}[H]
+
+\begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -1047,39 +1079,70 @@ A way to see this is by choosing a specific curve and drawing the tangent space 
 \caption{A curve $C$ with tangents at points $p_1$ and $p_2$}
 \label{fig:curve_tangents}
 \end{figure}
+
 How would we add a tangent vector of $p_1$ to a tangent vector of $p_2$?
 We can assign them to vectors in $\R^2$ using some basis and add them component-wise, but that is only possible because we have \emph{embedded} the curve $C$ in $\R^2$.
 Tangent vectors are \emph{instrinsic} to the manifold itself, so an operation with them should not depend on the manfiold being embedded within another manifold.
-Even if we accept it is valid, our resulting vector would not necessarily be tangent to either $p_1$ or $p_2$.
+Even if we were to accept it as valid, our resulting vector would not necessarily be tangent to either $p_1$ or $p_2$; it would not be a tangent vector.
 Thus, our integral is not well-defined.
 
-If we found a way around it, such as (arbitrarily) introducing another function that the tangent vector acts on at each point to return a real number, we would run into another problem.
+A sensible response would be to slightly alter the definition to try and make it work.
+If we introduce another function, say $g \colon C \to \R$, we can have a tangent vector acting on it to return a real number at each point.
+We then run into another problem.
 Since the chosen tangent vectors depend on our parameterization, it follows that the value of our intergral would also depend on the parameterization.
-That is nonsensical.
-The integral of our function should tell us information that does not depend on the equations we use to describe the manifold.
+This does not make sense if the integral is supposed to carry some sort of geometric information about the manifold and the object we are integrating over the manifold.
+If two sets of equations describe the same manifold, then we should be able to integrate using either and receive the same result.
+
 There are even more issues with this definition.
-This does not mean that our definition is not legitimate; it just does not represent what we mean by an integral well.
-
-This raises a question.
+We can thus conclude that it does not properly represent what we mean by an integral.
+However, this raises a question.
 Our naive formualtion of an integral with tangent vectors was based on the seemingly sound reasoning of what the $dx$ meant.
-Our idea about tangent vectors is correct, but we cannot directly use it in an integral due to the reasons previously stated.
-What we need is a way to measure a given tangent vector and output a real number.
-These numbers would then be summed in a `limiting' way to give us an integral.
-Thus, our task now is to find objects that input tangent vectors and output real numbers.
+Is it an infinitesimal?
+If not, why did it seem like one?
+We will see that it was not completely misguided.
+Instead, we simply require one more concept.
+In order to transfer the information contained within a tangent vector into something we can sum, we need an object that takes tangent vectors and returns real numbers, effectively measuring them.
+Finding such an object is now our goal.
 
-If one is familiar with the concept of dual spaces in linear algebra, then the identity of such an object is obvious.
-It is an element of the \emph{cotangent space} $T^*_p M$, which is the dual of the tangent space $T_p M$.
-We call the elements \emph{cotangent vectors}.
-Each point in a manifold has its own cotangent space, and creating a collection of cotangent vectors by picking one for each point gives us a \emph{cotangent field}.
-The word `cotangent' denotes that the object is complementary to its tangent counterpart.
-Alternative names for all of these concepts involve replacing `cotangent' with `covector'; we will use them interchageably.
+We will call these objects \emph{cotangent vectors}.
+At some point $p$ in a manifold $M$, they should map $T_p M$ to $\R$.
+There will obviously be many different ways to measure a certain tangent vector, so there will be many different cotangent vectors at any given point.
+We will call the space containing all of them the \emph{cotangent space}, labelling it $T^*_p M$.
+Each point has its own cotangent space, and creating a collection of cotangent vectors by picking one for each point gives us a \emph{cotangent field}.
+Alternative names for all of these concepts involve replacing `cotangent' with `covector'.
+We will use these two sets of terms interchangeably for convenience.
 
-Knoweldge of dual spaces, strictly speaking, is not needed to understand or formulate the idea of covectors.
-We would have arrived at the same concept by simply thinking of the properties our object needs to have -- being linear functionals.\footnote{A functional is an object that takes a function as input and returns a number. The linearity condition is required for covectors to measure tangent vectors in a `sensible way'. That is, they add and scale the way we want them to.}
-It has, however, been helpful to show that such a space containing these objects exists.
-Before we try to think of how covectors work with integration, it would be helpful to gain visual intuition on what they are.
+Note that all of these new concepts that we have introduced are not so new.
+Rather, they mirror ideas we have already had relating to tangent vectors.
+This is no coincidence, and the two sets of concepts can be described as being dual to each other.
+Familiarity with dual spaces in linear algebra lets us say that $T^*_p M$ is the dual space of $T_p M$.
+In order show what this means, we will need to concretely formulate the idea of covectors.
+This is done by thinking about the properties our object needs to have.
+
+Covectors are maps from $T_p M$ to $\R$.
+This means that they are functionals, objects that take a function as input and return a number.
+Here, the functions are tangent vectors, which is evident from the fact they are directional derivatives (the map itself).
+Moreover, they are linear.
+This condition is imposed on them so that they measure tangent vectors in a sensible way.
+Taking measurements of sums should become a sum of measurements, and measuring a scaled vector should be a scaled version of the original vector.
+
+To complete the picture, we will show how covectors form a tangent space.
+The typical notation for covector fields is the Greek letter $\omega$, with the covector at some point $p$ in $M$ being denoted by $\omega_p$.
+In cases where we deal with multiple covector fields, we may use other Greek letters such as $\alpha$ or $\beta$.
+The following definitions of addition and multiplication should feel natural; we are saying that these objects combine and scale linearly.
+Note that $a$ is some scalar.
+\begin{align*}
+    (\alpha + \beta)(v) &= \alpha(v) + \beta(v) \\
+    (a\omega)(v) &= a(\omega(v))
+\end{align*}
+With this, $T^*_p M$ is a vector space.
+Due to the nature of covectors being linear functionals of tangent vectors, we have a duality between tangent and cotangent spaces.
+In a sense, they are mirrored versions of each other.
+As with any vector space, we are able to give $T^*_p M$ a basis.
+Before we do this, we will gain some visual intuition for covectors first.
 Consider the following plot of the function $f(x,y) = x\sin y + y\sin x$, where the colours represent the value of $f(x,y)$ at a particular point.
-\begin{figure}[H]
+
+\begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -1090,6 +1153,9 @@ Consider the following plot of the function $f(x,y) = x\sin y + y\sin x$, where 
     xlabel={$x$},
     ylabel={$y$},
     colorbar,
+    colorbar style={
+        ylabel={$f(x,y)$}
+    },
     xmin=-10, xmax=10,
     ymin=-10, ymax=10,
     domain=-10:10,
@@ -1121,21 +1187,32 @@ Consider the following plot of the function $f(x,y) = x\sin y + y\sin x$, where 
 \caption{Plot of $f(x,y) = x\sin y + y\sin x$}
 \label{fig:heatmap}
 \end{figure}
+
 The important information here are the contour lines, which are level sets $\{(x,y) \mid f(x,y) = c\}$ for some constant $c$.
 In our diagram, they have been drawn for $c \in \{-16, -14, \ldots, 14, 16\}$.
-This is an arbitrary choice, and there are actually an infinite number of level sets (though that would be impossible to draw).
 They are close together where the function is steeper, and further apart where the function is less steep.
-If the plot represented a horizontal plane, where the elevation is given by $f(x,y)$, we could figure out high counting the number of contour lines we cross.
-When we say count, this includes crossing over one by a non-integer amount, e.g. we could be halfway between two lines.
+It is important to note that this is just an arbitrary selection of level sets.
+There are, in fact, an infinite number of level sets, since there are an infinite number of constants that we can choose from.
+That is, no matter how far we zoom into the plot, we will always find a new line between two other ones.
 
-This is exactly how we will visualize covectors.
+If the plot represented a topographic map, where the elevation is given by $f(x,y)$, we could figure out the change in elevation from one point to another by counting the number of contour lines we cross.
+When we mention count in this context, we are including crossing over a line by a non-integer amount, e.g. we could be halfway between two lines.
+Our movement can be represented by a vector, and the count measures this vector.
+This is how we will visualize covectors.
+
 The above plot can be interpreted as a cotangent field \cite{covector_visualization}.
-If we were too `zoom into' a particular point, the covector would be represented by a stack of -- equally spaced -- lines tangent to the contour line at that point.
+If we were too zoom into a particular point, the curved contour lines resemble stacks of -- equally spaced -- lines tangent to the contour line at that point.
 Then, we can place a tangent vector (tangent to some manifold, not to the function we are talking about) at that point and count the number of stack lines it crosses.
-We can see from the diagram below that the covector acts in a linear way, which is what we want.
+We can see from \cref{fig:parallel_stack_lines} that the covector acts in a linear way, which matches our definition.
+The linearity is from the fact that it is, in a way, measuring the length of the vector.
+The fact that this is done in reference to itself means that we do not need an external ruler (a metric).
+We will touch on this later.
+
 Also, note that the stack has an orientation (shown by the black line).
-This makes sense, since a function increases from one direction, and decreases from the opposite direction.
-\begin{figure}[H]
+This is because a function increases from one direction and decreases from the opposite direction.
+Covectors in general have an orientation, and this is an important fact about them.
+
+\begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}[scale=1.0]
     % Diagonal stack lines (visualizing a covector)
@@ -1162,35 +1239,200 @@ This makes sense, since a function increases from one direction, and decreases f
 \caption{Covector acting on tangent vectors}
 \label{fig:parallel_stack_lines}
 \end{figure}
-We have shown that this diagram is a visualization of covectors in that it describes their behaviour of acting on tangent vectors, and representing linear functionals.
-However, it has not been explained why a stack of lines parallel to the contour line of a function at a particular point represents a covector.
-It turns out that this does not require anything that we have not covered before.
+
+We have shown that this diagram is a visualization of covectors in that it describes their behaviour of acting on tangent vectors and representing linear functionals.
+Now, we will link covectors to a concept that we have already studied.
 Let $\omega$ be the covector field represented by the plot of $f(x,y)$, and let $\omega_p$ be the covector at some point $p$.
 This is, by our definition, a linear map from $T_p M$ to $\R$.
-We already know such a map: the differential $Df_p$ of a function $f\colon M \to \R$.
+We already know of such a map: the pushforward $Df_p$ of a function $f\colon M \to \R$.
 
-Technically, the differential maps to $T_p \R$ not to $\R$.
+Technically, this pushforward maps to $T_p \R$, not $\R$.
 However, these two spaces can be associated with each other in a one-to-one way; the tangent space of $\R$ at $p$ can be seen as a copy of $\R$ anchored to that point.
-Due to this association, we can consider the differential to `effectively' map to $\R$.
-Since we already know that the differential is linear (from the linearity of derivatives), it follows that it is a covector.
-Thus, we already had objects that were covectors.
-Furthermore, we know that the differential measures something -- the change in a function due to the change in its inputs.
-In this context, we reinterpret it to measure the change of a tangent vector of some manifold instead.
-This is perfectly reasonable, since it is a function of tangent vectors.
+Due to this association, we can consider the pushforward to `effectively' map to $\R$.
+Since we already know that the pushforward is linear (from the linearity of derivatives), it follows that it is a covector.
+Considering that pushforwards seemed to have a link to integration, looking exactly like integrands, this seems reasonable.
 
-The reason that the stack lines are tangent to the contour lines, or level sets, is as follows.
+Furthermore, we know that the pushforward measures something, and we know what exactly it measures.
+The number $Df_p(v)$ is the directional derivative of $f$ along $v$ at $p$
+In this context, where $\omega = Df$, the number $\omega_p(v)$ represents the same thing.
+It can be interpreted as the rate at which a particle at $p$ would cross the stack lines if it had a velocity $v$.
+The fact that $\omega_p(v)$ and $v(f)$ give the same number and represent the same concept again shows their dual nature.
+We will later see that not all covector fields are the pushforward of some function.
+This is only relevant to fields, so our intuition for individual covectors is unaffected; we do not need to worry about it now.
+
+Pushforwards can also be used to give a reason as to why the stack lines are tangent to the contour lines.
 Moving along a level set will not change the value of the function, by definition.
-Thus, the differential will output zero in this direction.
+Thus, the pushforward will output zero in this direction.
 If a tangent vector is tangent to a stack line, it will not cross any of them; the covector will thus act on it to give zero.
-Since the differential is a covector, these two ideas combine to give us the information that the stack lines and level sets are in the same direction as each other.
+These two ideas combine via $\omega = Df$ to give us the information that the stack lines and level sets are in the same direction as each other at a given point.
 They are tangent.
-Again, note that the actual covector's direction is perpendicular to the stack lines.
+Note that the actual direction of the covector is perpendicular to the stack lines.
 
-We have now developed intuition for covectors after motivating their formulation for the purpose of integration.
-It follows that we should now apply them to their intended purpose.
-The general idea of integrating covectors does not differ much at all from how integration of a $\R \to \R$ function works.
-At some point $p$ on a manifold $M$, the covector $\omega_p$ acts on the tangent vector $v \in T_p M$ to give $\omega_p(v)$.
-These measurements are accumulated to give us the result of an integral.
+A relevant note to make is that pushforwards in general are not covectors.
+Given a function $f \colon M \to N$, the pushforward is a map $Df_p \colon T_p M \to T_p N$.
+This outputs tangent vectors, making it fundamentally different from a covector.
+We were only able to associate them when dealing with the pushforward of functions $f \colon M \to \R$, due to $T_p \R$ essentially being the same thing as $\R$.
+The association between pushforwards and covectors is more accurately an association between the pushforward and an operation that we will introduce later.
+For now, it is not needed.
+
+\cref{fig:1-form_hyperplanes} shows a similar visualization of a covector.
+It is simply the three-dimensional analogue to what we have already discussed -- the principles and intuition remain the same.
+As we go to higher dimensions, covectors will maintain this geometric interpretation, even though it becomes impossible to visualize (without some tricks).
+In general, a covector can be seen as a stack of hyperplanes.
+A covector field can be seen as some sort of topographic map, where the contours resemble these stacks of hyperplanes near a point.
+
+\begin{figure}[!htbp]
+    \centering
+    \scalebox{1.5}{\includegraphics{1-form_hyperplanes}}
+    \captionsetup{justification=centering}
+    \caption{Visualization of covectors as hyperplanes
+    \\Credits: Maschen -- Own work, \href{https://creativecommons.org/public-domain/cc0/}{CC0}, via Wikimedia Commons)}
+    \label{fig:1-form_hyperplanes}
+\end{figure}
+
+Now, consider the covector field associated with the function $f(x, y) = x$.
+This is shown in \cref{fig:heatmap_fx}.
+Its contour lines are straight, parallel, and have equal spacing.
+They point to the right.
+The covector at any point will look identical to the contour lines, except that it will always have unit spacing between stack lines.
+A vector that points completely vertically will not cross any stack lines, so its measurement will read zero.
+In general, only the $x$-component of a tangent vector will contribute to the measurement.
+Due to the unit spacing, the measurement will be exactly the $x$-component of the vector.
+
+\begin{figure}[!htbp]
+\centering
+\tikzsetnextfilename{heatmap_fx}
+\begin{tikzpicture}
+\begin{axis}[
+    width=10cm,
+    height=10cm,
+    view={0}{90},
+    colormap/jet,
+    xlabel={$x$},
+    ylabel={$y$},
+    colorbar,
+    colorbar style={
+        ylabel={$f(x,y)$}
+    },
+    xmin=-10, xmax=10,
+    ymin=-10, ymax=10,
+    domain=-10:10,
+    y domain=-10:10,
+]
+
+% Create heatmap with interpolated shading
+\addplot3[
+    surf,
+    shader=interp,
+    samples=50,
+] 
+{x};
+
+% Overlay contour lines showing constant function values
+\addplot3[
+    contour gnuplot={
+        levels={-8,-6,-4,-2,0,2,4,6,8},
+        labels=false,
+    },
+    samples=90,
+    samples y=90,
+    thin,
+    contour/draw color=black,
+] {x};
+
+\end{axis}
+\end{tikzpicture}
+\caption{Plot of $f(x,y) = x$}
+\label{fig:heatmap_fx}
+\end{figure}
+
+The covectors associated with $f(x,y) = y$ similarly pick out the $y$-component of a tangent vector.
+We have thus found two covector fields whose covectors do completely different things.
+Using both of them, we can pick out both parts of a tangent vector.
+This strongly suggests that they will form our basis for the cotangent space.
+Indeed, the natural choice of basis immediately follows from simply visualizing covectors and considering the simplest cases.
+
+The basis for $T_p \R^2$ will be $\{\d{x}, \d{y}\}$.
+These pick out the components of tangent vectors, so $\d{x}(\partial_x) = 1$, $\d{x}(\partial_y) = 0$, $\d{y}(\partial_x) = 0$, and $\d{y}(\partial_y) = 1$.
+Generalizing this, the basis for $T^*_p \R^n$ will be $\{\d{x}^1, \ldots, \d{x}^n\}$, with
+\begin{equation*}
+    \eval{\d{x}^i}{p} \left(\eval{\partial_{x_j}}{p}\right) = \begin{cases}
+        1 & \text{if } i = j,\\
+        0 & \text{if } i \neq j.
+    \end{cases}
+\end{equation*}
+Here, we have specified that both the covector and tangent vector act at the point $p$ with an evaluation bar.
+This is technically the proper way to do it, but it is often omitted, as we did in the paragraph above.
+This is done when context makes it clear what (possibly arbitrary) point we are talking about.
+Since we very often talk about both covector fields $\omega$ and covectors $\omega_p$, the distinction between them is often made via notation.
+For tangent spaces, we use an uppercase letter such as $V$ to distinguish them from tangent vectors $v$; this is needed less frequently.
+
+A general covector $\omega_p$ can be expressed as a linear combination of the basis covectors.
+It can be seen as a set of stack lines obtained by a combination of horizontal and vertical stack lines.
+\begin{equation*}
+    \omega_p = \sum_{i=1}^{n} (\omega_p)_i \d{x}^i
+\end{equation*}
+A covector field is expressed similarly.
+\begin{equation*}
+    \omega = \sum_{i=1}^{n} \omega_i \d{x}^i
+\end{equation*}
+Examples of covectors include $\d{x}$, $5 \d{x} + 2\d{y}$, and $\d{x} - 6\d{z}$.
+An example of a covector field is $x^2 z \d{x} + 2 \d{y} - y\sin x \d{z}$, where inputting some values for $x$, $y$, and $z$ turn it into a covector.
+The way covectors act on basis tangent vectors, and the fact that they are linear, is enough to evaluate any covector at a given tangent vector.
+For instance, given $\omega_p = 3 \d{x} + 2 \d{y}$ and $v = 5 \partial_x - \partial_y$, we have
+\begin{align*}
+    \omega_p(v) &= \omega_p (5 \partial_x - \partial_y) \\
+    &= 5 \omega_p (\partial_x) - \omega_p (\partial_y) \\
+    &= 5(3 \d{x} + 2 \d{y}) (\partial_x) - (3 \d{x} + 2 \d{y}) (\partial_y) \\
+    &= 5 \cdot 3 \d{x}(\partial_x) + 5 \cdot 2 \d{y}(\partial_x) - 1 \cdot 3 \d{x}(\partial_y) - 1 \cdot 2 \d{x}(\partial_y) \\
+    &= 15 \cdot 1 + 10 \cdot 0 - 3 \cdot 0 - 2 \cdot 1 \\
+    &= 13.
+\end{align*}
+We did this the long way on purpose.
+We split the expression twice, using the fact that covectors are linear maps, and that the addition of covectors is linear.
+Note that evaluating a covector involves inputting a vector.
+Evaluating a covector field involves inputting a point and then a vector.
+Thus, they can be thought of as one-step and two-step evaluations respectively.
+
+Let us apply this and find the cotangent space for a point on the unit circle, $T^*_p S^1$ (again, not a proof).
+Previously, we found that the the tangent space $T_p S^1$ is spanned by the vector
+\begin{equation*}
+    v = - \sin t_0 \eval{\frac{\partial}{\partial x}}{p} + \cos t_0 \eval{\frac{\partial}{\partial y}}{p},
+\end{equation*}
+where $t=t_0$ corresponds to p by the parameterization $\gamma \colon [0, 2\pi) \to S^1$ with $\gamma(t) = (\cos t, \sin t)$.
+We get the above vector by differentiating $\gamma$ with respect to $t$, so we can label the basis tangent vector $\partial_t$.
+Now, since $T_p S^1$ is one-dimensional, it makes sense that $T^*_p S^1$ is also one-dimensional.
+Its basis vector will be the covector $\d{t}$, with $\d{t}(\partial_t) = 1$.
+We wish to write this covector in the form $\omega_p = A \d{x} + B \d{y}$.
+This can be done by simply evaluating $\omega_p$ at $v = \partial_t$.
+\begin{equation*}
+    \omega_p(v) = \left( A \eval{\d{x}}{p} + B \eval{\d{y}}{p} \right) \left( - \sin t_0 \eval{\frac{\partial}{\partial x}}{p} + \cos t_0 \eval{\frac{\partial}{\partial y}}{p} \right)
+\end{equation*}
+This time, we will approach this the quick way by simply picking out the components.
+\begin{equation*}
+    \omega_p(v) = - A \sin t_0 + B \cos t_0 = 1
+\end{equation*}
+Using the pythagorean identity for sine and cosine, we see that $A = - \sin t_0$ and $B = \cos t_0$ is a valid solution.
+Hence, our basis covector is
+\begin{equation*}
+    \omega_p = \eval*{\d{t}}{p} = \omega_p(v) = - \sin t_0 \d{x} + \cos t_0 \d{y},
+\end{equation*}
+and $T^*_p S^1 = \operatorname{span}\{\eval{\d{t}}{p} \}$.
+
+%! I AM HERE
+%! REVISE EVERYTHING AFTER THIS AND THEN ADD NEW STUFF
+%! WORK ON THIS DOCUMENT IS TEMPORARILY LOW PRIORITY UNTIL AFTER MID DECEMBER
+
+An important detail is that covectors, and covector fields in general, look like integrands.
+This is especially apparent from our choice in the symbol used to represent basis covectors.\footnote{Our use of upright symbols is an intentional choice to note that these are distinct from the $dx$ used for differentials previously.}
+We have done this on purpose.
+Although pushforwards -- and the more primitive notions of differentials -- looked like integrands, this was more of a superficial resemblence.
+We did not have the machinery to go further with any ideas.
+Now, we have pinpointed the exact type of object we need, and we are ready to discuss how they may be integrated.
+
+The general idea of integrating a covector field does not differ much at all from how integration of a $\R \to \R$ function works.
+At some point $p$ on a manifold $M$, the field $\omega$ specifies a covector $\omega_p$, which acts on the tangent vector $v \in T_p M$ to give $\omega_p(v)$.
+These measurements are accumulated over some curve in $M$ to give us the result of an integral.
 Here, accumulating does not mean summing all the numbers we get together.
 In that case, almost no integral would have a finite value.
 
@@ -1201,34 +1443,65 @@ We know how to integrate over the latter.
 Suppose we have some function $\phi\colon \R \to M$.
 We can use this to `pull' the covector from $T_p M$ to $\R$.
 How is this done?
-We know that the differential $D\phi_p$ is a map from $T_p \R$ to $\T_p M$.
-Thus, precomposing it with $\omega_p$ gives us a function $\omega_p \circ D\phi_p \colon T_p \R \to \R$.
+We know that the pushfoward $D\phi_p$ is a map from $T_p \R$ to $\T_p M$, and the covector $\omega_{\phi(p)}$ is a map from $T_{\phi(p)} M$ to $\R$.
+Thus, precomposing $D\phi_p$ with $\omega_{\phi(p)}$ gives us a function $\omega_{\phi(p)} \circ D\phi_p \colon T_p \R \to \R$.
 
 The domain of the inner map and the codomain of the outer maps become the domain and codomain of our composite map.
 That is just how composing maps and functions work.
 A notation for the pullback we described above is $\phi^*$.
-Given its relation to the differential, it makes sense that an alternative notation for $D\phi$ is $\phi_*$.
+Given its relation to the pushforward, it makes sense that an alternative notation for $D\phi$ is $\phi_*$.
 Now, putting this together, we can use some map $\phi$ to pull $\omega$ back to an interval of the real line, which we can integrate over.
-Our formula for the integral of $\omega$ over a manifold $M$ parameterized by $\gamma: [a,b] \to M$ is
+Our formula for the integral of $\omega$ over a curve $\gamma$ in a manifold $M$ parameterized by $\gamma: [a,b] \to M$ is
 \begin{equation*}
-    \int_\gamma \omega \coloneq \int_{[a,b]} \gamma^* \omega.
+    \int_\gamma \omega \coloneq \int_a^b \gamma^* \omega.
 \end{equation*}
 As indicated by the special equality symbol, this is a definition.
 We initially developed the idea for the integral pretty easily as an accumulation of the measurements from covectors acting on tangent vectors.
 Then, to quantify this accumulation, we introduced the idea of pulling back a covector field from some manifold to an interval of $\R$.
 Afterwards, it is just applying already-developed theory to evaluate the integral.
-We have answered our initial question of what the $dx$ in the integral means, again.\footnote{This is our fourth and final interpretation of what it means.}
+We will now demonstrate how exactly this is done.
+
+We need to find an expression for the pullback $\gamma^*\omega$.
+Note that $\gamma^*\omega$ at a point $t \in [a,b]$ is given by $\omega_{\gamma(t)} \circ D\gamma_t$.
+This a map from $T_p[a,b]$ to $\R$, making it a covector.
+Since we are working with an interval of $\R$ (which is one-dimensional), our covector will be of the form $f(t) \d{t}$.
+Now, we must find $f(t)$.
+This can be done by inputting any tangent vector into both sides of the equation $\omega_{\gamma(t)} \circ D\gamma_t = f(t) \d{t}$, since the equality is true for all tangent vectors.
+The simplest option is the basis tangent vector.
+Due to the one-to-one association between $T_p [a,b]$ and $T_p \R$, this is $\partial_t$.
+On the RHS, we get
+\begin{equation*}
+    (f(t) \d{t})(\partial_t) = f(t).
+\end{equation*}
+On the LHS, we evaluate the pushforward $D\gamma_t$.
+We know that the differential $D\gamma_t(v) = \mathbf{J}_\gamma v = \nabla_v \gamma(t) = v(\gamma(t))$, where $v \in T_{\gamma(t)} [a,b]$.
+This gives us $D\gamma_t(\partial_t) = \partial_t (\gamma(t)) = \gamma'(t)$.
+Hence, $(\gamma^*\omega)_t = \omega_{\gamma(t)}(\gamma'(t))$.
+Our formula for the integral is therefore
+\begin{equation*}
+    \int_\gamma \omega = \int_{a}^{b} \omega_{\gamma(t)}(\gamma'(t)) \d{t}.
+\end{equation*}
+This is a standard Riemann integral, and we have already seen how we evaluate covectors.
+We have now answered our initial question of what the $dx$ in the integral means, again.
 Instead of being an infinitesimal quantity we sum over, it is an object that takes infinitesimals and measures them so that they can be summed.
-Precisely, it is a covector field.
+Precisely, it is a cotangent vector field.
 
+We have provided our fourth and final interpretation of what $dx$ means.
+This one has been sought after specifically for its use in integration.
+Our work remains incomplete, however.
+Although we have explained what $\int f(x) \diff x$ means, what about $\int f(x,y) \diff x \diff y$?
+The definition we gave works for integrating along curves, but that is it.
+Considering the fact that we have (informally) developed the idea of manifolds, which generalize Euclidean space, we should be able to integrate much more than curves.
+There is a lot more we can newly-developed theory, which is what we will explore in the next section.
 
-% MOVE ON TO THIS AFTER DEVELOPING INTEGRATION FOR ONE FORMS
-% We have got (a good portion of) the important part out of the way.
-% Now, we will discuss covectors in a more `concrete' manner.
-% Firstly, another word for a cotangent field is a \emph{differential 1-form}.
-% This is just a name, but it does suggest that there are more types of differential forms.
+\section{Differential Forms}
 
-%TODO EXPLICITLY MENTION THAT THE DIFFERENTIAL IS THE BEST LINEAR APPROXIMATION OF A FUNCTION AT A POINT, FOR A CURVE ITS A LINE, FOR A SURFACE ITS A PLANE, ETC.
+%TODO MENTION THAT COVECTOR FIELDS ARE ONE-FORMS
+%TODO INTRODUCE EXTERIOR DERIVATIVE
+%TODO INTRODUCE WEDGE PRODUCT AND K-FORMS
+%TODO INTRODUCE INTEGRATION OF K-FORMS
+%TODO MENTION PULLBACKS MORE GENERALLY
+%TODO INTRODUCE HODGE STAR
 
 \section{Resources}
 
@@ -1266,7 +1539,7 @@ Scalar multiplication involved literally scaling the length of a vector by some 
 
 Whilst vectors in general are not arrows, the way they add and scale is fundamental to them.
 If we try to extract all the properties of addition and scalar multiplication, we get the following list.
-Note that the boldface letters are elements of $\R^2$, whilst the greek letters are real numbers.
+Note that the boldface letters are elements of $\R^2$, whilst the Greek letters are real numbers.
 Also, the boldface zero represents (0, 0).
 \begin{enumerate}
 \item $\mathbf{u} + \mathbf{v} = \mathbf{v} + \mathbf{u}$
