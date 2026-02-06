@@ -19,6 +19,7 @@
 \usepackage{caption}
 \usepackage{tocloft}
 \usepackage{enumitem}
+\usepackage{xurl}
 \usepackage[toc, page]{appendix}
 \usepackage{accents}
 \usepackage[perpage, symbol*]{footmisc} % for dagger footnotes
@@ -41,6 +42,14 @@
 
 \usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
 \addbibresource{motivational_differential_forms_intro.bib}
+
+\setcounter{biburlnumpenalty}{9000}
+\setcounter{biburlucpenalty}{9000}
+\setcounter{biburllcpenalty}{9000}
+
+\usepackage[T1]{fontenc}
+\usepackage{microtype, mlmodern}
+\usepackage[bb=ncmbbk, bfbb]{mathalpha}
 
 % ---------------- %
 \usepackage{etoolbox}
@@ -153,7 +162,7 @@
 }
 \newcommand{\extp@@}[1]{%
   \mkern
-    \ifx#1\displaystyle-1.8\else
+    \ifx#1\displaystyle-1\else
     \ifx#1\textstyle-1\else
     \ifx#1\scriptstyle-1\else
     -0.5\fi\fi\fi
@@ -182,7 +191,7 @@
 \begin{titlepage}
 \title{A Motivational Introduction to Differential Forms}
 \author{Abdul Musthakin}
-\date{November 2025}
+\date{January 2026}
 \end{titlepage}
 
 % \renewcommand{\thesection}{\Roman{section}}
@@ -193,6 +202,8 @@
 
 \begin{document}
 \maketitle
+
+\pagebreak
 
 \tableofcontents
 
@@ -229,7 +240,7 @@ Whilst the topic of differential geometry -- where differential forms are usuall
 Thus, full familiarity with the subject is not required; many ideas will be developed along the way.
 It assumed that one is aware of:
 \begin{itemize}
-    \item functions of the type $\mathbb{R}^m \to \mathbb{R}^n$;
+    \item functions of the type $\mathbb{R}^n \to \mathbb{R}^m$;
     \item partial derivatives and the chain rule;
     \item directional derivatives and their computation;
     \item the intuitive ideas behind gradients, divergence, and curl, as well as how to compute them; and
@@ -273,7 +284,7 @@ This (signed) area is what is calculated by an integral.
     ytick=\empty,
     samples=200,
     domain=0:2*pi,
-    enlargelimits=false,
+    enlargelimits={abs=0.05},
     tick style={black, thick},
     major tick length=0.15cm,
 ]
@@ -346,7 +357,7 @@ just as it is true that
     \sum_{i=1}^{n} f(i) = \sum_{j=1}^{n} f(j) = \sum_{k=1}^{n} f(k).
 \end{equation*}
 The exact symbol we use for the variable does not matter; they are just labels for the same thing.
-Now, in the context of sums, you can simply expand out to show that they are the same thing.
+Now, in the context of sums, one can simply expand out to show that they are the same thing.
 They all refer to $f(1) + f(2) + f(3) + \ldots + f(n)$.
 It is not so straightforward for integrals, but the idea holds.
 We could leave it at that, and say that the differential is just a part of the notation that conveys some useful information.
@@ -377,7 +388,7 @@ Infinitesimals would be left in favour of limits, and the latter is the formulat
     ytick=\empty,
     samples=100,
     domain=0:10,
-    enlargelimits=false,
+    enlargelimits={abs=0.05},
     tick style={black, thick},
     major tick length=0.15cm,
     xticklabel style={font=\normalsize},
@@ -885,6 +896,13 @@ This additional structure is required for everything we wish to do with manifold
 Additional structure can be added to a manifold to allow for distances and angles to be measured, though our manifolds will only have this if specified.
 We will also usually consider smooth (infinitely differentiable) functions on these manifolds.
 
+The final disclaimer to make is that our manifolds will be orientable manifolds.
+For instance, a circle might have a clockwise or anticlockwise orientation.
+We will require this for actually integrating over the manifolds, which is why we have introduced them in the first placed.
+Whilst integration on nonorientable manifolds can be defined, but it is beside the point of what we wish to show with this exposition.
+All of these caveats should be expected considering how general of an idea that we have introduced.
+The advantage is that our theory of integration will be considerably more powerful than what we had to work with before.
+
 We may now talk about tangent spaces that are actually interesting.
 Let us consider the unit circle, which is denoted by $\mathbb{S}^1$.
 The tangent space of $\mathbb{S}^1$ at some point $p$, $T_p \mathbb{S}^1$, is the line tangent to the circle at $p$.
@@ -1028,7 +1046,7 @@ This is a point where we can stop generalizing.
 Although we have focused on Euclidean spaces, the idea of the pushforward is applicable to manifolds in general without needing to stray from our initial intuition.
 
 Before we go on further, we will make some more changes to our notation.
-Normally, we denote the components of a vector $\mathbf{v}$ are denoted by $v_i$, with the index always on the bottom right.
+Normally, the components of a vector $\mathbf{v}$ are denoted by $v_i$, with the index always on the bottom right.
 We will now denote vector components with their index on the top right, e.g. $v^i$.
 For basis vectors, the index is still on the bottom right, e.g. $\mathbf{\hat{e}}_i$.
 The reason for this relates to how the components change under coordinate transformations (\emph{covariance} and \emph{contravariance}).
@@ -1048,7 +1066,7 @@ The ordered pair $(p, \mathbf{v})$ can indeed be thought of as an arrow starting
 
 However, an arbitrary manifold does not have an inner product to work with.
 This means that our approach will not work in general if the manifold is not embedded in Euclidean space.
-This also relates to our previous visualizations of the tangent spaces for a circle and sphere.
+This also relates to our previous visualizations of the tangent spaces for a circle and a sphere.
 Thinking about tangent vectors as actual arrows tangent to a manifold will not work, because there is not an underlying space for them to point out into.
 We mentioned earlier that tangent spaces are intrinsic, so there should be a way of describing them without an embedding.
 
@@ -1060,16 +1078,24 @@ As we know, it maps functions to real numbers.
 Additionally, it satisfies the following properties, with $f, g \in C^\infty(\R^n)$ being smooth functions on $\R^n$ and $\lambda, \mu \in \R$.
 \begin{itemize}
     \item $\eval{\nabla_\mathbf{v}}{\mathbf{x}}(\lambda f + \mu g) = \lambda\eval{\nabla_\mathbf{v}}{\mathbf{x}} f + \mu\eval{\nabla_\mathbf{v}}{\mathbf{x}} g$
-    \item $\eval{\nabla_\mathbf{v}}{\mathbf{x}} fg = f(\mathbf{x})\eval{\nabla_\mathbf{v}}{\mathbf{x}}g + g(\mathbf{x})\eval{\nabla_\mathbf{v}}{\mathbf{x}}f$
+    \item $\eval{\nabla_\mathbf{v}}{\mathbf{x}} fg = g(\mathbf{x})\eval{\nabla_\mathbf{v}}{\mathbf{x}}g + f(\mathbf{x})\eval{\nabla_\mathbf{v}}{\mathbf{x}}f$
 \end{itemize}
 That is, the map is linear, and it satisfies a condition very similar to the product rule for derivatives, which we call the \emph{Leibniz identity}.
 Any map that satisfies these two properties is called a \emph{derivation}, and it can be seen as generalizing the concept of a derivative by possessing two of its important properties.
+A derivation $v$ satisfies,
+\begin{equation*}
+    v(\lambda f + \mu g) = \lambda v(f) + \mu v(g),
+\end{equation*}
+and
+\begin{equation*}
+    v(fg) = v(f)g + fv(g).
+\end{equation*}
 It turns out to be the case that there is a one-to-one association between the space of all derivations at $\mathbf{x}$, linear maps $v \colon C^\infty (\R^n) \to \R$ that satisfy the Leibniz identity, and our ``geometric tangent space''.
 This association is via the map from $(\mathbf{v}, \mathbf{x})$ to $\eval*{\nabla_\mathbf{v}}{\mathbf{x}}$.
 
 We have shown that the space of derivations and our old tangent space are essentially the same in a way.
 We are also able to easily define derivations on arbitrary manifolds $M$.
-Thus, it is reasonable to define the tangent space of $M$ at a point $p \in M$, $T_p M$, as the space of all derivations $v \colon C^\infty (M) \to \R$.
+Thus, it is reasonable to define the tangent space of $M$ at a point $p \in M$, denoted $T_p M$, as the space of all derivations $v \colon C^\infty (M) \to \R$.
 This includes $T_p \R^n$, replacing the ``geometric tangent space'' definition.
 Now, it is still perfectly valid to think about tangent vectors as literal tangents to a manifold intuitively.
 Abstracting the formal definition has not lost this intuition, which can be very helpful when thinking about these topics.
@@ -1110,14 +1136,15 @@ This acts on $f$ to give
 \end{equation*}
 Comparing this with the result we got above, we can see that
 \begin{equation*}
-    w^j = \eval{\nabla_\mathbf{v}}{p} (\varphi^j) = \nabla_\mathbf{v}\varphi(p),
+    w^j = \eval{\nabla_\mathbf{v}}{p} (\varphi^j) = \nabla_\mathbf{v}\varphi^j(p),
 \end{equation*}
 Therefore,
 \begin{equation*}
     \mathbf{w} = \nabla_\mathbf{v} \varphi(p) = \mathbf{J}_\varphi(p) \mathbf{v}.
 \end{equation*}
-Whilst it is technically incorrect to write $D\varphi_p(v) = \mathbf{J}_\varphi(p) \mathbf{v}$, they are essentially the same thing by the one-to-one association we have between tangent vectors and Euclidean vectors.
+Whilst it is technically incorrect to write $D\varphi_p(v) = \mathbf{J}_\varphi(p) \mathbf{v}$, they are essentially the same thing by the one-to-one association we have between tangent vectors (of a Euclidean space) and Euclidean vectors.
 The pushforward for manifolds in general maintains the same interpretation as the old differential, representing the principal change in $\varphi$ or equivalently the best linear approximation to $\varphi$ at $p$.
+
 Notice that our definition of the pushforward is completely independent of coordinates.
 The fact that we can do this makes sense, as it captures geometric information about the manifold.
 In general, we value coordinate-independent results for being more insightful as well as for the fact that we can apply them to any suitable coordinate system.
@@ -1138,8 +1165,8 @@ There is generally not a sense of independent directions on a manifold, so we in
 
 Given that $M$ has $n$ dimensions, our local coordinates $x^1, x^2, \ldots, x^n$ near $p$ are smooth functions from an (open) set $U \subseteq M$ to $\R$.
 Although we have defined tangent vectors in relation to functions that are smooth on the entirety of $M$, we can identify a tangent vector in $T_p M$ with one in $T_p U$ without making any arbitrary choices.
-The set $U$ can be arbitrarily small, showing that a tangent vector is a local object.
-If two smooth functions $f$ and $g$ are equal in a neighbourhood around $p$, then $v(f) = v(g)$.
+The set $U$ can be arbitrarily small.
+Thus, a tangent vector is a local object; if two smooth functions $f$ and $g$ are equal in a neighbourhood around $p$, then $v(f) = v(g)$.
 It reasonably follows that a tangent vector $v \in T_p M$ is entirely determined by its action on the local coordinates.
 
 Now, consider $n$ derivations $b_1, b_2, \ldots, b_n$ in $T_p M$.
@@ -1150,22 +1177,32 @@ We want these to be our basis tangent vectors, so we would want them to pick out
         0 & \text{if } i \neq j
     \end{cases}
 \end{equation*}
-These act exactly like the partial derivative operators, which pick out a certain component of the change of a function.
-We otherwise do not have a notion of partial derivatives for manifolds, so we will denote these basis tangent vectors $b_i$ by $\eval*{\partial_i}{p}$.
-Any tangent vector $v \in T_p M$ is can be expressed as a linear combination of these basis tangent vectors, and its $i$-th component is $v^i \coloneq v(x^i)$.
-Thus, $\{\eval*{\partial_1}{p}, \eval*{\partial_2}{p}, \ldots, \eval*{\partial_n}{p}\}$ is a basis for $T_p M$.
+This is exactly how partial derivatives act.
+\begin{equation*}
+    \frac{\partial}{\partial x^i} x^j = \begin{cases}
+        1 & \text{if } i = j \\
+        0 & \text{if } i \neq j
+    \end{cases}
+\end{equation*}
+Hence, just as we were able to use partial derivative operators to form the basis of $T_p \R^n$, we can use them for any smooth manifold $M$.
+A basis of $T_p M$ is $\{\eval*{\partial_1}{p}, \eval*{\partial_2}{p}, \ldots, \eval*{\partial_n}{p}\}$.
+Any tangent vector $v \in T_p M$ is can be expressed as a linear combination of these basis tangent vectors, and its $i$-th component is $v^i = v(x^i)$.
 \begin{equation*}
     v = \sum_{i=1}^{n} v^i \eval{\partial_i}{p}
 \end{equation*}
-This looks identical to the definition we had for $T_p \R^n$.
-If $M = \R^n$, then the basis tangent vectors are actually partial derivatives, so it becomes the same definition -- which is desirable.
-Although they are not literally partial derivatives in general, thinking about them as such for the purpose of intuition is fine.
-An important detail is the fact that our choice of local coordinates was not special in any way.
-Since our basis depends on those coordinates, the same applies to it.
-Different choices of coordinates will give different bases, and there is generally no `natural' or `preferred' basis.
+Often, we omit the evaluation at $p$ in the notation when it is unambiguous.
+This is just to have nicer looking expressions.
+The $i$-th component of $v$ can be obtained from its action on the local coordinate $x^i$.
+This makes sense from what we know about tangent vectors, and it is shown below.
+\begin{equation*}
+    v(x^i) = \sum_{j=1}^{n} v^j \eval{\partial_j}{p}(x^i) = v^i \eval{\partial_i}{p}(x^i) = v^i
+\end{equation*}
+Our definition of the basis for $T_p M$ looks identical to the definition we had for $T_p \R^n$.
+The distinction is that the choice of coordinates for $\R^n$ is natural, whilst there is no natural choice of (local) coordinates for an arbitrary smooth manifold.
+The basis depends on our chosen coordinates, so there is generally no `natural' or `preferred' choice of basis for $T_p M$.
 
 Note that our basis for $T_p M$ shows that a tangent space has the same dimension as the manifold itself.
-This has not been explicitly stated yet, but it may have been apparent from the examples of a circle and sphere.
+This has not been explicitly stated yet, but it may have been apparent from the examples of a circle and a sphere.
 A manifold resembles Euclidean space near a point, and its tangent space can intuitively be viewed as that Euclidean space (though $T_p M$ is technically distinct from any $\R^n$).
 The tangent space can be seen as the best linear approximation of the manifold at $p$, so it follows that they have the same dimension.
 
@@ -1191,32 +1228,70 @@ Therefore,
     \eval{\frac{\partial}{\partial \theta}}{p} = -y \eval{\frac{\partial}{\partial x}}{p} + x \eval{\frac{\partial}{\partial y}}{p}.
 \end{equation*}
 This can be associated with the Euclidean vector $(-y, x)$, which is indeed tangent to the unit circle since it is orthogonal to the position vector $(x,y)$: $(-y, x) \cdot (x, y) = 0$.
-It can also be shown that the pushforward of the map $\imath$, $D\imath \colon T_p \mathbb{S}^1 \to T_{\imath(p)}$ acts on $\eval*{\partial_\theta}{p}$ to give the expression we just derived. 
-Really, this is a formal way of stating that a tangent vector in the subspace can be treated as a tangent vector in the ambient space, which is to be expected.
+It can also be shown that the pushforward of the map $\imath$, $D\imath \colon T_p \mathbb{S}^1 \to T_{\imath(p)} \R^2$ acts on $\eval*{\partial_\theta}{p}$ to give the expression we just derived.
+The inclusion map takes points on the manifold to those in its ambient space, so it makes sense that its pushforward does the analogous mapping for tangent vectors.
 
-We can also define tangent spaces using curves and velocities.
-Informally, it involves a tangent vector being associated with the velocity of a particle whose trajectory is given by a smooth function on the manifold.
-Considering our intuition about tangent vectors, this is reasonable.
+The definition of a tangent vector as a derivation, and thus a tangent space as the space of derivations, is not the only possibly definition.
+A common alternative choice is to consider smooth curves on the manifold and the velocities of particles travelling along them.
+A tangent vector is then defined to be the (equivalence) class of curves whose velocities coincide at the point $p$.
+This matches the intuition we have about tangent vectors, and it could perhaps be considered more intuitive than our chosen definition.
+A tangent vector can be imagined as an arrow tangent to a curve representing the velocity.
+
 We have chosen to use the definition via derivations due to it being more general and being able to be defined without any mention of coordinates.
+The vector space structure of the tangent space easily follows, which is not so evident when dealing with the alternative definition.
 It also follows from our earlier discussion on the differential of a function and the directional derivative, thus appearing to be a natural extension of those topics.
+It can be shown that these two definitions are equivalent, so there was no `right' choice to be made.
+
+We will introduce the similar-sounding concept of the velocity of a curve.
+It is not a way to define tangent vectors, but rather something that is defined using tangent vectors and the pushforward.
+Consider a smooth curve $C$ along a manifold $M$.
+Here, $C$ itself is a manifold, and we would call it a \emph{submanifold} of $M$.
+Suppose that $\gamma \colon I \to M$ is a parameterization of $C$, where $I$ is an interval of $\R$.
+Sometimes, we skip labelling $C$ and simply call the smooth function $\gamma$ the curve.
+If this represents the trajectory of a particle, then how may we describe its velocity?
+Again, a common shorthand is to call the aforementioned velocity the curve's velocity, so we do not have to talk about particles at all.
+
+If $M = \R^n$, then we already have our answer from calculus.
+Given $t_0 \in I$, the derivative $\gamma'(t_0)$ is the velocity vector.
+The components of the velocity vector are each the derivative of the respective components of the curve.
+The velocity vector will be tangent to the curve.
+Translating this idea to an arbitrary smooth manifold $M$, the velocity of the curve is defined to be a tangent vector.
+It will be an element of the tangent space $T_{\gamma(t_0)} M$.
+To obtain this tangent vector, we take the basis tangent vector $\eval*{\partial_t}{t_0} \in T_{t_0} I$ ($T_{t_0} I$ is essentially the same as $T_{t_0} \R$), and push it forwards to $T_{\gamma(t_0)} M$.
+\begin{equation*}
+    \gamma'(t) \coloneq D\gamma(\eval{\partial_t}{t_0}) = D\gamma\left(\eval{\frac{d}{dt}}{t_0}\right)
+\end{equation*}
+Here, we use $d/dt$ instead of $\partial/\partial t$ since $T_{t_0} I$ is one-dimensional.
+To justify this definition, consider the fact that we think of the velocity of a curve $\gamma$ to mean the rate at which $\gamma$ changes over time.
+We then have to think of how the velocity would act if it were a map.
+The previous statement can be reframed as $\gamma'(t_0)$ acting on the identity function to give its rate of change along $\gamma$ -- which is just that of $\gamma$ itself.
+It thus makes sense that $\gamma'(t_0)$ would, in general, act on a (smooth) function $f$ to give the instantaneous rate of change of $f$ along the curve $\gamma$.
+Indeed, that is what it does.
+\begin{equation*}
+    \gamma'(t_0)(f) = \eval{\frac{d}{dt}(f \circ \gamma)}{t_0}
+\end{equation*}
+When $M = \R^n$, $D\gamma(\eval*{\partial_t}{t_0}) = \dot{\gamma}(t)$, the regular derivative (via the usual associations when dealing with the pushforward in Euclidean space).
+We can reasonably manipulate and treat $\gamma'(t)$ as a derivative without too much care; for what it is worth, they are essentially the same.
+We have created a reasonable definition of the velocity of the curve, which also happens to be completely independent of coordinates.
+It utilizes the familiar approach of translating intuitive ideas about tangents and related concepts to the more generally applicable notion of tangent vectors.
+We will make use of this definition later for integration.
 
 \section{Cotangent Vectors}
-%! WHENEVER I AM NEXT ABLE TO, SWAP AROUND R^M AND R^N IN ALL PARTS AFTER THIS (EXCEPT APPENDIX ON VECTOR CALCULUS)
-%! CHANGE THe SECTION ON INTEGRATION OF COVECTOR FIELDS TO HAVE PROPER DEFINITION OF PUSHFORWARD
-%! CONTINUE WITH INTEGRATION OF K-FORMS
 
 We have now formalized the idea of an infinitesimal quantity using tangent vectors.
-Specifically, a tangent vector $v$ represents an infinitesimal change, and it gives a rate of change (directional derivative) when it acts on a function.
-It is reasonable to think that one can now make sense of the $dx$ in an integral, but some immediate problems arise.
+They function as the familiar directional derivatives when dealing with $\R^n$, but are more generally viewed as derivations defined on smooth manifolds.
+It is reasonable to think that one can now make sense of the $dx$ in an integral.
+Since were previously able to give it the vague interpretation of being an infinitesimal change in $x$, perhaps it follows that $dx$ can now be viewed as a tangent vector.
+However, some immediate problems arise.
 Consider
 \begin{equation*}
     \int_C f(x) \diff x,
 \end{equation*}
-where $C$ is a curve in $\R^2$, and the function $f$ is of the type $C \to \R$.
+where we have a one-dimensional curve $C$ and a function $f \colon C \to \R$.
 The integral is always, no matter the definition, some sort of sum.
-Here, we would be summing a scalar multiple of a tangent vector at every point on $C$.
+Here, we would be summing a scalar multiple of a tangent vector at every point on $C$ -- in the limiting manner associated with integration.
 One thing we have to deal with is the fact that there are an infinite number of tangent vectors, which make up the tangent space, at every point.
-This is not actually a problem, as choosing a specific parameterization of $C$ will pick a tangent vector at each point. 
+This is actually not a problem, as choosing a specific parameterization of $C$ will pick a tangent vector at each point. 
 The collection of these choices of tangent vectors is called a \emph{(tangent) vector field}.
 
 The actual problem relates to summing these vectors.
@@ -1269,32 +1344,32 @@ A way to see this is by choosing a specific curve and drawing the tangent space 
 \end{figure}
 
 How would we add a tangent vector of $p_1$ to a tangent vector of $p_2$?
-We can assign them to vectors in $\R^2$ using some basis and add them component-wise, but that is only possible because we have \emph{embedded} the curve $C$ in $\R^2$.
+The visualization would suggest we can simply add them component-wise, but that is only possible because we have \emph{embedded} the curve $C$ in $\R^2$.
 Tangent vectors are \emph{intrinsic} to the manifold itself, so an operation with them should not depend on the manifold being embedded within another manifold.
-Even if we were to accept it as valid, our resulting vector would not necessarily be tangent to either $p_1$ or $p_2$; it would not be a tangent vector.
+Moreover, our resulting vector would not necessarily be tangent to either $p_1$ or $p_2$; it would not be a tangent vector.
 Thus, our integral is not well-defined.
 
 A sensible response would be to slightly alter the definition to try and make it work.
 If we introduce another function, say $g \colon C \to \R$, we can have a tangent vector acting on it to return a real number at each point.
 We then run into another problem.
 Since the chosen tangent vectors depend on our parameterization, it follows that the value of our integral would also depend on the parameterization.
-This does not make sense if the integral is supposed to carry some sort of geometric information about the manifold and the object we are integrating over the manifold.
+This does not make sense if the integral is supposed to carry some sort of geometric information about the manifold and the object we are integrating over it.
 If two sets of equations describe the same manifold, then we should be able to integrate using either and receive the same result.
 
 There are even more issues with this definition.
 We can thus conclude that it does not properly represent what we mean by an integral.
-However, this raises a question.
+This raises a question.
 Our naive formulation of an integral with tangent vectors was based on the seemingly sound reasoning of what the $dx$ meant.
 Is it an infinitesimal?
 If not, why did it seem like one?
-We will see that it was not completely misguided.
-Instead, we simply require one more concept.
-In order to transfer the information contained within a tangent vector into something we can sum, we need an object that takes tangent vectors and returns real numbers, effectively measuring them.
+We will see that it was not completely misguided, and we simply require one more concept.
+In order to transfer the information contained within a tangent vector into something we can properly sum, we need an object that takes tangent vectors and returns real numbers.
 Finding such an object is now our goal.
 
 We will call these objects \emph{cotangent vectors}.
 At some point $p$ in a manifold $M$, they should map $T_p M$ to $\R$.
-There will obviously be many different ways to measure a certain tangent vector, so there will be many different cotangent vectors at any given point.
+They effectively measure a given tangent vector.
+There will obviously be many different ways to do this, so there will be many different cotangent vectors at any given point.
 We will call the space containing all of them the \emph{cotangent space}, labelling it $T^*_p M$.
 Each point has its own cotangent space, and creating a collection of cotangent vectors by picking one for each point gives us a \emph{cotangent field}.
 Alternative names for all of these concepts involve replacing `cotangent' with `covector'.
@@ -1309,26 +1384,26 @@ This is done by thinking about the properties our object needs to have.
 
 Covectors are maps from $T_p M$ to $\R$.
 This means that they are functionals, objects that take a function as input and return a number.
-Here, the functions are tangent vectors, which is evident from the fact they are directional derivatives (the map itself).
-Moreover, they are linear.
+Here, the functions are tangent vectors, which is evident from the fact they are derivations.
+Moreover, covectors are linear.
 This condition is imposed on them so that they measure tangent vectors in a sensible way.
-Taking measurements of sums should become a sum of measurements, and measuring a scaled vector should be a scaled version of the original vector.
+Taking measurements of sums should become a sum of measurements, and measuring a scaled vector should be a scaled measurement of the original vector.
 
-To complete the picture, we will show how covectors form a tangent space.
+To complete the picture, we will show how covectors form a vector space.
 The typical notation for covector fields is the Greek letter $\omega$, with the covector at some point $p$ in $M$ being denoted by $\omega_p$.
 In cases where we deal with multiple covector fields, we may use other Greek letters such as $\alpha$ or $\beta$.
 The following definitions of addition and multiplication should feel natural; we are saying that these objects combine and scale linearly.
-Note that $a$ is some scalar.
+Note that $\lambda$ is some scalar.
 \begin{align*}
     (\alpha + \beta)(v) &= \alpha(v) + \beta(v) \\
-    (a\omega)(v) &= a(\omega(v))
+    (\lambda\omega)(v) &= \lambda(\omega(v))
 \end{align*}
 With this, $T^*_p M$ is a vector space.
 Due to the nature of covectors being linear functionals of tangent vectors, we have a duality between tangent and cotangent spaces.
 In a sense, they are mirrored versions of each other.
 As with any vector space, we are able to give $T^*_p M$ a basis.
 Before we do this, we will gain some visual intuition for covectors first.
-Consider the following plot of the function $f(x,y) = x\sin y + y\sin x$, where the colours represent the value of $f(x,y)$ at a particular point.
+Consider the plot of the function $f(x,y) = x\sin y + y\sin x$ in \cref{fig:heatmap_fxy}, where the colours represent the value of $f(x,y)$ at a particular point.
 
 \begin{figure}[!htbp]
 \centering
@@ -1373,32 +1448,46 @@ Consider the following plot of the function $f(x,y) = x\sin y + y\sin x$, where 
 \end{axis}
 \end{tikzpicture}
 \caption{Plot of $f(x,y) = x\sin y + y\sin x$}
-\label{fig:heatmap}
+\label{fig:heatmap_fxy}
 \end{figure}
 
-The important information here are the contour lines, which are level sets $\{(x,y) \mid f(x,y) = c\}$ for some constant $c$.
+The important information here are the contour lines, which are level sets $\{(x,y) \in \R^2 : f(x,y) = c\}$ for some constant $c$.
 In our diagram, they have been drawn for $c \in \{-16, -14, \ldots, 14, 16\}$.
 They are close together where the function is steeper and further apart where the function is less steep.
 It is important to note that this is just an arbitrary selection of level sets.
 There are, in fact, an infinite number of level sets, since there are an infinite number of constants that we can choose from.
 That is, no matter how far we zoom into the plot, we will always find a new line between two other ones.
 
-If the plot represented a topographic map, where the elevation is given by $f(x,y)$, we could figure out the change in elevation from one point to another by counting the number of contour lines we cross.
-When we `mention' count in this context, we are including crossing over a line by a noninteger amount, e.g. we could be halfway between two lines.
-It is a continuous measurement.
-Our movement can be represented by a vector, and the count measures this vector.
-This is how we will visualize covectors.
+The plot in \cref{fig:heatmap_fxy} can be interpreted as a covector field \cite{covector_visualization}.
+If we were to zoom into a particular point $p$, the curved contour lines would resemble stacks of equally spaced lines tangent to the contour line at that point.
+Just as the contour lines of $f$ represent the change in the function globally, these stack lines represent the infinitesimal change in $f$ at $p$.
+Indeed, that is what $v(f)$ represents as well, by virtue of its relation to directional derivatives.
+We can thus view $v(f)$ as a rate of stack lines being crossed.
 
-The above plot can be interpreted as a covector field \cite{covector_visualization}.
-If we were to zoom into a particular point, the curved contour lines would resemble stacks of equally spaced lines tangent to the contour line at that point.
-If the covector is an element of $T^*_p M$, then a tangent vector in $T_p M$ can be placed on this plane of stack lines.
-The covector evaluated at the tangent vector is the number of stack lines it crosses.
+Although this is a measurement of $f$ by $v$, it encodes a magnitude and direction associated with $v$.
+Therefore, we can equivalently view it as a measurement of $v$ using $f$ at that point.
+With a different set of stack lines, we get a different rate and direction -- a different measurement of $v$.
+The two pieces of information contained within this measurement can be represented by some arrow, with $v(f)$ being the number of stack lines pierced by that arrow.
+Representing $v$ as an arrow is coordinate-dependent, but a change of coordinates scales any stack lines along with the arrow.
+Hence, the value $v(f)$ is coordinate-independent.
+
+We choose to represent a covector as a certain set of stack lines, which is why the entire field of contour lines is viewed as a covector field.
+Given a covector $\omega_p \in T^*_p M$, the arrow representing a tangent vector $v \in T_p M$ can be placed on this plane of stack lines.
+Then, $\omega_p(v)$ is the number of stack lines pierced by this arrow.
 Again, this works in a continuous way, and the number is not necessarily an integer.
-Thus, it might be more accurate to call a covector a uniform 'density' of stack lines.
+Thus, it might be more accurate to call a covector a uniform `density' of stack lines.
+For convenience, we will refer to the arrow as $v$ itself, having already made note of the nuance.
 
-We can see from \cref{fig:parallel_stack_lines} that the covector acts in a linear way, which matches our definition.
-The linearity is from the fact that we are, in a way, measuring the length of the vector.
-Also, note that the stack has an orientation (shown by the black line).
+From this, we obtain our visualization of a covector, which always works.
+A covector field may be represented by the contour lines of a function, in which case we could consider it to be a topographic map of sorts.
+The plot in \cref{fig:heatmap_fxy} could be seen as a map where the elevation at each point is given by $f(x,y)$; the contour lines are lines of constant elevation.
+At each point, the contour lines resemble a set of stack lines, which represent a covector.
+Other covector fields may only be able to be expressed as such a map locally, and others cannot even be visualized as that.
+The details of this are not of any use to us for what we wish to discuss.
+
+We can see from \cref{fig:parallel_stack_lines} that the visualization of the covector acts in a linear way, which matches our definition.
+The linearity is from the fact that we are, using the covector as a ruler, measuring how much the vector points in a certain direction.
+Also, note that the stack has an orientation (shown by the black arrow).
 This is because a function increases from one direction and decreases from the opposite direction.
 Covectors in general have an orientation, and this is an important fact about them.
 
@@ -1430,47 +1519,12 @@ Covectors in general have an orientation, and this is an important fact about th
 \label{fig:parallel_stack_lines}
 \end{figure}
 
-We have shown that a set of stack lines is a visualization of covectors in that it describes their behaviour of acting on tangent vectors and representing linear functionals.
-Now, we will link covectors to a concept that we have already studied.
-Let $\omega$ be the covector field represented by the plot of $f(x,y)$, and let $\omega_p$ be the covector at some point $p$.
-This is, by our definition, a linear map from $T_p M$ to $\R$.
-We already know of such a map: the pushforward $Df_p$ of a function $f\colon M \to \R$.
-
-Technically, this pushforward maps to $T_p \R$, not $\R$.
-However, these two spaces can be associated with each other in a one-to-one way; the tangent space of $\R$ at $p$ can be seen as a copy of $\R$ anchored to that point.
-Due to this association, we can consider the pushforward to `effectively' map to $\R$.
-Since we already know that the pushforward is linear (from the linearity of derivatives), it follows that it is a covector.
-Considering that pushforwards seemed to have a link to integration, looking exactly like integrands, this seems reasonable.
-
-Furthermore, we know that the pushforward measures something, and we know what exactly it measures.
-The number $Df_p(v)$ is the directional derivative of $f$ along $v$ at $p$.
-In this context, where $\omega = Df$, the number $\omega_p(v)$ represents the same thing.
-It can be interpreted as the rate at which a particle at $p$ would cross the stack lines if it had a velocity $v$.
-The fact that $\omega_p(v)$ and $v(f)$ give the same number and represent the same concept again shows their dual nature.
-We will later see that not all covector fields are the pushforward of some function.
-This is only relevant to fields, so our intuition for individual covectors is unaffected; we do not need to worry about it now.
-
-Pushforwards can also be used to give a reason as to why the stack lines are tangent to the contour lines.
-Moving along a level set will not change the value of the function, by definition.
-Thus, the pushforward will output zero in this direction.
-If a tangent vector is tangent to a stack line, it will not cross any of them; the covector will thus act on it to give zero.
-These two ideas combine via $\omega = Df$ to give us the information that the stack lines and level sets are in the same direction as each other at a given point.
-They are tangent.
-Note that the actual direction of the covector is perpendicular to the stack lines.
-
-A relevant note to make is that pushforwards in general are not covectors.
-Given a function $f \colon M \to N$, the pushforward is a map $Df_p \colon T_p M \to T_p N$.
-This outputs tangent vectors, making it fundamentally different from a covector.
-We were only able to associate them when dealing with the pushforward of functions $f \colon M \to \R$, due to $T_p \R$ essentially being the same thing as $\R$.
-The association between pushforwards and covectors is more accurately an association between the pushforward and an operation that we will introduce later.
-For now, it is not needed.
-
 \cref{fig:1-form_hyperplanes} shows a similar visualization of a covector.
 It is the three-dimensional analogue, replacing the stack lines with a stack of planes.
 As we go to higher dimensions, covectors will maintain this geometric interpretation, even though it becomes impossible to visualize (without some tricks).
 In general, a covector can be seen as an oriented stack of hyperplanes.
-A covector field can be seen as some sort of topographic map, where the contours resemble these stacks of hyperplanes near a point.
-Although they are more accurately called contour hyperplanes, we will always refer to them as contour lines.
+A covector field can be seen as a collection of these stacks of hyperplanes near a point.
+For convenience, we will usually refer to the hyperplanes as just lines.
 
 \begin{figure}[!htbp]
     \centering
@@ -1481,8 +1535,18 @@ Although they are more accurately called contour hyperplanes, we will always ref
     \label{fig:1-form_hyperplanes}
 \end{figure}
 
+Given two covectors $\alpha_p$ and $\beta_p$, their sum $(\alpha + \beta)_p$, or equivalently $\alpha_p + \beta_p$, can be visualized as combining the two sets of stack lines.
+This is simple if they are parallel; the two covectors simply combine into a scalar multiple of one of them.
+Otherwise, $(\alpha + \beta)_p$ is represented by the set of stack lines formed by the intersections of the lines of $\alpha_p$ and $\beta_p$.
+If the former is a set of stack lines pointing north, and the latter is a set of stack lines pointing east, then there combination will point northeast.
+
+Alternatively, we may visualize the sum as the union of the two sets of stack lines.
+Both ways allow us to correctly evaluate tangent vectors by counting how many stack lines they pierce, and both extend to higher dimensions using hyperplanes.
+A disadvantage of the second way is that it does not clearly show that the sum of the two covectors is itself a covector.
+It is also unfortunately not clear that these two ways represent the same covector simply by looking at them in a diagram.
+
 Now, consider the covector field associated with the function $f(x, y) = x$.
-This is shown in \cref{fig:heatmap_fx}.
+This is shown in \cref{fig:heatmap_x}.
 Its contour lines are straight, parallel, and have equal spacing.
 They point to the right.
 The covector at any point will look identical to the contour lines, except that it will always have unit spacing between stack lines.
@@ -1534,7 +1598,7 @@ Due to the unit spacing, the measurement will be exactly the $x$-component of th
 \end{axis}
 \end{tikzpicture}
 \caption{Plot of $f(x,y) = x$}
-\label{fig:heatmap_fx}
+\label{fig:heatmap_x}
 \end{figure}
 
 Note that (tangent) vectors are objects that do not themselves depend on a chosen coordinate system.
@@ -1622,7 +1686,7 @@ and $T^*_p \mathbb{S}^1 = \operatorname{span}\{\eval{\d{t}}{p} \}$.
 
 \section{Integration of Covector Fields}
 
-Now, having provided a sufficient introduction to covectors, we will show how they can be integrated.
+Now, having provided a sufficient introduction to covectors and covector fields, we will show how they can be integrated.
 They were developed for this purpose, and their notation purposefully resembles integrands.
 This is especially apparent from our choice in the symbol used to represent basis covectors.\footnote{Our use of upright symbols is an intentional choice to note that these are distinct from the $dx$ used for differentials previously.}
 Although pushforwards -- and the more primitive notions of differentials -- looked like integrands, this was more of a superficial resemblance.
@@ -1637,7 +1701,8 @@ These measurements are accumulated over $C$ to give us the result of an integral
 
 Since each measurement represents the number of stack lines of a covector that are pierced by a tangent vector (the exact one will be shown not to matter) at that point, the integral will represent the total accumulation of these numbers.
 However, we already know that covectors are what the covector field resembles near a point.
-It reasonably follows that the integral represents the number of contour lines of the covector field that are pierced by the curve $C$ \cite{covector_integration_visualization}.
+It reasonably follows that, when a covector field can be represented as a single, global topographic map, the integral represents the number of contour lines of the covector field that are pierced by the curve $C$ \cite{covector_integration_visualization}.
+Otherwise, it still gives meaningful (though, different) geometric information.
 Integration takes the local measurements to give an overall, global measurement.
 
 To see how exactly this works and how we can evaluate our integral, we introduce the concept of the \emph{pullback}.
@@ -1664,15 +1729,12 @@ This is a map from $T_p[a,b]$ to $\R$, making it a covector.
 Since we are working with an interval of $\R$ (which is one-dimensional), our covector will be of the form $f(t) \d{t}$.
 Now, we must find $f(t)$.
 This can be done by inputting any tangent vector into both sides of the equation $\omega_{\gamma(t)} \circ D\gamma_t = f(t) \d{t}$, since the equality is true for all tangent vectors.
-The simplest option is the basis tangent vector.
-Due to the one-to-one association between $T_p [a,b]$ and $T_p \R$, this is $\partial_t$.
+The simplest option is the basis tangent vector, $\partial_t$.
 On the RHS, we get
 \begin{equation*}
     (f(t) \d{t})(\partial_t) = f(t).
 \end{equation*}
-On the LHS, we evaluate the pushforward $D\gamma_t$.
-We know that the differential $D\gamma_t(v) = \mathbf{J}_\gamma v = \nabla_v \gamma(t) = v(\gamma(t))$, where $v \in T_{\gamma(t)} [a,b]$.
-This gives us $D\gamma_t(\partial_t) = \partial_t (\gamma(t)) = \gamma'(t)$.
+On the LHS, we first evaluate $D\gamma_t(\partial_t)$ is simply the velocity of the curve, $\gamma'(t)$.
 Hence, $(\gamma^*\omega)_t = \omega_{\gamma(t)}(\gamma'(t))$.
 Our formula for the integral is therefore
 \begin{equation*}
@@ -1716,7 +1778,57 @@ so reversing the direction we integrate along $C$ adds a minus sign to the integ
 This is consistent with our interpretation of the integral.
 As long as the curve itself is the same, the number of contour lines crossed by it will be the same.
 Since the contour lines have orientation, crossing them in the opposite direction will give the opposite result.
-Additionally, a reparameterization can be seen as just using a different pullback, so we have just shown that our choice in pullback does not matter.
+When a global map of contour lines cannot be used, this can instead be visualized by the curve piercing local stack lines.
+
+We can give ourselves physical intuition for the integral of a covector field with the concept of work.
+If the covector field represents a force field, $\omega = F_x \d{x} + F_y \d{y} + F_z \d{z}$, then the integral of $\omega$ along a curve $C$ gives the work done along the curve.
+Intuitively, this represents how much the force field is aligned with the motion represented by the curve (where the velocity tangent vectors are literal velocities).
+Note that the integral of a covector field cannot give the length of a curve by itself.
+If we require lengths, then a metric is needed, which is essentially an object that acts as our ruler.
+It is additional structure on the manifold.
+
+We will now consider a simple example (we talk about $\gamma$ as being the curve itself in the examples below).
+Let $\omega = y\,\d{x} + x\,\d{y}$ be a covector field on $\mathbb{R}^2$, and let the curve be given by $\gamma(t) = (\cos t, \sin t)$ with $t \in [0,\pi]$.
+Then,
+\begin{equation*}
+\gamma'(t) = (-\sin t, \cos t),
+\end{equation*}
+and
+\begin{equation*}
+\omega_{\gamma(t)}(\gamma'(t))
+= \sin t(-\sin t) + \cos t(\cos t)
+= \cos^2 t - \sin^2 t.
+\end{equation*}
+Therefore,
+\begin{equation*}
+\int_\gamma \omega = \int_0^\pi (\cos^2 t - \sin^2 t)\,\d{t} = \int_0^\pi \cos(2t)\,\d{t} = 0.
+\end{equation*}
+Note that we mentioned that $\omega$ is an object on $\R^2$ instead of just on $\gamma$.
+This is fine, since a covector field defined on the ambient manifold can be also be considered as an object on the submanifold.
+Now, we will compute one more integral which uses a slightly more complicated field.
+Let $\omega = (x^2 - y)\,\d{x} + (x + y^2)\,\d{y}$ be a covector field on $\mathbb{R}^2$.
+Our curve will be specified by $\gamma(t) = (t, t^2)$ for $t \in [0,1]$.
+The derivative is
+\begin{equation*}
+\gamma'(t) = (1, 2t),
+\end{equation*}
+so
+\begin{equation*}
+\omega_{\gamma(t)}(\gamma'(t)) = (t^2 - t^2)(1) + (t + t^4)(2t) = 2t^2 + 2t^5.
+\end{equation*}
+The integral of $\omega$ along $\gamma$ is thus given by
+\begin{equation*}
+\int_\gamma \omega
+= \int_0^1 (2t^2 + 2t^5)\,\d{t}
+= \frac{2}{3} + \frac{1}{3}
+= 1.
+\end{equation*}
+In general, if we have $\omega = f(x) \d{x}$, then the integral along $\gamma \colon [a,b] \to C$ given by $\gamma(t) = x(t)$ is
+\begin{equation*}
+    \int_\gamma \omega = \int_a^b \gamma^* \omega = \int_a^b f(x(t)) x'(t) \d{t}.
+\end{equation*}
+That is the same form of an integral that one obtains after preforming a substitution.
+We have brought it up to mention that very fact, which will come up again when we further develop our theory.
 
 We have now answered our initial question of what the $dx$ in the integral means, again.
 Instead of being an infinitesimal quantity we sum over, it is an object that takes infinitesimals and measures them so that they can be summed.
@@ -1821,22 +1933,23 @@ To see why, consider the second diagram in \cref{fig:k-form_hyperplanes}.
 This is an extension of the visualization we had for one-forms using hyperplanes.
 The wedge product of two one-forms is the intersection of two sets of hyperplanes, along with an orientation.
 This forms a grid of tubes, hyperplanes of one fewer dimension.
-A two-form in general can be thought of as a grid of tubes -- not necessarily the intersection of hyperplanes.
+A two-form in general can be thought of as a grid of tubes -- not necessarily the intersections of hyperplanes.
 We can consider the number of intersections made by the parallelogram, defined by two tangent vectors, with these lines as the result of evaluating a two-form.
 
 In three dimensions, the visualization of the wedge products of two one-forms coincides with the visualization of a generic two-form.
 Any grid of tubes can be represented by the intersection of two sets of planes.
 Hence, for three-dimensional manifolds, any two-form can be expressed as the wedge product of two one-forms.
-Consider the case where $M$ is four-dimensional.
+Consider the case where $M$ is four-dimensional; the tubes are now planes.
 Let $\omega = \d{x} \wedge \d{y} + \d{z} \wedge \d{w}$.
 This is a combination of a grid of (planar) tubes along the $zw$--plane and a grid of tubes along the $xy$--plane.
 They are perpendicular to each other and cannot be expressed as the intersection of two sets of hyperplanes.
 
-Evaluating $\omega$ consists of taking the parallelogram defined by two tangent vectors and counting the number of tubes crossed in total.
+Evaluating $\omega$ consists of taking the parallelogram defined by two tangent vectors and counting the number of tubes, which are $(n-2)$-dimensional hyperplanes, crossed in total.
 This is equivalent to finding the area of two different scaled parallelograms and summing them together.
 For manifolds with dimension greater than three, two-forms are not necessarily the wedge product of two one-forms.
 When they are, the two-form is called simple or decomposable.
-This fact, and the uniqueness of three-dimensional space, will be relevant when we cover the Hodge star operator and duality.
+Since the case of nonsimple two-forms only occurs with four or more dimensions, it is rather difficult to visualize.
+It is most accurate to consider them an irreducible combination of what one would imagine as a `regular' grid.
 
 We have now given a proper geometric interpretation of two-forms, explaining the necessary nuance.
 A two-form takes two vectors in a tangent space, maps them to possibly multiple parallelograms, and computes the sum of their areas.
@@ -1877,8 +1990,7 @@ It is then valid to think of a three-form as counting the number of threads cros
 In general, $\omega = \omega_1 \wedge \omega_2 \wedge \cdots \wedge \omega_k$ is called a differential $k$-form.
 It assigns to each point the $k$-form $\omega_p$ (also called a $k$-covector, but we will not use this name), which is a multilinear alternating functional that measures $k$-dimensional manifolds.
 Being multilinear means it is linear in all its inputs.
-The formula for $\omega_p$ is given by the determinant of a certain $k \times k$ matrix, the area of a $k$-dimensional parallelotope in $\R^k$.
-The intuition and visualizations all extend to this most general case.
+The formula for $\omega_p$ is given by the determinant of a certain $k \times k$ matrix, the volume of a $k$-dimensional parallelotope in $\R^k$.
 \begin{equation*}
     \omega_p(v_1,\dots,v_n)=\begin{vmatrix}
     \omega_1(v_1) & \omega_2(v_1) & \cdots & \omega_k(v_1)\\
@@ -1887,18 +1999,26 @@ The intuition and visualizations all extend to this most general case.
     \omega_1(v_k) & \omega_2(v_k) & \cdots & \omega_k(v_k)
     \end{vmatrix}
 \end{equation*}
+The intuition and visualizations all extend to this most general case.
+A differential $k$-form defined on an $n$-dimensional manifold $M$ can be visualized by a set of $(n-k)$-dimensional hyperplanes.
+They act on $k$ tangent vectors by counting the number of these hyperplanes crossed by the parallelotope formed from the tangent vectors -- equivalent to finding the volume of the parallelotope mentioned above.
+There is no standard name for these hyperplanes, though the names of ``tubes'' and ``threads'' we used in the other cases were not particularly standard, either.
+We simply took them from what the objects resemble in three-dimensional space.
+
 These are all examples of \emph{differential forms}.
 They are the subject of our interest, the object that we have slowly worked towards defining in a way that feels natural.
 We started with simple enquiries regarding notation that we are familiar with, and this has led to a few concepts -- with more to come -- that are much more general than what we started with.
 Differential forms are a very useful tool for the study of higher-level mathematics.
 This includes topics where they are the main tool used, as well as those where they provide additional insights and alternative viewpoints to well-established results.
 
-We will define a zero-form to just be a real number.
-The space of zero-forms is thus always $\R$, and a differential zero-form is just a smooth function from $M$ to $\R$.
-This definition has been provided here without justification, but it should feel reasonable; what could be a better definition?
-This is included for the sake of completeness, but more importantly, it will allow us to see a pattern between differential forms of different degrees later on.
+We will define a zero-form to just be a real number, so a differential zero-form is a smooth function from $M$ to $\R$.
+The space of zero-forms is thus $\R$.
+The wedge product acts between a differential zero-form and another form just like regular multiplication, e.g. $x\d{x} = x \wedge \d{x}$.
+This definition has been provided here without justification, but it should feel reasonable.
+Functions are already familiar to us, so there is not much to discuss about them; thus far, we have really just given it an alternative name.
+We will later see the usefulness of zero-forms when we introduce further concepts.
 
-We will now consider the algebra of differential forms with the wedge product.
+Now, we will consider the algebra of differential forms with the wedge product.
 We have already taken for granted that the wedge product is associative and distributes over addition.
 Additionally, the wedge product is an alternating product, as
 \begin{equation*}
@@ -1942,6 +2062,12 @@ Technically, each $\d{x}^i$ should have an evaluation bar.
 A $k$-form is an element of $\extp^k T^*_p M$.
 Since this only requires us to know what a one-form (covector) and wedge product are, it is a concise way of defining $k$-forms in general -- and hence defining differential $k$-forms.
 
+Whilst all $k$-forms are elements of the exterior algebra, note that the exterior algebra contains elements that are not $k$-forms at all.
+Examples of these include $1 + \d{x}$ or $2\d{x} - \d{y} \wedge \d{z}$; we have not assigned any meaning to the sum of forms of different degrees.
+This is due to the way the space is defined, which itself makes no reference of the familiar $k$-forms.
+We may refer to these objects as mixed forms, and they have their uses, but they are not at all relevant to us.
+All elements of the exterior powers are valid $k$-forms, however.
+
 Assuming that $M$ has $n$ dimensions, the first exterior power of $T^*_p M$ is spanned by $n$ one-forms.
 These are our basis covectors, $\d{x}^i$.
 Thus, the dimension of $\extp^1 T^*_p M$ is $n$.
@@ -1968,13 +2094,13 @@ However, the idea of $k$-forms and $(n-k)$-forms being dual to each other goes d
 It turns out that there is a one-to-one correspondence between these, and this is an important fact that will be expanded upon later.
 
 The final part of this section involves us providing an explicit formula for $k$-forms.
-Note that the following is not at all necessary for understanding the rest of the exposition.
+It is not at all necessary for understanding the rest of the exposition.
 A differential $k$-form $\omega$ can be expressed (local to $p$) as follows, where $\omega_{i_1 i_2 \ldots i_k}$ are smooth, scalar-valued functions of $p$ on $M$.
 \begin{equation*}
     \omega = \sum_{1 \leq i_1 < i_2 < \cdots < i_k \leq n} \omega_{i_1 i_2 \ldots i_k} \d{x}^{i_1} \wedge \d{x}^{i_2} \wedge \cdots \wedge \d{x}^{i_k}
 \end{equation*}
 This is incredibly cumbersome to write, so we can use the multi-index $I = (i_1, i_2, \ldots, i_k)$ to greatly simplify the expression.
-\href{https://en.wikipedia.org/wiki/Multi-index_notation}{Multi-index notation} is not required for anything else in this exposition.
+\href{https://en.wikipedia.org/wiki/Multi-index_notation}{Multi-index notation} is not required for the understanding of any ideas in this exposition -- only to simplify expressions.
 Here, we use a prime symbol ad hoc to denote that we are only summing over increasing multi-indices.
 \begin{equation*}
     \omega = {\sum_{\abs{I} = k}}' \omega_I \d{x}^I
@@ -1993,14 +2119,563 @@ To reiterate, the integral of a differential one-form $\omega$ over some curve $
     \int_C \omega \coloneq \int_a^b \gamma^* \omega = \int_a^b \omega_{\gamma(t)} (\gamma'(t)) \d{t},
 \end{equation*}
 where $\gamma \colon [a,b] \to C$ is a parameterization of $C$ that preserves its orientation, and $\gamma^* \omega$ is the pullback of $\omega$ by $\gamma$.
-The interpretation of this integral is that it counts the number of (oriented) contour lines of $\omega$ crossed by $C$.
+The interpretation of this integral is that it is the accumulation of local stack lines, representing covectors, that are crossed by the tangent vectors along the curve.
+For certain $\omega$, this can also be viewed as the number of contour lines of $\omega$ crossed by $C$.
+At each point on the curve, the one-form takes a tangent vector as input.
+
+Consider an orientated surface $S$, which is a two-dimensional manifold, with the parameterization $\sigma \colon U \subset \R^2 \to S$ that preserves its orientation.
+It makes sense that the associated form to integral over will be a differential two-form.
+The integral of a differential two-form $\omega$ over the surface $S$ is defined as follows.
+\begin{equation*}
+    \int_S \omega \coloneq \int_U \sigma^*\omega
+\end{equation*}
+The form of this definition appears identical to the case of one-forms.
+For a one-form $\alpha_p$, its pullback with a map $\phi$ is given by $\alpha_{\phi(p)} \circ D\phi_p$.
+Extending this idea to two-forms, the pullback $\sigma^*\omega$ at a point $(u, v) \in U$ acts on tangent vectors $X, Y \in T_{(u,v)} U$ to give
+\begin{equation*}
+    \omega_{\sigma(u, v)} \circ \extp^2 D\sigma_{(u,v)}(X,Y) = \omega_{\sigma(u, v)}(D\sigma_{(u,v)}(X), D\sigma_{(u,v)}(Y)).
+\end{equation*}
+Consider the use of the exterior power here to just be a shorthand for the messier expression on the right.
+We have used it since technically the composition $\omega_{\sigma(u, v)} \circ D\sigma_{u,v}$ does not make sense as a two-form requires two inputs.
+Our two-form is of the form $f(u, v) \d{u} \wedge \d{v}$, since we are working with a subset of $\R^2$.
+Thus,
+\begin{equation*}
+    \omega_{\sigma(u, v)} \circ \extp^2 D\sigma_{(u,v)} = f(u, v) \d{u} \wedge \d{v}.
+\end{equation*}
+Evaluating the RHS at the basis tangent vectors $\partial_u$ and $\partial_v$ gives us $f(u, v)$.
+Doing the same on the LHS gives
+\begin{equation*}
+    \omega_{\sigma(u, v)} \circ \extp^2 D\sigma_{u,v} (\partial_u, \partial_v) = \omega_{\sigma(u, v)}\left(\frac{\partial \sigma}{\partial u}, \frac{\partial \sigma}{\partial v}\right).
+\end{equation*}
+Our integral can be expressed as
+\begin{equation*}
+    \int_S \omega = \int_U \omega_{\sigma(u, v)}\left(\frac{\partial \sigma}{\partial u}, \frac{\partial \sigma}{\partial v}\right) \d{u} \d{v}.
+\end{equation*}
+Note that the partial derivatives $\partial \sigma/\partial u$ and $\partial \sigma/\partial v$ are tangent vectors in $T_{\sigma(u, v)} S$, and can be precisely defined in the same way we defined velocities of curves.
+Simply treating them as regular partial derivatives is fine, and that is how they are used when we actually evaluate the integral.
+One may note that these partial derivatives, chosen by our parameterization, encodes the orientation of the surface.
+Reversing the orientation adds a negative sign to the integral.
+Technically, the above formula should read
+\begin{equation*}
+    \int_S \omega = \int_U \omega_{\sigma(u, v)}\left(\frac{\partial \sigma}{\partial u}, \frac{\partial \sigma}{\partial v}\right) \d{u} \wedge \d{v},
+\end{equation*}
+as we are still integrating a two-form.
+The difference is that is in a region of $\R^2$, so we may identify it with a regular Riemann integral by definition.
+If we were rigorously introducing these concepts, then we would consider partitions and how exactly the integral is defined to be a Riemann integral that can be evaluated.
+For our purposes, what we have written is fine and the same identification will apply to the integral of any $n$ form.
+
+Now, we will consider what this integral represents.
+As described in the previous section, a two-form can be viewed as a grid of tubes, and sometimes as the intersections of two sets of hyperplanes; this is a visualization, and tubes are not actually present on the surface.
+It takes two tangent vectors as input, maps them to possibly multiple parallelograms, and computes the sum of their areas by counting the number of tubes they cross.
+The integral of a differential two-form is the accumulation of these values at each point on the surface.
+Whilst this is accurate, it does not appear to be very meaningful.
+
+First, make note of the fact that integrals of two-forms are independent of coordinates.
+It can be shown that our definition does not depend upon of parameterization, just as we showed for the integral of one-forms.
+Whilst this is true for all integrals, the object itself that we are integrating here is coordinate-independent.
+Besides this, how does our integral differ from a regular double integral?
+The latter can be interpreted as summing infinitesimal areas, $f(x) \diff x \diff y$, over a surface.
+Among other things, this can be used to calculate the actual area of a surface.
+
+Without a metric, there is no objective sense of size, so there is no objective area of a surface.
+The integral of a two-form can give an `area', but it cannot be considered the `correct' one.
+Instead, we call the measurement given by the integral `flux'.
+Usually, flux is seen as how much of something flows through the surface, but that requires an ambient space.
+When working without such a space, there is not really a better way to view than to use the idea of it counting tubes crossed as me mentioned before.
+This is an intrinsic viewpoint, and it can still be applied to cases where we do have a metric to work with.
+Flux is useful in physics, which has concepts such as electric and magnetic flux.
+
+We will consider a very simple example of an integral a two-form.
+Let $\omega = x\,\d{x} \wedge \d{y}$ be a differential two-form on $\mathbb{R}^2$, and let
+\begin{equation*}
+S = \{(x,y)\in\mathbb{R}^2 : 0 \le x \le 1,\ 0 \le y \le 1\}
+\end{equation*}
+with the standard orientation.
+Using the identity parameterization $\sigma(x,y) = (x,y)$, we have
+\begin{equation*}
+\sigma^*\omega = x\,\d{x}\wedge\d{y}.
+\end{equation*}
+Thus,
+\begin{equation*}
+\int_S \omega = \int_0^1 \int_0^1 x \d{x}\d{y} = \frac{1}{2}.
+\end{equation*}
+These computations are not particularly important, though including at least a couple is helpful.
+We will do one more.
+Let $\omega = (x^2 + y)\,\d{x} \wedge \d{y}$ be a differential two-form on $\mathbb{R}^2$, and let $\sigma(u,v) = (u\cos v,\, u\sin v)$ with $(u,v) \in [0,1]\times[0,\pi/2]$.
+The two partial derivatives are
+\begin{equation*}
+\frac{\partial \sigma}{\partial u} = (\cos v, \sin v), \qquad \frac{\partial \sigma}{\partial v} = (-u\sin v, u\cos v).
+\end{equation*}
+Evaluating the two-form gives
+\begin{equation*}
+\omega_{\sigma(u,v)} \left(\frac{\partial \sigma}{\partial u},\frac{\partial \sigma}{\partial v}\right)
+= \bigl(u^2\cos^2 v + u\sin v\bigr)
+\begin{vmatrix}
+\cos v & -u\sin v \\
+\sin v & u\cos v
+\end{vmatrix}
+= u^3\cos^2 v + u^2\sin v.
+\end{equation*}
+Therefore,
+\begin{equation*}
+\int_S \omega = \int_0^1 \int_0^{\pi/2} \left( u^3\cos^2 v + u^2\sin v \right)\d{v}\d{u} = \frac{\pi}{16} + \frac{1}{3}.
+\end{equation*}
+Consider the differential two-form $\omega = f(x,y) \d{x} \wedge \d{y}$ and the surface $S$ parameterized by $\sigma \colon U \to S$, which is given by $\sigma(u, v) = (x(u, v), y(u, v))$.
+The integral of $\omega$ over $S$ is
+\begin{equation*}
+    \int_S \omega = \int_U \sigma^*\omega = \int_U f(x(u, v), y(u, v))
+    \begin{vmatrix}
+        \partial_u x & \partial_v x \\
+        \partial_u y & \partial_v y
+    \end{vmatrix} \d{u}\d{v}.
+\end{equation*}
+Recall the integral of $\omega = f(x) \d{x}$ that we mentioned at the end of the section on the integration of covector fields.
+We said that it had the form of an integral one obtains after a substitution -- the same is true here.
+Now that we are in two dimensions, we can properly see that the Jacobian determinant $\det(D\sigma)$ is present (the pushforward is essentially the Jacobian).
+This normally happens when we perform a change of variables in a regular integral.
+The two-form measures areas, and the pulling it back to $\R^2$ with $\sigma$ takes an area scaling factor (the determinant).
+
+We can easily extend the ideas covered to $n$-forms.
+A differential form whose degree matches that of the manifold is called a \emph{volume form} or a \emph{top(-dimensional) form}, and we can only integrate volume forms over their respective manifold; how would one integrate non-volume forms?.
+The integral of a differential $n$-form $\omega$ over an oriented $n$-dimensional manifold $M$ parameterized by $\varphi \colon D \subset \R^n \to M$, which is orientation preserving, is defined to be
+\begin{equation*}
+    \int_M \omega \coloneq \int_D \varphi^*\omega = \int_D \omega_{\varphi(u^1, \ldots, u^n)}\left(\frac{\partial \varphi}{\partial u^1}, \ldots, \frac{\partial \varphi}{\partial u^n}\right) \d{u^1} \cdots \d{u^n}.
+\end{equation*}
+Making use of multi-index notation, the above can be rewritten as follows.
+Note that $\d{x^I}$ here means something different to when we used multi-index notation to express a $k$-form with its components.
+\begin{equation*}
+    \int_M \omega = \int_D \omega_{\varphi(u^I)}\left(\frac{\partial \varphi}{\partial u^I}\right) \d{u^I}
+\end{equation*}
+Its interpretation is also practically the same.
+An $n$-form measures $n$ tangent vectors by converting them into possibly multiple $n$-dimensional parallelotopes and computing the sum of volumes.
+The integral accumulates this at every point on the manifold.
+It always represents some sort of amount, which is not necessarily a physical volume.
+The exact amount it represents depends on the context and can include mass, charge, and probability.
+We can get a consistent notion of volumes of manifolds, but they are not canonical without a metric.
+It is independent of the parameterization of $M$ -- so coordinate-independent -- and reversing the orientation of the manifold flips the sign of the integral.
+
+Evaluating the integral of the differential $n$-form $\omega = f(x^1, \ldots, x^n)$ on the manifold $M$ parameterized by $\varphi \colon D \to M$, which is given by $\varphi(u^1, \ldots, u^n) = (x^1(u^1, \ldots, u^n), \ldots, \allowbreak x^n(u^1, \ldots, u^n))$, will yield
+\begin{equation*}
+    \int_M \omega = \int_D \varphi^*\omega = \int_D f(x^1(u^1, \ldots, u^n), \ldots, x^n(u^1, \ldots, u^n)) \det(D\varphi) \d{u^1} \cdots \d{u^n}.
+\end{equation*}
+We have made the equation rather messy by explicitly showing that $x^1, \ldots, x^n$ take $u^1, \ldots, u^n$ as inputs.
+The important part is the Jacobian determinant factor.
+This has the exact same interpretation as in the case of two-forms, though now it represents a volume scaling factor.
+
+With this, we have defined integration of differential forms, which was the main goal of this exposition.
+After discussing the Riemann integral and considering what the $dx$ meant, we were led down a string of ideas that ended up with the introduction of differential forms.
+These are objects whose main purpose is to be integrands.
+Not only have they provided a (hopefully) satisfying interpretation of the standard notation found in integrals, they have allowed us to make the vast generalization from integrating over objects in Euclidean space to integrating over smooth manifolds.
+There is so much more that we can do with manifolds, which have plenty of applications to other subjects.
+
+Our main objective is finally complete, but the introduction of differential forms entails the further study of the objects themselves and their applications.
+In that regard, there is much more left -- far more than what can be covered in an introductory exposition.
+Many require us to consider smooth manifolds with additional structure.
+Indeed, adding a metric allows us to introduce a variety of new concepts.
+We will not do this, and instead stop with two more topics still very much related to the integration of forms.
+
+This exposition was originally formulated, and motivated throughout, with integration in mind.
+It is likely beneficial to stick to this in order to maintain a general sense of cohesion.
+Another thing to consider is ideas related to differential forms that do not require a metric are those which are truly fundamental to the objects.
+Our choice of visualizations and the careful language we have used has been in order to not fall victim to assuming extraneous structure.
+This is how we will continue the rest of the way through.
 
 \section{The Exterior Derivative}
 
-%TODO INTRODUCE EXTERIOR DERIVATIVE
-%TODO INTRODUCE INTEGRATION OF K-FORMS
-%TODO MENTION PULLBACKS MORE GENERALLY
-%TODO INTRODUCE HODGE STAR
+So far, we have introduced differential forms, and we have discussed how two such forms may be combined using the wedge product to yield a form of higher degree.
+Is there a sensible way of taking a single differential form and converting it to one of higher degree?
+What were the caveats relating to the visualization of differential forms on a global scale that we have so far skipped over?
+Can we further develop our theory of integration?
+How do the major integration theorems of multivariable calculus translate over to the language of manifolds and forms?
+
+These questions are all answered by the introduction of one new concept.
+The \emph{exterior derivative} of a smooth function $f \colon M \to N$, denoted $\d{f}$, is the one-form which acts on a tangent vector $v \in T_p M$ in the same way that the pushforward $Df$ does.
+\begin{equation*}
+    \d{f}(v) \coloneq Df(v) \in T_{f(p)} N
+\end{equation*}
+As a smooth function can be considered to be a differential zero-form, so the exterior derivative maps zero-forms to one-forms.
+In general, it maps $k$-forms to $(k+1)$-forms.
+We will arrive at the way it does this by specifying conditions we expect the exterior derivative to satisfy.
+Linearity and the Leibniz rule were the defining properties of a derivation, as they generalized the concept of differentiation.
+It is reasonable for the exterior derivative to also be linear.
+Given that $\alpha$ and $\beta$ are two $k$-forms, and that $\lambda, \mu \in \R$, we have
+\begin{equation*}
+    \d(\lambda\alpha + \mu\beta) = \lambda\d{\alpha} + \mu\d{\beta}.
+\end{equation*}
+We also wish for the exterior derivative to satisfy some form of the Leibniz rule.
+For derivations $v$, we had $v(fg) = v(f)g + fv(g)$.
+The product of smooth functions commutes, $fg = gf$, but the wedge product of forms does not.
+Given that $\alpha$ is a $k$-form and $\beta$ is an $l$-form, the antisymmetry of the wedge product gives us
+\begin{equation*}
+    \alpha \wedge \beta = (-1)^{kl} \beta \wedge \alpha.
+\end{equation*}
+Taking the exterior derivative on both sides of the equation gives
+\begin{equation*}
+    \d(\alpha \wedge \beta) = \d((-1)^{kl} \beta \wedge \alpha) = (-1)^{kl} \d(\beta \wedge \alpha).
+\end{equation*}
+If it were true that $\d(\alpha \wedge \beta) = \d{\alpha} \wedge \beta + \alpha \wedge \d{\beta}$, then it would follow that
+\begin{align*}
+    \d{\alpha} \wedge \beta + \alpha \wedge \d{\beta} &= (-1)^{kl} \d{\beta} \wedge \alpha + (-1)^{kl} \beta \wedge \d{\alpha} \\
+    &= (-1)^{kl} \beta \wedge \d{\alpha} + (-1)^{kl} \d{\beta} \wedge \alpha \\
+    &= (-1)^{kl} (-1)^{(k+1)l} \d{\alpha} \wedge \beta + (-1)^{kl} (-1)^{k(l+1)} \alpha \wedge \d{\beta} \\
+    &= (-1)^{2kl} (-1)^l \d{\alpha} \wedge \beta + (-1)^{2kl} (-1)^k \alpha \wedge \d{\beta} \\
+    &= (-1)^l \d{\alpha} \wedge \beta + (-1)^k \alpha \wedge \d{\beta}.
+\end{align*}
+This is nonsensical.
+If we had this as a defining property of the exterior derivative, then it would simply map all forms to zero.
+If we instead require it to satisfy $\d(\alpha \wedge \beta) = \d{\alpha} \wedge \beta + (-1)^k \alpha \wedge \d{\beta}$, then the above algebraic manipulations yield a different result.
+\begin{align*}
+    \d{\alpha} \wedge \beta + (-1)^k \alpha \wedge \d{\beta} &= (-1)^{kl} \d{\beta} \wedge \alpha + (-1)^{kl} (-1)^l \beta \wedge \d{\alpha} \\
+    &= (-1)^{(k+1)l} \beta \wedge \d{\alpha} + (-1)^{kl} \d{\beta} \wedge \alpha \\
+    &= (-1)^{(k+1)l} (-1)^{(k+1)l} \d{\alpha} \wedge \beta + (-1)^{kl} (-1)^{k(l+1)} \alpha \wedge \d{\beta} \\
+    &= (-1)^{2(kl+l)} \d{\alpha} \wedge \beta + (-1)^{2kl} (-1)^k \alpha \wedge \d{\beta} \\
+    &= \d{\alpha} \wedge \beta + (-1)^k \alpha \wedge \d{\beta}.
+\end{align*}
+We have arrived at a tautology, showing that the modified condition gives the exterior derivative antisymmetry which matches that of the wedge product.
+The extra factor of $(-1)^k$ could be considered the cost for $\d$ to move past the $\alpha$ in $\alpha \wedge \beta$.
+We say that the exterior derivative must satisfy the \emph{graded Leibniz rule}.
+It is a generalization of the product rule to objects which are antisymmetric.
+The final condition required to specify the exterior derivative is that it gives zero when applied twice, i.e. $\d^2 = 0$; we may refer to this as \emph{nilpotence}.\footnote{Nilpotence is a more general term, referring to the vanishing of objects when they are applied consecutively some number of times.}
+This certainly does not seem as reasonable as the other conditions, though that should change after we reveal the geometric interpretation of the exterior derivative.
+
+First, we will consider some computations.
+By the first property, the smooth (coordinate) function $x$ on $M$ turns into the differential one-form $\d{x}$.
+The one-form $\d{x}$ turns to $\d{\d{x}} = \d^2{x} = 0$.
+It might seem as if the exterior derivative of any one-form is zero.
+Certainly, given $\omega = \lambda_1\d{x^1} + \lambda_2\d{x^2} + \cdots + \lambda_k\d{x^k}$, we have $\d{\omega} = 0$ by linearity and nilpotence.
+A counterexample is the one-form $\omega = x\d{y} = x \wedge \d{y}$.
+The graded Leibniz rule gives us
+\begin{equation*}
+    \d{\omega} = \d(x \wedge \d{y}) = \d{x} \wedge \d{y} + (-1)^0 x \wedge \d{\d{y}} = \d{x} \wedge \d{y}.
+\end{equation*}
+Now, recall that the pushforward generalizes the concept of the differential of functions from $\R^n$ to $\R^m$.
+Given a certain coordinate basis, they have very similar formulae, though the former acts on tangent vectors.
+The pushforward $Df$ of a smooth function $f$, without specifying a particular point $p$ to evaluate at, is given by
+\begin{equation*}
+    Df(v) = \sum_{i=1}^n \sum_{j=1}^m v^i \frac{\partial f^j}{\partial x^i} \frac{\partial}{\partial y^j},
+\end{equation*}
+This is simply taken and slightly modified from the section on tangent spaces.
+Given that $f$ maps to $\R$, the formula simplifies to
+\begin{equation*}
+    Df(v) = \sum_{i=1}^n v^i \frac{\partial f}{\partial x^i} \frac{\partial}{\partial y}.
+\end{equation*}
+The exterior derivative of the zero-form $f$, $\d{f}$, has the same formula as $Df$, except that the partial derivative operators are replaced with the basis covectors.
+Note that the presence of a covector implies that the object will act on a tangent vector.
+Thus, we can provide the formula for this unambiguously without needing to reference the tangent vector it is acting on.
+\begin{equation*}
+    \d{f} = \sum_{i=1}^n \frac{\partial f}{\partial x^i} \d{x^i}
+\end{equation*}
+This is all we need to evaluate the exterior derivative of any differential form.
+The two-form $\omega = z \d{x} \wedge \d{y} + 3y^2 \d{x} \wedge \d{z}$ is converted into a three-form as follows.
+\begin{align*}
+    \d{\omega} &= \d(z \d{x} \wedge \d{y} + 3y^2 \d{x} \wedge \d{z}) \\
+    &= \d(z \d{x} \wedge \d{y}) + 3 \d(y^2 \d{x} \wedge \d{z}) \\
+    &= \d{z} \wedge \d{x} \wedge \d{y} + 6y \d{y} \wedge \d{x} \wedge \d{z} \\
+    &= \d{x} \wedge \d{y} \wedge \d{z} - 6y \d{x} \wedge \d{y} \wedge \d{z} \\
+    &= (1 - 6y) \d{x} \wedge \d{y} \wedge \d{z}.
+\end{align*}
+Note that we have taken some shortcuts above.
+First, we have omitted the terms in the product rule that are not from the derivative of a zero-form.
+Those omitted terms would all involve $\d^2$, and hence evaluate to zero.
+The exterior derivative of $y^2$ is $2y \d{y}$.
+Swapping the covectors in the second term introduced a minus sign, since we performed an odd number of swaps; swapping them in the first term preserved the sign.
+
+Note that for smooth functions, the exterior derivative is essentially identical to the pushforward, so it too is a generalization of the regular derivative of functions defined on Euclidean space.
+Indeed, given two smooth functions $f$ and $g$, we have $\d(fg) = \d(f \wedge g) = \d{f} \wedge g + (-1)^0 f \wedge \d{g} = g\d{f} + f\d{g}$.
+This is identical to the product rule.
+It can thus be seen that just as differential forms are the natural way to extend the theory of integration, they are the natural way to extend differentiation.
+
+From our definition of the exterior derivative, which makes use of the properties we expect it to have, we can express $\d{\omega}$ in a somewhat nice formula for any $k$-form $\omega$.
+The formula could alternatively be used as a definition for the exterior derivative, and we could derive its already listed properties.
+This is likely less sensible than the approach we have taken.
+As we have previously shown, a general $k$-form can be expressed using multi-index notation (with the ad hoc prime sum) as follows.
+\begin{equation*}
+    \omega = {\sum_{\abs{I}=k}}' \omega_I \d{x^I}
+\end{equation*}
+From the previous note we made about the product rule and the only nonzero terms being those which take the exterior derivative of the zero-form, we have
+\begin{equation*}
+    \d{\omega} = \d \left({\sum_{\abs{I}=k}}' \omega_I \d{x^I}\right) = {\sum_{\abs{I}=k}}' \d(\omega_I \d{x^I}) = {\sum_{\abs{I}=k}}' \d{\omega_I} \wedge \d{x^I}.
+\end{equation*}
+We may then replace $\d{\omega_I}$ with its previously given formula.
+\begin{equation*}
+    \d{\omega} = {\sum_{\abs{I}=k}}' \left( \sum_{j=1}^{k} \frac{\partial \omega_I}{\partial x^j} \d{x^j} \right) \wedge \d{x^I}
+\end{equation*}
+By applying the distributivity of the wedge product over addition, we can remove the set of brackets.
+\begin{equation*}
+    \d{\omega} = {\sum_{\abs{I}=k}}' \sum_{j=1}^{k} \frac{\partial \omega_I}{\partial x^j} \d{x^j} \wedge \d{x^I}
+\end{equation*}
+Even with the use of multi-index notation, our final formula is not the prettiest.
+In a sense, it could be simplified further.
+Terms where $j \in I$ are redundant, evaluating to zero.
+We could -- albeit via the introduction of even further ad hoc notation -- have the basis covectors arranged in the correct order.
+It is probably best to stop at the form we have arrived at; expressing $\d{\omega}$ in a nice closed-form expression is beside point of its introduction.
+
+It is with the exterior derivative that we have chosen to provide a clear definition before any actual mention of its visualization.
+The reasoning behind this is that it should already feel pretty similar to well-known topics, such as the derivative found in regular calculus.
+Out of all the major ideas we have introduced in this exposition thus far, the exterior derivative could be considered to be the most immediate extension of previous concepts.
+However, a way to visualize it is important, so that is what we will now introduce.
+Fortunately, we have already paved the way for it.
+
+Consider the visualizations of functions as heatmap found in the section on cotangent vectors.
+Some covector fields may be considered to be the contour lines of the heatmap, which resemble sets of stack lines at a given point.
+This then generalizes to differential forms in general, global objects that resemble forms locally.
+However, the question remains: which differential forms may be visualized in this way?
+In the case where we have a smooth function $f$, its contour map will represent a one-form, as we have stated before.
+The contours are the lines along which the function does not change, so its derivative $\d{f}$ is zero.
+
+Indeed, the stack lines that represent one-forms are along the direction where they are zero, e.g. the stack lines of $\d{x}$ are vertical.
+Thus, a differential one-form is represented by its zeroes as well.
+The contour lines of $f$ represent the differential one-form $\d{f}$.
+Then, it follows that a one-form $\omega$ does not have such a visualization if it cannot be expressed as $\omega = \d{f}$ for some smooth function $f$.
+These are one-forms which are not \emph{exact}.
+We call one-forms which whose exterior derivative vanishes \emph{closed}.
+Since being exact implies it is closed by $\d^2 = 0$, not being closed implies that the form is not exact.
+For instance, $\d(x\d{y}) = \d{x} \wedge \d{y}$, so this one-form is not exact.
+
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}[scale=1.5]
+    % Draw axes
+    \draw[thick, ->] (0,0) -- (4.5,0) node[right] {$x$};
+    \draw[thick, ->] (0,0) -- (0,4.5) node[above] {$y$};
+    
+    % Add label (centered horizontally, high up)
+    \node at (2.3,4.3) {$x\d{y}$};
+    
+    % Draw horizontal lines representing the one-form x dy
+    % Density increases with x; lines have staggered left endpoints
+    % Each line is continuous from its left endpoint to the right edge
+    % Red markers form an evenly spaced grid (spacing 0.5 in y, 1.0 in x)
+    \foreach \y in {0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5} {
+        % Base line: spans entire width (starts further from y-axis)
+        \draw[thick] (0.6,\y) -- (4.3,\y);
+        \fill[red] (0.6,\y) circle (1.5pt);
+        % Additional lines with staggered left endpoints (increasing density with x)
+        \draw[thick] (1.6,\y+0.125) -- (4.3,\y+0.125);
+        \fill[red] (1.6,\y+0.125) circle (1.5pt);
+        \draw[thick] (2.6,\y+0.25) -- (4.3,\y+0.25);
+        \fill[red] (2.6,\y+0.25) circle (1.5pt);
+        \draw[thick] (3.6,\y+0.375) -- (4.3,\y+0.375);
+        \fill[red] (3.6,\y+0.375) circle (1.5pt);
+    }
+\end{tikzpicture}
+\caption{Visualization of the differential one-form $x\d{y}$}
+\label{fig:oneform_xdy}
+\end{figure}
+
+We may still visualize it, as is shown in \cref{fig:oneform_xdy}, but it will appear as disjoint collections of constituent one-forms instead of a smooth contour map.
+As $x$ increases, the vertical density of the lines increases, which leads to the effect of the lines having endpoints on their left.
+The endpoints, which together could be considered the boundary of $x\d{y}$, are present because it is not exact.
+We have marked the endpoints in red, and it can be seen that they represent the differential two-form $\d{x} \wedge \d{y}$.
+Following the observed rules in the section on differential forms, describing how these visualizations work, we have an evenly spaced grid of points.
+Each point itself represents a two-form (points are hyperplanes with $2 - 2 = 0$ dimensions).
+
+The fact that the exterior derivative of the differential form $x\d{y}$ is represented by a boundary is important.
+This is something that is true in general.
+The exterior derivative $\d{\omega}$ is represented by the boundary of $\omega$.
+Although it does not make too much sense to think of the one-form $\d{f}$ as the boundary of the function $f$, considering it as such is useful.
+In the case where the form is already the boundary of something, so $\omega = \d{\alpha}$, then $\d{\omega} = \d{\d{\alpha}} = 0$; a boundary does not itself have a boundary.
+That is our geometric reason for defining the exterior derivative with the property $\d^2 = 0$.
+
+The concept of exact and closed forms can be extended to differential forms in general.
+A differential $k$-form $\omega$ is exact if it can be expressed as $\omega = \d{\alpha}$ for some $(k-1)$-form.
+It is closed if $\d{\omega} = 0$.
+By nilpotency, all exact differential forms are closed.
+Is the converse of this statement -- ``all closed differential forms are exact'' -- true?
+The answer to this depends on the nature of the space we are working with.
+We will present the following counterexample.
+Consider $\R^2 \setminus \{0\}$, the plane with a hole at the origin, and consider along with it the differential one-form $\d{\theta}$ given by
+\begin{equation*}
+    \d{\theta} \coloneq -\frac{y}{x^2 + y^2} \d{x} + \frac{x}{x^2 + y^2} \d{y}.
+\end{equation*}
+Here, $\theta$ can be thought of as the phase of a point in the plane, starting at the $x$-axis and going anticlockwise.
+It is technically not a function, as the phase of a point $p$ may be $\theta$, or $\theta + 2\pi$, or $\theta + 4\pi$, etc.
+We can turn it into a function by assigning to each point a single phase, but it will not be globally consistent.
+Suppose $\theta \in [0, 2\pi)$.
+Points on the line have a phase of zero, but points directly below have a phase close to $2\pi$.
+A loop that starts at the point with $\theta = 0$ and moves around the origin anticlockwise back to that point will pick up a phase of $2\pi$.
+More precisely,
+\begin{equation*}
+    \oint_C \d{\theta} = 2\pi,
+\end{equation*}
+where $C$ is such a closed loop, e.g. the unit circle.
+It is important to note that this only occurs if the loop includes the unit circle.
+Otherwise, the values given by $\d{\theta}$ in one direction cancel out with those in the other direction to give an overall accumulation of zero.
+As we cannot find a smooth, well-defined function $\theta$, the differential one-form $\d{\theta}$ cannot be expressed as the exterior derivative of such a function.
+It is not exact.
+However, it can be shown via a quick computation that $\d{\theta}$ is closed.
+\begin{align*}
+    \d(\d{\theta}) &= \d\left(-\frac{y}{x^2 + y^2} \d{x} + \frac{x}{x^2 + y^2} \d{y}\right) \\
+    &= -\d\left(\frac{y}{x^2 + y^2} \d{x}\right) + \d\left(\frac{x}{x^2 + y^2} \d{y}\right) \\
+    &= -\d\left(\frac{y}{x^2 + y^2}\right) \wedge \d{x} + \d\left(\frac{x}{x^2 + y^2}\right) \wedge\d{y} \\
+    &= -\frac{\partial}{\partial x} \frac{y}{x^2 + y^2}\d{x} \wedge \d{x} -\frac{\partial}{\partial y} \frac{y}{x^2 + y^2} \d{y} \wedge \d{x} \\
+    &\phantom{=} + \frac{\partial}{\partial x}\frac{x}{x^2 + y^2} \d{x} \wedge \d{y} + \frac{\partial}{\partial y}\frac{x}{x^2 + y^2} \d{y} \wedge \d{y} \\
+    &= -\frac{\partial}{\partial y} \frac{y}{x^2 + y^2} \d{y} \wedge \d{x} + \frac{\partial}{\partial x}\frac{x}{x^2 + y^2} \d{x} \wedge \d{y} \\
+    &= \left(\frac{\partial}{\partial x}\frac{x}{x^2 + y^2} + \frac{\partial}{\partial y} \frac{y}{x^2 + y^2} \right) \d{x} \wedge \d{y} \\
+    &= \left(\frac{y^2 - x^2}{x^2 + y^2} + \frac{x^2 - y^2}{x^2 + y^2}\right) \d{x} \wedge \d{y} \\
+    &= 0
+\end{align*}
+This shows that it is not always the case that a closed form is exact.
+It happens as a result of holes that a space may have, such as the punctured plane in our example.
+As (topological) information about a manifold leads to this difference between closed and exact forms, it is reasonable that we can work the other way and use the nature of differential forms to obtain information about a manifold.
+When this idea is fully realized, we arrive at \href{https://en.wikipedia.org/wiki/De_Rham_cohomology}{De Rham cohomology}, though it is certainly beyond the scope of this exposition.
+
+We will return to the idea of integration.
+We have already learnt how to integral any differential form, but there is much more to the theory than that.
+First, we ought to consider the significant results in regular calculus and think of how they may be generalized.
+The most important or, perhaps more aptly, fundamental result in single-variable calculus is the fundamental theorem of calculus.
+The first part of the theorem relates a function to its definite integrals, and the second part relates definite integrals to indefinite integrals or antiderivatives.
+Without mentioning the appropriate conditions, we present the first part as $F'(x) = f(x)$ over $[a, b]$, where
+\begin{equation*}
+    F(x) \coloneq \int_a^x f(t) \diff t.
+\end{equation*}
+The second part is presented as
+\begin{equation*}
+    \int_a^b f(x) \diff x = F(b) - F(a),
+\end{equation*}
+where $F$ is the antiderivative of $f$, i.e. $F'(x) = f(x)$.
+This can be rewritten to include derivatives.
+\begin{equation*}
+    \int_a^b f'(x) = f(b) - f(a)
+\end{equation*}
+The importance of these results comes from the fact that they relate the two core concepts of calculus together, when they otherwise may seem completely different.
+For someone who is first learning calculus, it is completely reasonable to wonder how the gradients of (tangents to) curves may be related to the areas under curves.
+They are in fact very related, and can be considered the inverses of each other.
+We will later provide a slightly different way to view the fundamental theorem of calculus.
+
+When we move to the study of multivariable calculus, more theorems are introduced.
+Henceforth, we will continue to use the convention of regular letters even for vector functions.
+Instead of a function from $\R$ to $\R$, we may have a function from $\R^n$ to $\R$, and it would be called a scalar field.
+Just as one has derivatives of real functions, there exists the notion of the gradient of scalar fields.
+In $\R^3$, using Cartesian coordinates, the gradient of a scalar field $\varphi$ is a vector field $\nabla \varphi$ given by
+\begin{equation*}
+    \nabla \varphi = \frac{\partial \varphi}{\partial x} \ihat + \frac{\partial \varphi}{\partial y} \jhat + \frac{\partial \varphi}{\partial z} \khat.
+\end{equation*}
+In $\R^n$, using Cartesian coordinates, it is given by
+\begin{equation*}
+    \nabla \varphi = \sum_{i=1}^{n} \frac{\partial \varphi}{\partial x^i} \ehat_i.
+\end{equation*}
+The integral $\nabla \varphi$ along a smooth curve $\gamma$ which starts at $\mathbf{p}$ and ends at $\mathbf{q}$ is specified entirely by the value of $\varphi$ at the endpoints.
+\begin{equation*}
+    \int_\gamma \nabla \varphi (\mathbf{r}) \cdot d\mathbf{r} = \varphi(\mathbf{q}) - \varphi(\mathbf{p})
+\end{equation*}
+This is called the \emph{gradient theorem} or the \emph{fundamental theorem of calculus for line integrals}.
+A corollary of this result is that the integral of $\nabla \varphi$ along a closed loop $C$ is zero.
+\begin{equation*}
+    \oint_C \nabla \varphi (\mathbf{r}) \cdot d\mathbf{r} = 0
+\end{equation*}
+The scalar field $\varphi$ may be interpreted as a potential, in which case the negative gradient $-\nabla \varphi$ is a conservative force field.
+The line integral represents the work done by the force field along a curve, so the work done by conservative forces (such as Newtonian gravity) is path independent.
+This is opposed to nonconservative forces such as friction.
+
+Another way to view scalar fields is as giving the elevation of every point in some region, with the gradient giving both the steepness of the region and the direction of steepest ascent at each point.
+The interpretation of the gradient theorem in this context is that the difference in elevation between two points does not depend on the path between them.
+Indeed, this is the reasoning used when introducing integration of covector fields.
+It is also the case that the gradient $\nabla \varphi$ looks exactly like the exterior derivative $\d{\varphi}$ if the unit vectors are replaced with their corresponding covectors.
+
+This relationship between the gradient and the exterior derivative can be made via the introduction of new concepts that require additional structure on a smooth manifold.
+As a discussion of such structure is just slightly beyond the scope of this exposition, we will not be able to precisely state the link.
+We can still reasonably consider the gradient and the exterior derivative of a function to be essentially the same, so the gradient theorem amounts to the statement that the integral of the derivative of a function $f$ over a curve $\gamma$ with endpoints $a$ and $b$ is
+\begin{equation*}
+    \int_\gamma \d{f} = f(b) - f(a).
+\end{equation*}
+By the definition of the integral,
+\begin{align*}
+    \int_\gamma \d{f} &= \int_a^b \d{f_{\gamma(t)}}(\gamma'(t)) \d{t} \\
+    &= \int_a^b \sum_{i=1}^n \frac{\partial f}{\partial x^i}(\gamma(t))\frac{d\gamma^i}{dt} \d{t} \\
+    &= \int_a^b \frac{d}{dt} f(\gamma(t)) \d{t} \\
+    &= f(b) - f(a).
+\end{align*}
+Another, perhaps simpler, way of viewing this is that the exterior derivative and the pullback commute.
+Using this fact, we can show the above result without needing to expand the derivative.
+The exterior derivative is not dependent on coordinates, and the pullback can be viewed as a coordinate transformation, so it makes sense that we could perform the transformation before or after the derivative.
+More important for us is the result itself.
+The exterior derivative can be used to generalize the gradient theorem, and by extension, the fundamental theorem of calculus.
+
+There is no need to stop at the gradient.
+The next integral theorem in multivariable calculus is \emph{Green's theorem}.
+The integral of the two-dimensional curl of a function $f$ over an oriented closed curve $C$ is
+\begin{equation*}
+    \int_C \nabla \times f \diff A = \int_{\partial C} f \cdot \diff \mathbf{r},
+\end{equation*}
+where $\partial C$ is the boundary of $C$.
+Usually, the term on the RHS is written out explicitly, and the notation for the curl is reserved for the actual, three-dimension curl.
+However, their interpretation of representing the rotation or circulation of a vector field remains the same, so it makes sense to extend it to this situation.
+
+Then, we have the \emph{curl theorem} or \emph{Stokes' theorem} (latter name not to be confused with a result to come).
+The integral of the actual curl of a function $f$ over an oriented surface $S$ with boundary $\partial S = \Gamma$ is given by
+\begin{equation*}
+    \int_S \nabla \times f \cdot d\mathbf{S} = \int_{\partial S} f \cdot d\mathbf{r}.
+\end{equation*}
+The fact that this looks so similar to Green's theorem is no coincidence.
+We are just taking the surface from two dimensions to a higher-dimensional ambient space; everything else remains the same.
+Finally, we have the \emph{divergence theorem}.
+The integral of the divergence of $f$ over an oriented volume $V$ is given by
+\begin{equation*}
+    \int_V \nabla \cdot f \diff V = \int_{\partial V} f \cdot \mathbf{\hat{n}} \diff S.
+\end{equation*}
+Perhaps, a similarity between these results may be noticed.
+With the ones that explicitly present the boundary of the object, it should be more clear.
+The integral of some (differential) operator applied to a function over an $n$-dimensional object is equal to the integral of the function itself over the $(n-1)$-dimensional boundary of that object.
+If we look closely, and shift our perspective, this is the case for the fundamental theorem of calculus as well.
+It can be rewritten as the following equation.
+\begin{equation*}
+    \int_{[a,b]} f'(x) \diff x = \int_{\partial [a,b]} f(x) \diff x
+\end{equation*}
+The boundary of the interval $[a, b]$ is the set containing is endpoints (with the correct orientation), and we are considering integrating over it to take the difference between the function applied at those endpoints.
+We have relabelled different parts of the equation in order for it to fit the form of the other results.
+
+The exterior derivative applied to a single-variable functions acts just like the ordinary derivative.
+Whilst we need extra structure to form a proper equation relating the exterior derivative to the curl and divergence, they can essentially be considered the two- and three-dimensional versions of the exterior derivative, respectively.
+The gradient, curl, and divergence are all differential operators, but when one learns about them for the first time in multivariable calculus, they do not possess the necessary knowledge to see them as versions of the same object.
+
+We have unified the integral theorems, and unification implies that there is a single, more abstract way to represent our ideas.
+This generalization is called the \emph{generalized Stokes' theorem}.
+It may also be called Stokes' theorem on manifolds.
+The integral of a differential $n$-form $\omega$ over the boundary of an oriented $n$-dimensional manifold $M$ is equal to the integral of the exterior derivative of $\omega$ over $M$.
+This can be put into a very elegant equation.
+\begin{equation*}
+    \int_{\partial M} \omega = \int_M \d{\omega}
+\end{equation*}
+This will not be proved, but it should feel like a natural extension of all the previous results.
+It encapsulates the ideas we had, extending them to higher dimensions and to much more general objects.
+As with many instances of abstractions, the process and end result yields something from which we can further study the objects in question.
+In this case, it shows us a connection between the boundary and the derivative.
+They are opposites.
+They are `dual' to each other.
+The fact that the exterior derivative is related to boundaries of forms hinted at this, though we can take our geometrical interpretation further.
+
+We can view $\int_M \d{\omega}$ as counting the lines of $\d{\omega}$ crossed, which make the boundary of the lines of $\omega$.
+The only parts of $\omega$ that are not crossed in one way and then the other are those on the boundary.
+Hence, we have an equality.
+Alternatively, the integral takes the accumulation of the infinitesimal changes in $\omega$, given by $\d{\omega}$, throughout the manifold $M$.
+These changes have a direction, and thus they cancel out with each other.
+The theorem is thus stating that the only parts that are not cancelled are those on the boundary, which makes sense.
+What is left over are the values of $\omega$ on the boundary.
+
+The generalized Stokes' theorem may be regarded as one of the most important results in calculus.
+From it comes the fundamental theorem of calculus and the multiple integral theorems of multivariable calculus.
+It is all packaged into an idea that can, at least intuitively, be understood very easily.
+The integral of the derivative is equal to the integral along the boundary.
+There are caveats to consider, but we can appreciate its core idea.
+The presentation and explanation of this theorem is likely the best place to end this exposition.
+
+\section{Conclusion}
+
+With the desire to find out what the $dx$ symbol in the integral meant, we first introduced the idea of the differential of a function.
+This seemed to define $dx$ and $dy$ independently of their presence in the Leibniz notation for the derivative.
+It was a natural way to define them, and differentials certainly have their uses.
+However, they did not seem to work with integration, and that is what we really wanted.
+For that, we required the differential form, but forms need cotangent spaces.
+Cotangent spaces need tangent spaces, and tangent spaces need manifolds.
+Hence, we had to start with manifolds.
+
+Our treatment of manifolds was absolutely not a proper indication of their full generality.
+After all, our aim was to introduce differential forms, and not the entire subject of differential geometry.
+Some details were able to be handwaved as we could focus on the intuition behind the subjects of our study.
+Visualization was a key focus in it all.
+At this level, with a general lack of rigour, that which can be imagined is valuable.
+The methods of visualizing forms and related concepts is really a compilation of what is given by many different sources, all helpful, though none entirely complete.
 
 \section{Resources}
 
@@ -2008,9 +2683,18 @@ The interpretation of this integral is that it counts the number of (oriented) c
 
 \textsc{Differential Forms by Michael Penn} \, \url{https://youtube.com/playlist?list=PL22w63XsKjqzQZtDZO_9s2HEMRJnaOTX7}
 
+\textsc{Intro to differential forms by David Metzler} \, \url{https://www.youtube.com/playlist?list=PLB8F2D70E034E9C29}
+
 \textsc{A Geometric Approach to Differential Forms by David Bachman (arXiv version 1)} \, \url{https://arxiv.org/pdf/math/0306194v1}
 
+\textsc{Mathematics Stack Exchange: How to visualize 1 -forms and p -forms?} \, \url{https://math.stackexchange.com/questions/1078427/how-to-visualize-1-forms-and-p-forms}
+
+\textsc{On the Visualisation of Differential Forms by Dan Piponi} \, \url{http://yaroslavvb.com/papers/notes/piponi-on.pdf}
+
+\textsc{On the Visualization of Differential Forms by Duarte Maia} \, \url{https://math.uchicago.edu/~dmaia/documents/visualizing_diff_forms.pdf}
+
 \printbibliography
+
 
 \begin{appendices}
 \crefalias{section}{appsec}
@@ -2020,27 +2704,8 @@ The interpretation of this integral is that it counts the number of (oriented) c
 
 \subsection{Definition of a Vector} \label{appendix:vector_space}
 
-An introduction to the concept of vectors usually involves giving examples of vectors -- such as arrows in a plane -- without giving a proper definition of what a vector is in general.
-That makes sense, since such a definition is (relatively) technical and unnecessary for simply working with vectors.
-The technical definition is that a vector is an element of a vector space, but that alone simply replaces one question with another.
-It follows that a definition of a vector space is now required.
-
-To come up with it, we will follow a method of generalization that can be readily applied to other situations as well.
-We know that ordered pairs of real numbers are examples of vectors, so the set containing all such pairs is an example of a vector space.\footnote{This is technically an abuse of language. A vector space is a set with additional structure -- the ability to add and scale its elements in a certain way. However, this distinction is not very useful until we actually define a vector space properly.}
-This set is denoted by $\R \times \R$, and $\R^2$ is a useful shorthand.
-We will examine the properties of this set in order to obtain a general definition of a vector space.
-
-Two things we can do with our vectors are adding them together and scale them.
-For the example we are working with, this is done component-wise: $(a, b) + (b, c) = (a + b, c + d)$ and $c \cdot (a, b) = (ac, bc)$.
-Since we can use real numbers to scale vectors, they are also referred to as scalars in this context.
-Both of those functions have geometric interpretations if the vectors are viewed as arrows on a plane.
-Vector addition involves connecting two vectors tip-to-tail, and the sum is the third side of a triangle (or the diagonal of a parallelogram).
-Scalar multiplication involved literally scaling the length of a vector by some number, where multiplication by a negative number reverses direction.
-
-Whilst vectors in general are not arrows, the way they add and scale is fundamental to them.
-If we try to extract all the properties of addition and scalar multiplication, we get the following list.
-Note that the boldface letters are elements of $\R^2$, whilst the Greek letters are real numbers.
-Also, the boldface zero represents (0, 0).
+A vector space over a field $\mathbb{F}$ (e.g. $\R$ or $\C$) is a set $V$, along with a binary operation $+ \colon V \times V \to V$, and the operation of scalar multiplication $\cdot \colon \mathbb{F} \times V \to V$, which satisfies the following axioms.
+Here, $\mathbf{u}, \mathbf{v}, \mathbf{w} \in V$, and $\lambda, \mu \in \mathbb{F}$.
 \begin{enumerate}
 \item $\mathbf{u} + \mathbf{v} = \mathbf{v} + \mathbf{u}$
 \item $\mathbf{u} + (\mathbf{v} + \mathbf{w}) = (\mathbf{u} + \mathbf{v}) + \mathbf{w}$
@@ -2051,46 +2716,7 @@ Also, the boldface zero represents (0, 0).
 \item $\lambda(\mathbf{v} + \mathbf{w}) = \lambda\mathbf{v} + \lambda\mathbf{w}$
 \item $(\lambda + \mu)\mathbf{v} = \lambda\mathbf{v} + \mu\mathbf{v}$
 \end{enumerate}
-That leads to our definition of a vector space -- a set, together with vector addition and scalar multiplication, that satisfies the above statements.\footnote{Addition and scalar multiplication must be closed, but this is within their definitions, rather than being a part of the axioms.}
-More precisely, the third and fourth statements say that an identity vector (that works for all vectors) and inverse vectors (that each work for a specific vector) exist.
-These statements are known as the vector space axioms.
-Note that choosing those specific axioms to define a vector space is just that: a choice.\footnote{It is not an arbitrary choice, however. Vectors are an incredibly useful concept both in pure maths and in other subjects -- where they are applied (along with linear algebra in general) perhaps more than any other topic in maths.}
-We can explore sets with different structures, obtaining objects like groups and rings instead.
-
-A common notation for vectors is boldface letters, and that is what will be used in this document.
-Regular real numbers are never in boldface, though they might use either the Latin or Greek alphabet.
-Additionally, whilst there are many different objects that classify as vectors, the only ones that will be considered by us are in fact lists of real numbers.
-An ordered list of $n$ real numbers is an element of $\R^n$.
-In this context, $n$ is always interpreted as being a positive integer.
-
-The above contains sufficient information to define vectors and work with them on a basic level.
-What follows are some additional points of discussion.
-Firstly, there are many different notations that exist for vectors.
-Arrows, particularly in physics, can also be used to denote vectors, e.g. $\vec{F} = m\vec{a}$.
-It is not easy to write boldface symbols in handwriting, so another alternative is underlining the vector, $\underline{v}$, or putting a tilde beneath it, $\underaccent{\sim}{v}$.
-For the actual value of the vector, you can write it as a coordinate, as was shown before.
-Another common way is to write it as a column of numbers.
-\begin{equation*}
-    \mathbf{v} = \begin{bmatrix}
-        a \\
-        b
-    \end{bmatrix}
-\end{equation*}
-It can also be written like $\mathbf{v} = \rvec{a,b}$. Note that the former is called a column vector, whilst the latter is a row vector.
-Technically, they are different objects, but this distinction only matters when dealing with matrices.
-Another way to write a vector is $\mathbf{v} = \langle a, b \rangle$.
-This might be preferred due to avoiding confusion with coordinates, though writing $\mathbf{v} = (a,b)$ is pretty common.
-Additionally, given that $\ihat = \langle 1, 0 \rangle$ and $\jhat = \langle 0, 1 \rangle$, you can write a vector as $\mathbf{v} = v_x\ihat + v_y\jhat$, where $v_x$ and $v_y$ are the components of the vector.
-Note that these examples were given for $\R^2$, but they extend to general vectors in $\R^n$.
-
-Another point to make is that vector addition is a binary operation.
-It takes two vectors as an input and outputs another vector.
-On the other hand, scalar multiplication is a binary function.
-It takes a vector and a scalar as an input and outputs a vector.
-All operations are functions, but the converse is not true in general.
-An operation is a function whose domain is some power of the codomain.
-For example, vector addition -- in reference to elements of $\R^n$ -- may be written as $+\colon \R^{2n} \to \R^n$.
-This is a matter of semantics, and using the word `operation' loosely is both common and unharmful.
+The space may be denoted by the tuple $(V, +, \cdot)$, though the associated set $V$ is often used alone.
 
 \subsection{Vector Calculus} \label{appendix:vector calculus}
 
@@ -2149,7 +2775,7 @@ This is because a limit exists if and only if both the left- and right-hand limi
 When $h \to 0^+$, $\abs{h} = h$.
 When $h \to 0^-$, $\abs{h} = -h$.
 The two one-sided limits differ by their sign, so they are equal only if they are zero.
-Although, we can take our original definition of the derivative and move to $f'(x)$ inside the limit to get
+Although, we can take our original definition of the derivative and move $f'(x)$ inside the limit to get
 \begin{equation*}
     \lim_{h \to 0} \frac{f(x+h) - f(x) - hf'(x)}{h} = 0.
 \end{equation*}

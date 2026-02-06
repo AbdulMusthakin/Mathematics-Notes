@@ -1,0 +1,163 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{shape_dimension_convention}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=819197bfeff32a3f58d49b2a3eb0a580}{%
+           family={Weisstein},
+           familyi={W\bibinitperiod},
+           given={Eric\bibnamedelima W.},
+           giveni={E\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{819197bfeff32a3f58d49b2a3eb0a580}
+      \strng{fullhash}{819197bfeff32a3f58d49b2a3eb0a580}
+      \strng{fullhashraw}{819197bfeff32a3f58d49b2a3eb0a580}
+      \strng{bibnamehash}{819197bfeff32a3f58d49b2a3eb0a580}
+      \strng{authorbibnamehash}{819197bfeff32a3f58d49b2a3eb0a580}
+      \strng{authornamehash}{819197bfeff32a3f58d49b2a3eb0a580}
+      \strng{authorfullhash}{819197bfeff32a3f58d49b2a3eb0a580}
+      \strng{authorfullhashraw}{819197bfeff32a3f58d49b2a3eb0a580}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Hypersphere}
+      \field{urlday}{22}
+      \field{urlmonth}{12}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://mathworld.wolfram.com/Hypersphere.html
+      \endverb
+      \verb{url}
+      \verb https://mathworld.wolfram.com/Hypersphere.html
+      \endverb
+    \endentry
+    \entry{Lee2012}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=36896354ee3aedc1a13d683ea773634e}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={John\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, {NY}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{36896354ee3aedc1a13d683ea773634e}
+      \strng{fullhash}{36896354ee3aedc1a13d683ea773634e}
+      \strng{fullhashraw}{36896354ee3aedc1a13d683ea773634e}
+      \strng{bibnamehash}{36896354ee3aedc1a13d683ea773634e}
+      \strng{authorbibnamehash}{36896354ee3aedc1a13d683ea773634e}
+      \strng{authornamehash}{36896354ee3aedc1a13d683ea773634e}
+      \strng{authorfullhash}{36896354ee3aedc1a13d683ea773634e}
+      \strng{authorfullhashraw}{36896354ee3aedc1a13d683ea773634e}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9781441999818 9781441999825}
+      \field{langid}{english}
+      \field{series}{Graduate Texts in Mathematics}
+      \field{title}{Introduction to Smooth Manifolds}
+      \field{volume}{218}
+      \field{year}{2012}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1007/978-1-4419-9982-5
+      \endverb
+      \verb{urlraw}
+      \verb https://link.springer.com/10.1007/978-1-4419-9982-5
+      \endverb
+      \verb{url}
+      \verb https://link.springer.com/10.1007/978-1-4419-9982-5
+      \endverb
+      \keyw{Frobenius theorem,Lie group,Sard’s theorem,Smooth structures,Stokes's theorem,Tangent vectors and covectors,Whitney approximation theorem,Whitney embedding theorem,de Rham cohomology,differential forms,first-order partial differential equations,foliations,immersed and embedded submanifolds,smooth manifolds,tensors,vector bundles,vector fields and flows}
+    \endentry
+    \entry{covector_visualization}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=954cbce07c6fda4188e976ea2cc1971d}{%
+           family={eigenchris},
+           familyi={e\bibinitperiod}}}%
+      }
+      \strng{namehash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{fullhash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{fullhashraw}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{bibnamehash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{authorbibnamehash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{authornamehash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{authorfullhash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{authorfullhashraw}{954cbce07c6fda4188e976ea2cc1971d}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Tensor Calculus 6: Differential Forms are Covectors}
+      \field{urlday}{22}
+      \field{urlmonth}{12}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.youtube.com/watch?v=XGL-vpk-8dU
+      \endverb
+      \verb{url}
+      \verb https://www.youtube.com/watch?v=XGL-vpk-8dU
+      \endverb
+    \endentry
+    \entry{covector_integration_visualization}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=954cbce07c6fda4188e976ea2cc1971d}{%
+           family={eigenchris},
+           familyi={e\bibinitperiod}}}%
+      }
+      \strng{namehash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{fullhash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{fullhashraw}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{bibnamehash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{authorbibnamehash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{authornamehash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{authorfullhash}{954cbce07c6fda4188e976ea2cc1971d}
+      \strng{authorfullhashraw}{954cbce07c6fda4188e976ea2cc1971d}
+      \field{extraname}{2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Tensor Calculus 9: Integration with Differential Forms}
+      \field{urlday}{22}
+      \field{urlmonth}{12}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.youtube.com/watch?v=kyzSofggsqg
+      \endverb
+      \verb{url}
+      \verb https://www.youtube.com/watch?v=kyzSofggsqg
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
