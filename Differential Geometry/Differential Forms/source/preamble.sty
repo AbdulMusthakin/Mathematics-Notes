@@ -1,0 +1,322 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{preamble}
+
+\RequirePackage[left=25mm, right=25mm, top=25mm, bottom=25mm]{geometry}
+
+\RequirePackage{microtype}
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage{mlmodern}
+% \RequirePackage{mathrsfs}
+\RequirePackage{yfonts}
+
+\RequirePackage[bb=ncmbbk, bfbb, scr=boondoxo, frak=boondox, scrscaled=1.05]{mathalpha}
+
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+% \RequirePackage{amsfonts}
+\RequirePackage[style=iso]{datetime2}
+\RequirePackage[explicit]{titlesec}
+\RequirePackage{amsthm}
+\RequirePackage{array}
+\RequirePackage{graphicx}
+\RequirePackage{mathtools} % Provides \mathrlap command
+\RequirePackage{xparse}
+\RequirePackage{csquotes}
+
+\RequirePackage[skip=1em,indent]{parskip}
+\setlength{\parindent}{0pt}
+
+\RequirePackage{float}
+\RequirePackage{fixdif}
+\RequirePackage{caption}
+\RequirePackage{tocloft}
+\RequirePackage{xurl}
+\RequirePackage[toc, page]{appendix}
+\RequirePackage{accents}
+\RequirePackage{aliascnt}
+\RequirePackage{enumitem}
+% \setlist{noitemsep}
+
+\RequirePackage[perpage, symbol*]{footmisc} % for dagger footnotes
+\DefineFNsymbols{sym}{\textdagger \textdaggerdbl \textsection \textparagraph %
+{\textdagger\textdagger} {\textdaggerdbl\textdaggerdbl} %
+{\textsection\textsection} {\textparagraph\textparagraph}}
+\setfnsymbol{sym}
+\interfootnotelinepenalty=10000
+
+\RequirePackage{tikz}
+\RequirePackage{tikz-cd}
+\tikzcdset{every label/.append style = {font = \small}, every matrix/.append style={nodes={font=\normalsize}}}
+\RequirePackage{quiver}
+
+\RequirePackage{tikz-3dplot}
+\tikzset{>=latex} % for LaTeX arrow head
+\RequirePackage{pgfplots} % for the axis environment
+\usetikzlibrary{calc,decorations.markings,external,arrows.meta, patterns}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz/]
+\tikzexternaldisable
+
+\pgfplotsset{compat=1.18, every tick label/.append style={font=\footnotesize}}
+
+\graphicspath{ {./Images/} }
+
+\RequirePackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\addbibresource{differential_forms.bib}
+
+\setcounter{biburlnumpenalty}{9000}
+\setcounter{biburlucpenalty}{9000}
+\setcounter{biburllcpenalty}{9000}
+
+% ---------------- %
+\RequirePackage{etoolbox}
+\RequirePackage[dvipsnames]{xcolor}
+\RequirePackage[linkcolor=black]{hyperref}
+\RequirePackage[nameinlink]{cleveref}
+\RequirePackage{nameref}
+
+% Configure cleveref for appendix sections and figures
+\crefname{appsec}{appendix}{appendices}
+\Crefname{appsec}{Appendix}{Appendices}
+\crefname{figure}{figure}{figures}
+\Crefname{figure}{Figure}{Figures}
+
+
+
+\definecolor{RoyalRed}{RGB}{155, 28, 49}
+\definecolor{RoyalOrange}{RGB}{249, 146, 69}
+\definecolor{PigmentBlue}{RGB}{51,51,153}
+
+\makeatletter %* Creates a footnote colour option
+\def\@footnotecolor{black}
+\define@key{Hyp}{footnotecolor}{%
+ \HyColor@HyperrefColor{#1}\@footnotecolor%
+}
+\patchcmd{\@footnotemark}{\hyper@linkstart{link}}{\hyper@linkstart{footnote}}{}{}
+\makeatother
+
+\hypersetup{
+  colorlinks = true,
+  linkcolor = PigmentBlue,
+  urlcolor = RoyalRed,
+  citecolor = RoyalOrange,
+  footnotecolor = black,
+}
+% ---------------- %
+\makeatletter
+\def\th@plain{%
+  \thm@notefont{}% same as heading font
+  \itshape % body font
+}
+\def\th@definition{%
+  \thm@notefont{}% same as heading font
+  \normalfont % body font
+}
+\makeatother
+
+\newcommand*\diff{\mathop{}\!d} % for the differential in integrals
+% ---------------- %
+\ExplSyntaxOn %* This command is for row vectors; unstarred version has no delimiter scaling for inline; starred version has delimiter scaling for display
+\seq_new:N \l_user_rvec_seq
+
+% expl3 worker (does the splitting/formatting)
+\cs_new_protected:Npn \dbacc_rvec:n #1
+ {
+  \seq_clear:N \l_user_rvec_seq
+  \seq_set_split:Nnn \l_user_rvec_seq { , } { #1 }
+  \seq_use:Nn \l_user_rvec_seq { \enspace }
+ }
+
+% plain-name wrapper (no ':' in its name) — safe to call outside ExplSyntaxOn
+\cs_new_protected:Npn \dbaccrvec #1 { \dbacc_rvec:n { #1 } }
+
+% user-level \rvec interface (star + optional size + mandatory arg)
+\NewDocumentCommand \rvec { s o m }
+ {
+  \IfBooleanTF{#1}
+    { \left[\,\dbaccrvec{#3}\,\right] } % starred -> automatic \left...\right
+    { \IfValueTF{#2}
+        { \mathopen{#2[}\,\dbaccrvec{#3}\,\mathclose{#2]} } % sized optional arg
+        { [\,\dbaccrvec{#3}\,] } % default small delimiters
+    }
+ }
+\ExplSyntaxOff
+% ---------------- %
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\NewCommandCopy{\oldIm}{\Im}
+\renewcommand{\Im}{\mathop{\oldIm\mathfrak{m}}}
+\NewCommandCopy{\oldRe}{\Re}
+\renewcommand{\Re}{\mathop{\oldRe\mathfrak{e}}}
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\proj}{proj}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\id}{id}
+
+\DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{#1}
+\DeclarePairedDelimiterX{\abs}[1]{\lvert}{\rvert}{#1}
+\NewDocumentCommand{\eval}{s m m g}{%
+  \IfBooleanTF{#1}
+    {% starred version - no scaling
+      #2 \vert%
+      _{#3}%
+      \IfNoValueTF{#4}{}{^{#4}}%
+    }
+    {% unstarred version - auto-scaled
+      \left. #2 \right|%
+      _{#3}%
+      \IfNoValueTF{#4}{}{^{#4}}%
+    }%
+}
+
+\makeatletter
+\NewDocumentCommand{\extp}{e{^}}{%
+  \mathop{\mathpalette\extp@{#1}}\nolimits
+}
+\NewDocumentCommand{\extp@}{mm}{%
+  \textstyle\bigwedge\nolimits\IfValueT{#2}{^{\extp@@{#1}#2}}%
+  \IfValueT{#1}{\kern-2\scriptspace\nonscript\kern2\scriptspace}%
+}
+\newcommand{\extp@@}[1]{%
+  \mkern
+    \ifx#1\displaystyle-1\else
+    \ifx#1\textstyle-1\else
+    \ifx#1\scriptstyle-1\else
+    -0.5\fi\fi\fi
+  \thinmuskip
+}
+\makeatother
+
+% ---------------- %
+% bm's \boldsymbol cannot parse the accents package's \hat (since accents 2025), so use \boldmath directly
+\newcommand{\ihat}{\text{\boldmath$\hat{\imath}$}}
+\newcommand{\jhat}{\text{\boldmath$\hat{\jmath}$}}
+\newcommand{\khat}{\text{\boldmath$\hat{k}$}}
+\newcommand{\ehat}{\mathbf{\hat{e}}}
+\newcommand{\T}{\mathrm{T}}
+% ---------------- %
+
+\newtheorem{theorem}{Theorem}[section]
+
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lemma}
+\aliascntresetthe{lemma}
+\crefname{lemma}{lemma}{lemmas}
+\Crefname{lemma}{Lemma}{Lemmas}
+
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposition}
+\aliascntresetthe{proposition}
+\crefname{proposition}{proposition}{propositions}
+\Crefname{proposition}{Proposition}{Propositions}
+
+\newtheorem{corollary}{Corollary}[theorem]
+
+\theoremstyle{definition}
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definition}
+\aliascntresetthe{definition}
+\crefname{definition}{definition}{definitions}
+\Crefname{definition}{Definition}{Definitions}
+
+\newaliascnt{example}{theorem}
+\newtheorem{example}[example]{Example}
+\aliascntresetthe{example}
+\crefname{example}{example}{examples}
+\Crefname{example}{Example}{Examples}
+
+\newtheorem*{remark}{Remark}
+
+\crefname{section}{section}{sections}
+\Crefname{section}{Section}{Sections}
+
+\crefname{subsection}{subsection}{subsections}
+\Crefname{subsection}{Subsection}{Subsections}
+
+\numberwithin{equation}{section} 
+
+% \setlength{\cftsecnumwidth}{3em}
+% \renewcommand{\thesection}{\Roman{section}}
+
+\allowdisplaybreaks
+
+% ---------------- %
+
+
+% \RequirePackage[default]{fontsetup}
+% \setmathfont[CharacterVariant=1]{NewCMMath-Regular.otf}
+
+\RequirePackage{tcolorbox}
+\tcbuselibrary{breakable,skins}
+% \tikzexternalize[prefix=tikz/]\tcbsetforeverylayer{code={\tikzset{external/export=false}}}
+\tcolorboxenvironment{proof}{
+  blanker,
+  borderline west={0.4pt}{0.4pt}{black},
+  breakable,
+  left=12pt,
+  % right=12pt, % I'd avoid this
+  parbox=false,
+  before skip=\parskip,
+  after skip=\parskip,
+}
+
+\DeclareMathOperator{\Multi}{Multi}
+\DeclareMathOperator{\Sym}{Sym}
+\DeclareMathOperator{\Asym}{Asym}
+\DeclareMathOperator{\Alt}{Alt}
+\DeclareMathOperator{\alt}{alt}
+\DeclareMathOperator{\sym}{sym}
+\DeclareMathOperator{\asym}{asym}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\divg}{div}
+\DeclareMathOperator{\curl}{curl}
+\DeclareMathOperator{\supp}{supp}
+
+\DeclareMathOperator{\Hom}{\mathrm{Hom}}
+\DeclareMathOperator{\Ext}{\mathrm{Ext}}
+\DeclareMathOperator{\End}{\mathrm{End}}
+\DeclareMathOperator{\sHom}{\mathscr{H\mkern-6mu o\mkern-3mu m\mkern-1.5mu}}
+\DeclareMathOperator{\sExt}{\mathscr{E\mkern-2mu x\mkern-2.5mu t\mkern-1mu}}
+\DeclareMathOperator{\sEnd}{\mathscr{E\mkern-3mu n\mkern-3mu d\mkern-1mu}}
+
+\newcommand{\tilderightarrow}{\mathrel{
+    \hbox to 1.2em{\rightarrowfill}\kern0pt % 0 kerning for no line break
+    \smash{\clap{\raise .7ex \hbox{$\mkern-25mu \scriptstyle\sim$}}}
+}}
+
+\RequirePackage{booktabs}
+\RequirePackage{diagbox}
+
+\RequirePackage{bm}
+
+\RequirePackage{tensor}
+
+% INJECT AND SURJECT AND BIJECT ARROWS SPECIFICALLY MADE TO WORK WITH CURRENT FONT
+
+\newcommand{\surject}{%
+  \mathrel{\tikz[baseline=-0.5ex] \draw [thick, line cap=round, -{To[length=2.5pt] To[length=2.5pt]}] (0,0) -- (1em,0);}
+}
+
+\newcommand{\inject}{%
+  \mathrel{\tikz[baseline=-0.5ex] \draw [thick, line cap=round, {To[reversed, length=2.5pt]}-{To[length=2.5pt]}] (0,0) -- (1em,0);}
+}
+
+\newcommand{\biject}{%
+  \mathrel{\tikz[baseline=-0.5ex] \draw [thick, line cap=round, {To[reversed, length=2.5pt]}-{To[length=2.5pt] To[length=2.5pt]}] (0,0) -- (1em,0);}
+}
+
+
+\RequirePackage{mathdots}

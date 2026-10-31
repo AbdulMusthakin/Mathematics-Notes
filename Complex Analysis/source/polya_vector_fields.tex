@@ -92,8 +92,8 @@ Note that this association gives us $z \coloneq x + iy$ for arbitrary $x,y,z$ in
 
 Furthermore, we may define the vector field $\mathbf{H} \colon \phi[X] \to \R^2$ by $\mathbf{H}(x,y) \coloneq \phi^{-1} (f(x,y))$.
 It follows that $\mathbf{H} = u\mathbf{\hat{x}} + v\mathbf{\hat{y}}$.
-Plotting vector fields is something that we can do, so we now have a way to visualise complex functions.
-As plotting the vector field with the normal lengths of the vectors would result in something very cluttered, we can normalise it.
+Plotting vector fields is something that we can do, so we now have a way to visualize complex functions.
+As plotting the vector field with the normal lengths of the vectors would result in something very cluttered, we can normalize it.
 \begin{equation*}
     \mathbf{\hat{H}} \coloneq \frac{\mathbf{H}}{\lvert \mathbf{H} \rvert}
 \end{equation*}
@@ -156,7 +156,7 @@ The vector field $\mathbf{\hat{H}}$ has been plotted below.
 
 \section{P\'olya Vector Fields}
 
-Our previous visualisation was fine, as it gave us an idea of the function's behaviour within the subset of the domain that was chosen.
+Our previous visualization was fine, as it gave us an idea of the function's behaviour within the subset of the domain that was chosen.
 The vector field has reflectional and rotational symmetry about the origin, but is this a meaningful observation?
 Certainly, with functions $\R \to \R$, such symmetries can lead to analytical properties.
 For example, even and odd functions exhibit symmetry, which leads to the following results (assuming integrability).
@@ -173,7 +173,7 @@ Therefore, by \emph{Cauchy's theorem},
     \oint_C f(z) \diff z = 0.
 \end{equation*}
 Could we have figured that out, or at least have obtained an idea of what it would be, from the graph above?
-Sure, our visualisation of $f$ is symmetric about the origin under rotations or reflections, but the above result holds under any closed contour -- which might not even include the origin.
+Sure, our visualization of $f$ is symmetric about the origin under rotations or reflections, but the above result holds under any closed contour -- which might not even include the origin.
 This is why we will introduce a specific type of vector field, which we can interpret in a meaningful way for the purpose of integration.
 \begin{definition}[P\'olya Vector Field]
     Let $X \subseteq \C$, and let $f,u,v \colon X \to \C$ such that $u \coloneq \Re f$ and $v \coloneq \Im f$.
@@ -231,7 +231,7 @@ Plotting this gives the following graph.
     \end{tikzpicture}
 \end{figure}
 Why is this any better?
-To answer that, let us rewrite the integral we had before, using the arbitrary parameterisation $z \colon \C \to \C$, $x,y \colon \R \to \R$, $z(t) \coloneq x(t) + iy(t)$ with $t \in [a,b]$.
+To answer that, let us rewrite the integral we had before, using the arbitrary parameterization $z \colon \C \to \C$, $x,y \colon \R \to \R$, $z(t) \coloneq x(t) + iy(t)$ with $t \in [a,b]$.
 Henceforth, we need not consider any specific complex function.
 \begin{align*}
     \oint_C f(z) \diff z \coloneq & \int_a^b f(z(t)) z'(t) \diff t                                                                                                                          \\
@@ -281,7 +281,7 @@ If $f$ is holomorphic, then $u$ and $v$ satisfy the \emph{Cauchy-Riemann equatio
     \partial_x u & = \partial_y v  \\
     \partial_y u & = -\partial_x v
 \end{align*}
-However, one can write the divergence and curl of $\mathbf{\overbar{H}}$ explcitly as follows.
+However, one can write the divergence and curl of $\mathbf{\overbar{H}}$ explicitly as follows.
 \begin{align*}
     \nabla \cdot \mathbf{\overbar{H}}  & = \partial_x u - \partial_y v \\
     \nabla \times \mathbf{\overbar{H}} & = \partial_x v + \partial_y u
@@ -299,7 +299,7 @@ Additionally, the condition of $X$ being simply connected has not been discussed
 
 Our goal is not to prove Cauchy's theorem and other results in complex analysis using P\'olya vector fields, but rather to provide an alternative lens to view them in and gain intuition.
 We have shown that the holomorphicity of $f$ is directly related to the properties of $\mathbf{\overbar{H}}$.
-A complex function is holomorphic iff its P\'olya vector field is irrotational and incompressible.
+A complex function is holomorphic if its P\'olya vector field is irrotational and incompressible.
 That is a beautiful result.
 
 Moreover, we may obtain useful information from $\mathbf{\overbar{H}}$ in other situations.
@@ -309,7 +309,7 @@ By observing how $\mathbf{\overbar{H}}$ appears to flow through and across a con
 
 \section{Meromorphic Functions}
 
-A complex function $f \colon X \to \C$ is meromorphic on $D \subseteq \C$ iff it is holomorphic on $D$ except for a set of poles of $f$.
+A complex function $f \colon X \to \C$ is meromorphic on $D \subseteq \C$ if it is holomorphic on $D$ except for a set of poles of $f$.
 For example, the function $f \colon \C \setminus \{0\} \to \C$ defined by
 \begin{equation*}
     f(z) \coloneq \frac{1}{z} = \frac{\bar{z}}{z\bar{z}} = \frac{\bar{z}}{\lvert z \rvert^2} = \frac{x - iy}{x^2 + y^2},
@@ -386,7 +386,7 @@ Therefore, any integral along a contour that does not enclose the origin will ev
 What if it does enclose the origin?
 Suppose we wish to evaluate the integral of $f$ along the anticlockwise unit circle.
 Let us call this contour $\gamma$.
-We can parameterise $\gamma$ by $z(t) \coloneq e^{it}$ with $t \in [0, 2\pi]$.
+We can parameterize $\gamma$ by $z(t) \coloneq e^{it}$ with $t \in [0, 2\pi]$.
 Then, $z'(t) = ie^{it} = iz(t)$.
 Our contour integral is given by
 \begin{align*}
@@ -402,7 +402,7 @@ Whilst $f$ is holomorphic everywhere it is defined, $\C \setminus \{0\}$ is not 
 Informally, this means that we cannot shrink any loop (that originally surrounds the origin) down to single point without touching the origin.
 Without our domain being simply connected, we cannot apply Cauchy's theorem.
 
-It is is not the case that we are dealing with a function which is not holomorphic, such as $g \colon \C \to \C$ given by $g(z) \coloneq \lvert z \rvert$.
+It is not the case that we are dealing with a function which is not holomorphic, such as $g \colon \C \to \C$ given by $g(z) \coloneq \lvert z \rvert$.
 The P\'olya vector field of $g$ has zero curl, but nonzero divergence.
 Our function $f$ is holomorphic, but the hole in its domain breaks the `rule' we had and leads to unusual results.
 This idea, in its general sense, is further studied in higher-level mathematics.

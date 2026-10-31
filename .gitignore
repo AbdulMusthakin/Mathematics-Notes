@@ -1,5 +1,7 @@
 Teacher Notes/
 Books/
+Ignore/
+**/source/output/
 
 # vscode
 .vscode

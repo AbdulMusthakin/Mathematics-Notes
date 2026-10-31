@@ -1,204 +1,14 @@
 \documentclass[a4paper,12pt]{article}
 
-\usepackage[left=25mm, right=25mm, top=25mm, bottom=25mm]{geometry}
-
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsfonts}
-\usepackage[style=iso]{datetime2}
-\usepackage[explicit]{titlesec}
-\usepackage{amsthm}
-\usepackage{mathrsfs}
-\usepackage{array}
-\usepackage{graphicx}
-\usepackage{mathtools} % Provides \mathrlap command
-\usepackage{xparse}
-\usepackage{float}
-\usepackage{fixdif}
-\usepackage[skip=1em,indent]{parskip}
-\usepackage{caption}
-\usepackage{tocloft}
-\usepackage{enumitem}
-\usepackage{xurl}
-\usepackage[toc, page]{appendix}
-\usepackage{accents}
-\usepackage[perpage, symbol*]{footmisc} % for dagger footnotes
-\DefineFNsymbols{sym}{\textdagger \textdaggerdbl \textsection \textparagraph %
-{\textdagger\textdagger} {\textdaggerdbl\textdaggerdbl} %
-{\textsection\textsection} {\textparagraph\textparagraph}}
-\setfnsymbol{sym}
-\interfootnotelinepenalty=10000
-
-\usepackage{tikz}
-\usepackage{tikz-3dplot}
-\tikzset{>=latex} % for LaTeX arrow head
-\usepackage{pgfplots} % for the axis environment
-\usetikzlibrary{calc,decorations.markings,external}
-\tikzexternalize[prefix=tikz/]
-
-\pgfplotsset{compat=1.18, every tick label/.append style={font=\footnotesize}}
-
-\graphicspath{ {./Images/} }
-
-\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
-\addbibresource{motivational_differential_forms_intro.bib}
-
-\setcounter{biburlnumpenalty}{9000}
-\setcounter{biburlucpenalty}{9000}
-\setcounter{biburllcpenalty}{9000}
-
-\usepackage[T1]{fontenc}
-\usepackage{microtype, mlmodern}
-\usepackage[bb=ncmbbk, bfbb]{mathalpha}
-
-% ---------------- %
-\usepackage{etoolbox}
-\usepackage[dvipsnames]{xcolor}
-\usepackage[linkcolor=black]{hyperref}
-\usepackage[nameinlink]{cleveref}
-
-% Configure cleveref for appendix sections and figures
-\crefname{appsec}{Appendix}{appendices}
-\Crefname{appsec}{Appendix}{Appendices}
-\crefname{figure}{Figure}{Figures}
-\Crefname{figure}{Figure}{Figures}
-
-
-\definecolor{RoyalRed}{RGB}{155, 28, 49}
-\definecolor{RoyalOrange}{RGB}{249, 146, 69}
-\definecolor{PigmentBlue}{RGB}{51,51,153}
-
-\makeatletter %* Creates a footnote colour option
-\def\@footnotecolor{black}
-\define@key{Hyp}{footnotecolor}{%
- \HyColor@HyperrefColor{#1}\@footnotecolor%
-}
-\patchcmd{\@footnotemark}{\hyper@linkstart{link}}{\hyper@linkstart{footnote}}{}{}
-\makeatother
-
-\hypersetup{
-  colorlinks = true,
-  linkcolor = PigmentBlue,
-  urlcolor = RoyalRed,
-  citecolor = RoyalOrange,
-  footnotecolor = black,
-}
-% ---------------- %
-\makeatletter
-\def\th@plain{%
-  \thm@notefont{}% same as heading font
-  \itshape % body font
-}
-\def\th@definition{%
-  \thm@notefont{}% same as heading font
-  \normalfont % body font
-}
-\makeatother
-
-\newcommand*\diff{\mathop{}\!d} % for the differential in integrals
-% ---------------- %
-\ExplSyntaxOn %* This command is for row vectors; unstarred version has no delimiter scaling for inline; starred version has delimiter scaling for display
-\seq_new:N \l_user_rvec_seq
-
-% expl3 worker (does the splitting/formatting)
-\cs_new_protected:Npn \dbacc_rvec:n #1
- {
-  \seq_clear:N \l_user_rvec_seq
-  \seq_set_split:Nnn \l_user_rvec_seq { , } { #1 }
-  \seq_use:Nn \l_user_rvec_seq { \enspace }
- }
-
-% plain-name wrapper (no ':' in its name) — safe to call outside ExplSyntaxOn
-\cs_new_protected:Npn \dbaccrvec #1 { \dbacc_rvec:n { #1 } }
-
-% user-level \rvec interface (star + optional size + mandatory arg)
-\NewDocumentCommand \rvec { s o m }
- {
-  \IfBooleanTF{#1}
-    { \left[\,\dbaccrvec{#3}\,\right] } % starred -> automatic \left...\right
-    { \IfValueTF{#2}
-        { \mathopen{#2[}\,\dbaccrvec{#3}\,\mathclose{#2]} } % sized optional arg
-        { [\,\dbaccrvec{#3}\,] } % default small delimiters
-    }
- }
-\ExplSyntaxOff
-% ---------------- %
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\C}{\mathbb{C}}
-\newcommand{\Z}{\mathbb{Z}}
-
-\NewCommandCopy{\oldIm}{\Im}
-\renewcommand{\Im}{\mathop{\oldIm\mathfrak{m}}}
-\NewCommandCopy{\oldRe}{\Re}
-\renewcommand{\Re}{\mathop{\oldRe\mathfrak{e}}}
-
-\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
-
-\DeclareMathOperator{\Res}{Res}
-
-\DeclarePairedDelimiterX{\norm}[1]{\lVert}{\rVert}{#1}
-\DeclarePairedDelimiterX{\abs}[1]{\lvert}{\rvert}{#1}
-\NewDocumentCommand{\eval}{s m m g}{%
-  \IfBooleanTF{#1}
-    {% starred version - no scaling
-      #2 \vert%
-      _{#3}%
-      \IfNoValueTF{#4}{}{^{#4}}%
-    }
-    {% unstarred version - auto-scaled
-      \left. #2 \right|%
-      _{#3}%
-      \IfNoValueTF{#4}{}{^{#4}}%
-    }%
-}
-
-\makeatletter
-\NewDocumentCommand{\extp}{e{^}}{%
-  \mathop{\mathpalette\extp@{#1}}\nolimits
-}
-\NewDocumentCommand{\extp@}{mm}{%
-  \textstyle\bigwedge\nolimits\IfValueT{#2}{^{\extp@@{#1}#2}}%
-  \IfValueT{#1}{\kern-2\scriptspace\nonscript\kern2\scriptspace}%
-}
-\newcommand{\extp@@}[1]{%
-  \mkern
-    \ifx#1\displaystyle-1\else
-    \ifx#1\textstyle-1\else
-    \ifx#1\scriptstyle-1\else
-    -0.5\fi\fi\fi
-  \thinmuskip
-}
-\makeatletter
-% ---------------- %
-\newcommand{\ihat}{\boldsymbol{\hat{\imath}}}
-\newcommand{\jhat}{\boldsymbol{\hat{\jmath}}}
-\newcommand{\khat}{\boldsymbol{\hat{k}}}
-\newcommand{\ehat}{\mathbf{\hat{e}}}
-\newcommand{\T}{\mathrm{T}}
-% ---------------- %
-
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{corollary}{Corollary}[theorem]
-
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
-
-% \setlength{\cftsecnumwidth}{3em}
+\usepackage{preamble}
 
 \begin{titlepage}
 \title{A Motivational Introduction to Differential Forms}
 \author{Abdul Musthakin}
-\date{January 2026}
+\date{February 2026}
 \end{titlepage}
 
-% \renewcommand{\thesection}{\Roman{section}}
-
-\allowdisplaybreaks
-
-\setlength{\parindent}{0pt}
+\hypersetup{pdftitle={A Motivational Introduction to Differential Forms}, pdfauthor={Abdul Musthakin}}
 
 \begin{document}
 \maketitle
@@ -1073,14 +883,14 @@ We mentioned earlier that tangent spaces are intrinsic, so there should be a way
 It follows that a formal, intrinsic definition of a tangent space will be more abstract than we may have initially thought.
 This does not mean that we will not be able to have any intuition for it.
 In fact, we already have the intuition.
-Using the definition we have, which Lee calls a ``geometric tangent space'' in his \textit{Smooth Manifolds} \cite[pp. 52--53]{Lee2012}, a tangent vector $(\mathbf{x}, \mathbf{v}) \in T_\mathbf{x} \R^n$ can be associated with the directional derivative map $\eval*{\nabla_\mathbf{v}}{\mathbf{x}}$.
+Using the definition we have, which Lee calls a ``geometric tangent space'' in his \textit{Introduction to Smooth Manifolds} \cite[pp. 52--53]{Lee2012}, a tangent vector $(\mathbf{x}, \mathbf{v}) \in T_\mathbf{x} \R^n$ can be associated with the directional derivative map $\eval*{\nabla_\mathbf{v}}{\mathbf{x}}$.
 As we know, it maps functions to real numbers.
 Additionally, it satisfies the following properties, with $f, g \in C^\infty(\R^n)$ being smooth functions on $\R^n$ and $\lambda, \mu \in \R$.
 \begin{itemize}
     \item $\eval{\nabla_\mathbf{v}}{\mathbf{x}}(\lambda f + \mu g) = \lambda\eval{\nabla_\mathbf{v}}{\mathbf{x}} f + \mu\eval{\nabla_\mathbf{v}}{\mathbf{x}} g$
     \item $\eval{\nabla_\mathbf{v}}{\mathbf{x}} fg = g(\mathbf{x})\eval{\nabla_\mathbf{v}}{\mathbf{x}}g + f(\mathbf{x})\eval{\nabla_\mathbf{v}}{\mathbf{x}}f$
 \end{itemize}
-That is, the map is linear, and it satisfies a condition very similar to the product rule for derivatives, which we call the \emph{Leibniz identity}.
+That is, the map is linear, and it satisfies a condition very similar to the product rule for derivatives, which we call the \emph{Leibniz rule}.
 Any map that satisfies these two properties is called a \emph{derivation}, and it can be seen as generalizing the concept of a derivative by possessing two of its important properties.
 A derivation $v$ satisfies,
 \begin{equation*}
@@ -1090,7 +900,7 @@ and
 \begin{equation*}
     v(fg) = v(f)g + fv(g).
 \end{equation*}
-It turns out to be the case that there is a one-to-one association between the space of all derivations at $\mathbf{x}$, linear maps $v \colon C^\infty (\R^n) \to \R$ that satisfy the Leibniz identity, and our ``geometric tangent space''.
+It turns out to be the case that there is a one-to-one association between the space of all derivations at $\mathbf{x}$, linear maps $v \colon C^\infty (\R^n) \to \R$ that satisfy the Leibniz rule, and our ``geometric tangent space''.
 This association is via the map from $(\mathbf{v}, \mathbf{x})$ to $\eval*{\nabla_\mathbf{v}}{\mathbf{x}}$.
 
 We have shown that the space of derivations and our old tangent space are essentially the same in a way.
@@ -1108,7 +918,7 @@ We define $D\varphi_p(v)$ to act on a smooth function $f \in C^\infty (N)$ as fo
     D\varphi_p(v)(f) \coloneq v(f \circ \varphi)
 \end{equation*}
 This is linear by the linearity of $v$.
-Furthermore, it satisfies the Leibniz identity.
+Furthermore, it satisfies the Leibniz rule.
 For any two smooth functions $f, g \in C^\infty (N)$, we have the following.
 \begin{align*}
     D\varphi_p(v)(fg) &= v((fg) \circ \varphi) \\
@@ -1214,9 +1024,9 @@ A particular basis for a tangent space does not give us any new geometric inform
 Without having more theory developed, there is not much more we can do about it.
 
 If we consider $\mathbb{S}^1$ to be embedded in $\R^2$, we can express the basis tangent vector in terms of Cartesian coordinates.
-Consider the (inclusion) map $\imath \colon \mathbb{S}^1 \to \R^2$ as the object that preforms this embedding, so $\imath(p) = (x,y)$.
-It acts via the parameterization $\gamma \colon [0, 2\pi) \to \R^2$ given by $\imath(p) = \gamma(\theta) = (\cos \theta, \sin \theta)$; this is just one of many valid choices.
-The tangent space $T_p \mathbb{S}^1$ as a subspace of $T_{\imath(p)} \R^2$.
+Consider the (inclusion) map $\iota \colon \mathbb{S}^1 \to \R^2$ as the object that preforms this embedding, so $\iota(p) = (x,y)$.
+It acts via the parameterization $\gamma \colon [0, 2\pi) \to \R^2$ given by $\iota(p) = \gamma(\theta) = (\cos \theta, \sin \theta)$; this is just one of many valid choices.
+The tangent space $T_p \mathbb{S}^1$ as a subspace of $T_{\iota(p)} \R^2$.
 We can consider the tangent vector $\eval*{\partial_\theta}{p}$ acting on a smooth function $f$ on $\R^2$, which can then be expressed in terms of $\eval*{\partial_x}{p}$ and $\eval*{\partial_y}{p}$ via the chain rule.
 \begin{align*}
     \eval{\frac{\partial f}{\partial \theta}}{p} &= \frac{\partial x}{\partial \theta} \eval{\frac{\partial f}{\partial x}}{p} + \frac{\partial y}{\partial \theta} \eval{\frac{\partial f}{\partial y}}{p} \\
@@ -1228,7 +1038,7 @@ Therefore,
     \eval{\frac{\partial}{\partial \theta}}{p} = -y \eval{\frac{\partial}{\partial x}}{p} + x \eval{\frac{\partial}{\partial y}}{p}.
 \end{equation*}
 This can be associated with the Euclidean vector $(-y, x)$, which is indeed tangent to the unit circle since it is orthogonal to the position vector $(x,y)$: $(-y, x) \cdot (x, y) = 0$.
-It can also be shown that the pushforward of the map $\imath$, $D\imath \colon T_p \mathbb{S}^1 \to T_{\imath(p)} \R^2$ acts on $\eval*{\partial_\theta}{p}$ to give the expression we just derived.
+It can also be shown that the pushforward of the map $\iota$, $D\iota \colon T_p \mathbb{S}^1 \to T_{\iota(p)} \R^2$ acts on $\eval*{\partial_\theta}{p}$ to give the expression we just derived.
 The inclusion map takes points on the manifold to those in its ambient space, so it makes sense that its pushforward does the analogous mapping for tangent vectors.
 
 The definition of a tangent vector as a derivation, and thus a tangent space as the space of derivations, is not the only possibly definition.
@@ -1407,6 +1217,7 @@ Consider the plot of the function $f(x,y) = x\sin y + y\sin x$ in \cref{fig:heat
 
 \begin{figure}[!htbp]
 \centering
+\tikzexternalenable
 \begin{tikzpicture}
 \begin{axis}[
     width=10cm,
@@ -1447,6 +1258,7 @@ Consider the plot of the function $f(x,y) = x\sin y + y\sin x$ in \cref{fig:heat
 
 \end{axis}
 \end{tikzpicture}
+\tikzexternaldisable
 \caption{Plot of $f(x,y) = x\sin y + y\sin x$}
 \label{fig:heatmap_fxy}
 \end{figure}
@@ -1557,6 +1369,7 @@ Due to the unit spacing, the measurement will be exactly the $x$-component of th
 \begin{figure}[!htbp]
 \centering
 \tikzsetnextfilename{heatmap_fx}
+\tikzexternalenable
 \begin{tikzpicture}
 \begin{axis}[
     width=10cm,
@@ -1597,6 +1410,7 @@ Due to the unit spacing, the measurement will be exactly the $x$-component of th
 
 \end{axis}
 \end{tikzpicture}
+\tikzexternaldisable
 \caption{Plot of $f(x,y) = x$}
 \label{fig:heatmap_x}
 \end{figure}

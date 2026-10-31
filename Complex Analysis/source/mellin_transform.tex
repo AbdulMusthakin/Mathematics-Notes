@@ -229,11 +229,11 @@ We can evaluate the Mellin transform of various functions and determine their co
         diverges if, meaning that $\mathcal{J}$ diverges as well.
         Therefore, if $\sigma \geq 1$,
         \begin{equation*}
-            \mathcal{M}\{f(t)\}(s) = \int_0^\infty \frac{t^{s-1}}{1+t} \diff t.
+            \mathcal{M}\{f(t)\}(s) = \int_0^\infty \frac{t^{s-1}}{1+t} \diff t
         \end{equation*}
         diverges.
         A similar argument works to show that it diverges if $\sigma \leq 0$; we would consider negative $k$.
-        Hence, if $\sigma \leq 0$ or $\sigma \geq 1$, the intergral diverges -- and the contrapositive of the statement is true as well.
+        Hence, if $\sigma \leq 0$ or $\sigma \geq 1$, the integral diverges -- and the contrapositive of the statement is true as well.
         That finally completes the proof that the integral converges if and only if $0 < \sigma < 1$.
     \end{proof}
     There are various ways to evaluate this improper integral.
@@ -257,7 +257,7 @@ We can evaluate the Mellin transform of various functions and determine their co
         \Res (g,-1) & = \lim_{z \to -1} (z-(-1))g(z) \\&= \lim_{z \to -1} \frac{z^s}{z} \\&= -(-1)^s \\&= -e^{\pi i s}.
     \end{align*}
     There is also a singularity at the origin, as long as $s \notin \Z_{\geq 1}$.
-    If $s \in \Z_{<1}$, then the singularity is a pole of order $1-s$ whose resiude is given by
+    If $s \in \Z_{<1}$, then the singularity is a pole of order $1-s$ whose residue is given by
     \begin{align*}
         \Res (g, 0) & = \frac{1}{(-s)!} \lim_{z \to 0} \frac{d^{-s}}{dz^{-s}} \left[ (z-0)^{1-s} g(z) \right]                                   \\
                     & = \frac{1}{\lvert s \rvert!} \lim_{z \to 0} \frac{d^{\lvert s \rvert}}{dz^{\lvert s \rvert}} \left[ \frac{1}{1+z} \right] \\
@@ -265,12 +265,12 @@ We can evaluate the Mellin transform of various functions and determine their co
                     & = \frac{(-1)^s}{\lvert s \rvert!}
     \end{align*}
     Otherwise, the singularity is a branch point.
-    Both singularities, as well as the possible branch cut, are shown in Figure~\ref{fig:contour}.
+    Both singularities, and the possible branch cut, are shown in Figure~\ref{fig:contour}.
 
     Let $l_1$ and $l_2$ be horizontal lines from $(R,\delta)$ to $(\varepsilon, \delta)$ and $(R, -\delta)$ to $(\varepsilon, -\delta)$ respectively.
     Then, let $\Gamma$ be the circular arc going from $(R,\delta)$ to $(R, -\delta)$ and let $\gamma$ be the circular arc going from $(\epsilon, -\delta)$ to $(\varepsilon, \delta)$.
     Consider the contour $C$ defined by $C \coloneq \Gamma \cup l_2 \cup \gamma \cup l_1$.
-    This is a positvely-oriented circular keyhole contour, as shown in Figure~\ref{fig:contour}.
+    This is a positively-oriented circular keyhole contour, as shown in Figure~\ref{fig:contour}.
     \begin{figure}[H]
         \centering
         \scalebox{1.39}{
@@ -332,7 +332,7 @@ We can evaluate the Mellin transform of various functions and determine their co
     \begin{equation*}
         \oint_C g(z) \diff z = \int_\Gamma g(z) \diff z + \int_\gamma g(z) \diff z + \int_{l_1} g(z) \diff z + \int_{l_2} g(z) \diff z
     \end{equation*}
-    The integral along $l_1$ can be evaluated via the parameterisation $z(t) \coloneq t + \delta i$ for $t \in [\varepsilon, R]$.
+    The integral along $l_1$ can be evaluated via the parameterization $z(t) \coloneq t + \delta i$ for $t \in [\varepsilon, R]$.
     \begin{align*}
         \int_{l_1} g(z) \diff z \coloneq & \int_{l_1} \frac{z^{1-s}}{1+z} \diff z                             \\
         \coloneq                         & \int_\varepsilon^R \frac{(z(t))^{s-1}}{1+z(t)} \cdot z'(t) \diff t \\
@@ -408,14 +408,14 @@ We can evaluate the Mellin transform of various functions and determine their co
     \begin{equation*}
         \lim_{\delta \to 0^+} \int_{l_1} g(z) \diff z = \int_\varepsilon^R \frac{t^{s-1}}{1+t} \diff t.
     \end{equation*}
-    The integral along $l_2$ can be evaluated via the parameterisation $z(t) \coloneq (\varepsilon+R-t) - \delta i$ for $t \in [\varepsilon, R]$.
+    The integral along $l_2$ can be evaluated via the parameterization $z(t) \coloneq (\varepsilon+R-t) - \delta i$ for $t \in [\varepsilon, R]$.
     \begin{align*}
         \int_{l_2} g(z) \diff z \coloneq & \int_{l_2} \frac{z^{s-1}}{1+z} \diff z                                                           \\
         \coloneq                         & \int_\varepsilon^R \frac{(z(t))^{s-1}}{1+z(t)} \cdot z'(t) \diff t                               \\
         =                                & - \int_\varepsilon^R \frac{(R+\varepsilon-t-\delta i)^{s-1}}{1+R+\varepsilon-t-\delta i} \diff t \\
         =                                & - \int_\varepsilon^R \frac{(t-\delta i)^{s-1}}{1+t-\delta i} \diff t
     \end{align*}
-    We want this in the limit as $\delta$ appraoches $0^+$.
+    We want this in the limit as $\delta$ approaches $0^+$.
     A similar argument to that found in the proof of Proposition~\ref{thm:delta dct} will justify interchanging the limit and integral here.
     \begin{align*}
         \lim_{\delta \to 0^+} \int_{l_2} g(z) \diff z & = - \int_\varepsilon^R \lim_{\delta \to 0^+} \frac{(t-\delta i)^{s-1}}{1+t-\delta i} \diff t \\
@@ -434,7 +434,7 @@ We can evaluate the Mellin transform of various functions and determine their co
         The gap arc is that of a sector of a circle with radius $R$ such that the length of the chord that subtends the arc is $2\delta$.
 
         Denote the central angle of the gap as $\theta_\Gamma$.
-        We have an right-angled isosceles triangle where the two equal sides have length $\delta$, the angle between them is $\theta_\Gamma / 2$, and the hypoteneuse has length $R$.
+        We have a right-angled isosceles triangle where the two equal sides have length $\delta$, the angle between them is $\theta_\Gamma / 2$, and the hypotenuse has length $R$.
         By some trigonometry,
         \begin{equation*}
             \sin \left(\frac{\theta_\Gamma}{2}\right) = \frac{\delta}{R}.
@@ -482,7 +482,7 @@ We can evaluate the Mellin transform of various functions and determine their co
         \begin{equation*}
             \lvert z + 1 \rvert \geq \lvert z \rvert - 1 \implies \frac{1}{\lvert z + 1 \rvert} \leq \frac{1}{\lvert z \rvert - 1}.
         \end{equation*}
-        Puting these bounds together, we get
+        Putting these bounds together, we get
         \begin{align*}
             \lvert g(z) \rvert & = \left\lvert \frac{z^{s-1}}{1+z} \right\rvert                 \\
                                & = \frac{\left\lvert z^{s-1} \right\rvert}{\lvert 1+z \rvert}   \\
@@ -552,7 +552,7 @@ We can evaluate the Mellin transform of various functions and determine their co
     \end{align*}
     Since $0 < \sigma < 1$ is a necessary and sufficient condition for the integral to converge, as per Proposition~\ref{thm:mellin converge}, the fundamental strip is $\langle 0, 1 \rangle$.
 \end{example}
-The main purpose of Mellin transfroms that will be discussed in this document requires the usage of its inversion formula.
+The main purpose of Mellin transforms that will be discussed in this document requires the usage of its inversion formula.
 For that, we will first need to mention Fourier transforms.
 \begin{definition}[Fourier Transform]
     Let $f \colon \R \to \R$ be a Lebesgue integrable.
@@ -607,7 +607,7 @@ We will now state and prove its inversion theorem (after proving a proposition c
 \begin{theorem}[Fourier Inversion Theorem]
     Let $f, g \colon \R \to \R$ be functions such that $f$ is piecewise continuous and $f,g \in \mathcal{L}^1(\R)$.
     Assume that the Fourier transform of $f$, $\mathcal{F}\{f\}$, is integrable.
-    Define the \emph{inverse Fourier transfrom} by
+    Define the \emph{inverse Fourier transform} by
     \begin{equation}
         \mathcal{F}^{-1}\{g\}(x) \coloneq \int_\R e^{2\pi i x \xi} g(\xi) \diff \xi.
     \end{equation}
@@ -631,7 +631,7 @@ We will now state and prove its inversion theorem (after proving a proposition c
                                                                                                     & \leq \lvert \mathcal{F}\{f\}(\xi) \rvert,
     \end{align*}
     so the above integrand is dominated by a function which is (by assumption) integrable.
-    Thus, by the domianted convergence theorem,
+    Thus, by the dominated convergence theorem,
     \begin{align*}
         \mathcal{F}^{-1}\{\mathcal{F}\{f\}\}(x) \coloneq & \int_\R e^{2\pi i x \xi} \mathcal{F}\{f\}(\xi) \diff \xi                                                       \\
         =                                                & \int_\R \lim_{\varepsilon \to 0}  e^{- \pi \varepsilon^2 \xi^2 + 2\pi i x \xi} \mathcal{F}\{f\}(\xi) \diff \xi \\
@@ -681,7 +681,7 @@ We will now state and prove its inversion theorem (after proving a proposition c
              & = \mathcal{F}\left\{\mathcal{F}^{-1}\{f\}\right\}(x). \qedhere
     \end{align*}
 \end{proof}
-Now, we can use this to easily prove the the inversion theorem for the Mellin transform.
+Now, we can use this to easily prove the inversion theorem for the Mellin transform.
 \begin{theorem}[Mellin Inversion Theorem]
     Let $\varphi(s)$ be analytic in the strip $a < \Re (s) < b$, and define the \emph{inverse Mellin transform} by
     \begin{equation}
@@ -695,7 +695,7 @@ Now, we can use this to easily prove the the inversion theorem for the Mellin tr
 \begin{proof}
     Let $s \coloneq c + 2\pi i \xi$, meaning that $\diff s = 2\pi i \diff \xi$.
     Also, let $\varphi_\xi (\xi) \coloneq \varphi(s)$.
-    This changes the inverse Mellin transfrom of $\varphi$ as follows.
+    This changes the inverse Mellin transform of $\varphi$ as follows.
     \begin{align*}
         \mathcal{M}^{-1}\{\varphi\}(x) & = \frac{1}{2\pi i} \int_{c-i\infty}^{c+i\infty} \varphi (s) x^{-s} \diff s                           \\
                                        & = \frac{1}{2\pi i} \int_\infty^\infty \varphi_\xi (\xi) x^{-(c + 2\pi i \xi)} \cdot 2\pi i \diff \xi \\

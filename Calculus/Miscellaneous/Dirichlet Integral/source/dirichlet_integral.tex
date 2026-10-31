@@ -57,7 +57,7 @@
 \begin{titlepage}
 \title{The Dirichlet Integral}
 \author{Abdul Musthakin}
-\date{\today}
+\date{July 2025}
 \end{titlepage}
 
 % \renewcommand{\thesection}{\Roman{section}}
@@ -375,7 +375,7 @@ However, there is an alternative method as I will illustrate.
     \end{equation*}
 \end{proposition}
 \begin{proof}
-    Since the integrand is continuous, Fubini's theorem permits changing the order of intergration on the bounded rectangle
+    Since the integrand is continuous, Fubini's theorem permits changing the order of integration on the bounded rectangle
     \begin{equation*}
         \int_{a}^{b} \int_{c}^{d} e^{-\varphi x} \sin x \diff x \diff \varphi = \int_{c}^{d} \int_{a}^{b} e^{-\varphi x} \sin x  \diff \varphi \diff x,
     \end{equation*}
@@ -438,7 +438,7 @@ However, there is an alternative method as I will illustrate.
 
 This method is similar to the previous two.
 We will use differentiation under the integral sign, also known as the Leibniz rule or Feynman's trick.
-We want to first parameterise the integral in terms of the variable $\alpha$.
+We want to first parameterize the integral in terms of the variable $\alpha$.
 Let
 \begin{equation*}
     \mathcal{I}(\alpha) \coloneq \int_{0}^{\infty} \frac{\sin x}{x} e^{- \alpha x} \diff x,
@@ -521,7 +521,7 @@ However, note that
 \end{equation*}
 as the latter integral does not converge due to the singularity at $z=0$.
 We will create a complex contour which avoids this singularity.
-Let $\Gamma$ be the arc of radius $R$ centered at the origin connecting $R$ and $-R$ anticlockwise, and let $\gamma$ be the arc of radius $\varepsilon$ centered at the origin connecting $-\varepsilon$ and $\varepsilon$ anticlockwise.
+Let $\Gamma$ be the arc of radius $R$ centred at the origin connecting $R$ and $-R$ anticlockwise, and let $\gamma$ be the arc of radius $\varepsilon$ centred at the origin connecting $-\varepsilon$ and $\varepsilon$ clockwise.
 Now, let $C \coloneq \Gamma \cup [-R, -\varepsilon] \cup \gamma \cup [\varepsilon, R]$.
 This is a closed semicircular keyhole contour, as shown in Figure~\ref{fig:fig2}.
 
@@ -576,7 +576,7 @@ Additionally, we can split this contour integral into four parts.
 \begin{equation*}
     \oint_{C} f(z) \diff z = \int_{\Gamma} f(z) \diff z + \int_{-R}^{-\varepsilon} f(x) \diff x + \int_{\gamma} f(z) \diff z + \int_{\varepsilon}^{R} f(x) \diff x = 0
 \end{equation*}
-Consider the the second and fourth integrals.
+Consider the second and fourth integrals.
 \begin{align*}
     \int_{\varepsilon}^{R} f(x) \diff x + \int_{-R}^{-\varepsilon} f(x) \diff x & = \int_{\varepsilon}^{R} \frac{e^{ix}}{x} \diff x + \int_{-R}^{-\varepsilon} \frac{e^{ix}}{x} \diff x         \\
                                                                                 & = \int_{\varepsilon}^{R} \frac{e^{ix}}{x} \diff x + \int_{R}^{\varepsilon} \frac{e^{-ix}}{-x} \cdot - \diff x \\
@@ -590,7 +590,7 @@ Notice that in the limit as $R \to \infty$ and $\varepsilon \to 0$,
      & = 2i \int_{0}^{\infty} \frac{\sin x}{x} \diff x       \\
      & = i \int_{-\infty}^{\infty} \frac{\sin x}{x} \diff x.
 \end{align*}
-We can parameterise the contour $\gamma$ by $z(t) \coloneq -\varepsilon e^{-it}$ with $t \in [0, \pi]$.
+We can parameterize the contour $\gamma$ by $z(t) \coloneq -\varepsilon e^{-it}$ with $t \in [0, \pi]$.
 Then,
 \begin{equation*}
     z'(t) = i \varepsilon e^{-it} = -i z(t).
@@ -645,7 +645,7 @@ We interchanged the limit and integral above, which we will justify.
     \end{equation*}
 \end{proof}
 Finally, the integral over $\Gamma$ can be dealt with using Jordan's lemma.
-We can parameterise the contour $\Gamma$ by $w(t) \coloneq Re^{it}$ with $t \in [0, \pi]$.
+We can parameterize the contour $\Gamma$ by $w(t) \coloneq Re^{it}$ with $t \in [0, \pi]$.
 $f(z)$ is of the right form, so Jordan's lemma applies and hence,
 \begin{align*}
     \left| \int_{\Gamma} f(z) \diff z \right| & \leq \pi \max_{t \in [0,\pi]} \left|\frac{1}{Re^{it}}\right| \\
